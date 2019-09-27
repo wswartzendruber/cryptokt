@@ -17,29 +17,21 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-val group: String by project
-val version: String by project
+package org.cryptokt.tests
 
-plugins {
-    kotlin("multiplatform").version("1.3.31")
-    id("maven-publish")
-}
+import kotlin.test.assertTrue
+import kotlin.test.Test
 
-repositories {
-    mavenLocal()
-    mavenCentral()
-}
+class Tests {
 
-kotlin {
-    jvm()
-}
+    @Test
+    fun someTestFunction() {
 
-dependencies {
+        assertTrue(true)
+    }
 
-    commonMainImplementation(kotlin("stdlib-common"))
-    commonTestImplementation(kotlin("test-common"))
-    commonTestImplementation(kotlin("test-annotations-common"))
+    companion object {
 
-    "jvmMainImplementation"(kotlin("stdlib-jdk8"))
-    "jvmTestImplementation"(kotlin("test-junit"))
+        private const val MESSAGE = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    }
 }

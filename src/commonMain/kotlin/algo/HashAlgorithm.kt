@@ -17,29 +17,9 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-val group: String by project
-val version: String by project
+package org.cryptokt.algo
 
-plugins {
-    kotlin("multiplatform").version("1.3.31")
-    id("maven-publish")
-}
+public abstract class HashAlgorithm {
 
-repositories {
-    mavenLocal()
-    mavenCentral()
-}
-
-kotlin {
-    jvm()
-}
-
-dependencies {
-
-    commonMainImplementation(kotlin("stdlib-common"))
-    commonTestImplementation(kotlin("test-common"))
-    commonTestImplementation(kotlin("test-annotations-common"))
-
-    "jvmMainImplementation"(kotlin("stdlib-jdk8"))
-    "jvmTestImplementation"(kotlin("test-junit"))
+    public abstract fun update(buffer: ByteArray, offset: Int, length: Int)
 }
