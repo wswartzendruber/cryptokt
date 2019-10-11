@@ -17,21 +17,41 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.cryptokt.tests
+package org.cryptokt
 
-import kotlin.test.assertTrue
-import kotlin.test.Test
+import kotlin.experimental.and
 
-class Tests {
+var x = 0
 
-    @Test
-    fun someTestFunction() {
+internal inline fun forEachSegment(
+    destination: ByteArray,
+    destinationOffset: Int,
+    source: ByteArray,
+    sourceOffset: Int,
+    length: Int,
+    block: () -> Unit
+): Int {
 
-        assertTrue(true)
+    var ldo = destinationOffset
+    var lso = sourceOffset
+    var ll = length
+
+    while (ll > 0) {
+
+        val size = minOf(ll, destination.size - ldo)
+
+        source.copyInto(destination, ldo, lso, lso + size)
+        lso += size
+        ldo += size
+        ll -= size
+
+        if (ldo == destination.size) {
+            ldo = 0
+            block()
+        }
     }
 
-    companion object {
-
-        private const val MESSAGE = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    }
+    return ldo
 }
+
+internal fun Byte.toIntUnsigned() = this.toInt() and 0xFF

@@ -1,0 +1,131 @@
+/*
+ * Copyright 2019 William Swartzendruber
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+ * and associated documentation files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use, copy, modify, merge, publish,
+ * distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies or
+ * substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
+ * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+ * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+
+package org.cryptokt.algo
+
+import kotlin.experimental.xor
+
+import org.cryptokt.forEachSegment
+import org.cryptokt.toIntUnsigned
+
+public class Md2HashAlgorithm : HashAlgorithm() {
+
+    private val imb = ByteArray(16)
+    private val dmb = ByteArray(16)
+    private var mo = 0
+    private val ixb = ByteArray(48)
+    private val dxb = ByteArray(48)
+    private val ick = Checksum()
+    private val dck = Checksum()
+
+    public override fun input(buffer: ByteArray, offset: Int, length: Int) {
+        mo = forEachSegment(
+            imb, mo,
+            buffer, offset, length,
+            {
+                transformBlock(ixb, imb)
+                updateChecksum(ick, imb)
+            }
+        )
+    }
+
+    public override val digest: ByteArray
+        get() {
+
+            imb.copyInto(dmb)
+            ixb.copyInto(dxb)
+            ick.b.copyInto(dck.b)
+            dck.l = ick.l
+
+            //
+            // APPEND PADDING
+            //
+
+            val paddingValue = (16 - mo).toByte()
+
+            for (paddingIndex in mo..15)
+                dmb[paddingIndex] = paddingValue
+
+            transformBlock(dxb, dmb)
+            updateChecksum(dck, dmb)
+
+            //
+            // APPEND CHECKSUM
+            //
+
+            transformBlock(dxb, dck.b)
+
+            return dxb.copyOfRange(0, 16)
+        }
+
+    private fun updateChecksum(ck: Checksum, mb: ByteArray) {
+        for (j in 0..15) {
+            ck.b[j] = S[(mb[j] xor ck.l).toIntUnsigned()] xor ck.b[j]
+            ck.l = ck.b[j]
+        }
+    }
+
+    private fun transformBlock(xb: ByteArray, mb: ByteArray) {
+
+        for (j in 0..15) {
+            xb[16 + j] = mb[j]
+            xb[32 + j] = xb[16 + j] xor xb[j]
+        }
+
+        var t = 0
+
+        for (j in 0..17) {
+            for (k in 0..47) {
+                xb[k] = xb[k] xor S[t]
+                t = xb[k].toIntUnsigned()
+            }
+            t = (t + j).rem(256)
+        }
+    }
+
+    private data class Checksum(
+        val b: ByteArray = ByteArray(16),
+        var l: Byte = 0
+    )
+
+    public override val length: Int = 16
+
+    public override val size: Int = 128
+
+    private companion object {
+
+        private val S = byteArrayOf(
+            41, 46, 67, -55, -94, -40, 124, 1, 61, 54, 84, -95, -20, -16, 6, 19, 98, -89, 5,
+            -13, -64, -57, 115, -116, -104, -109, 43, -39, -68, 76, -126, -54, 30, -101, 87, 60,
+            -3, -44, -32, 22, 103, 66, 111, 24, -118, 23, -27, 18, -66, 78, -60, -42, -38, -98,
+            -34, 73, -96, -5, -11, -114, -69, 47, -18, 122, -87, 104, 121, -111, 21, -78, 7, 63,
+            -108, -62, 16, -119, 11, 34, 95, 33, -128, 127, 93, -102, 90, -112, 50, 39, 53, 62,
+            -52, -25, -65, -9, -105, 3, -1, 25, 48, -77, 72, -91, -75, -47, -41, 94, -110, 42,
+            -84, 86, -86, -58, 79, -72, 56, -46, -106, -92, 125, -74, 118, -4, 107, -30, -100,
+            116, 4, -15, 69, -99, 112, 89, 100, 113, -121, 32, -122, 91, -49, 101, -26, 45, -88,
+            2, 27, 96, 37, -83, -82, -80, -71, -10, 28, 70, 97, 105, 52, 64, 126, 15, 85, 71,
+            -93, 35, -35, 81, -81, 58, -61, 92, -7, -50, -70, -59, -22, 38, 44, 83, 13, 110,
+            -123, 40, -124, 9, -45, -33, -51, -12, 65, -127, 77, 82, 106, -36, 55, -56, 108,
+            -63, -85, -6, 36, -31, 123, 8, 12, -67, -79, 74, 120, -120, -107, -117, -29, 99,
+            -24, 109, -23, -53, -43, -2, 59, 0, 29, 57, -14, -17, -73, 14, 102, 88, -48, -28,
+            -90, 119, 114, -8, -21, 117, 75, 10, 49, 68, 80, -76, -113, -19, 31, 26, -37, -103,
+            -115, 51, -97, 17, -125, 20
+        )
+    }
+}

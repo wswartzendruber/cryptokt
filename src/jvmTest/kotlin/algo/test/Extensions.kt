@@ -17,38 +17,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.cryptokt.algo
+package org.cryptokt.algo.test
 
-/**
- * Represents a hash algorithm which takes input of an arbitrary length and produces a digest of
- * a fixed length.
- */
-public abstract class HashAlgorithm {
+import java.nio.charset.Charset
 
-    /**
-     * Updates the internal state of the hash algorithm by inputting the specified [buffer].
-     */
-    public fun input(buffer: ByteArray) = input(buffer, 0, buffer.size)
+private val charset = Charset.forName("US-ASCII")
 
-    /**
-     * Updates the internal state of the hash algorithm by inputting the specified [buffer]
-     * segment, starting at the zero-based [offset] up to and including [length] bytes from
-     * there.
-     */
-    public abstract fun input(buffer: ByteArray, offset: Int, length: Int)
+internal actual fun String.toAsciiByteArray() = this.toByteArray(charset)
 
-    /**
-     * Returns the digest for the message that has been input.
-     */
-    public abstract val digest: ByteArray
-
-    /**
-     * Returns the length in whole bytes of the digest.
-     */
-    public abstract val length: Int
-
-    /**
-     * Returns the length in bits of the digest.
-     */
-    public abstract val size: Int
-}
+internal actual fun ByteArray.toHexString() =
+    this.joinToString("") { String.format("%02x", it) }
