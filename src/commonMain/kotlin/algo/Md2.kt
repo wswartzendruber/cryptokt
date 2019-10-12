@@ -24,7 +24,7 @@ import kotlin.experimental.xor
 import org.cryptokt.forEachSegment
 import org.cryptokt.toIntUnsigned
 
-public class Md2HashAlgorithm : HashAlgorithm() {
+public class Md2 : Hash() {
 
     private val imb = ByteArray(16)
     private val dmb = ByteArray(16)

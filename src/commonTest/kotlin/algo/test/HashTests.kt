@@ -17,38 +17,36 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.cryptokt.algo
+package org.cryptokt.algo.test
 
-/**
- * Represents a hash algorithm which takes input of an arbitrary length and produces a digest of
- * a fixed length.
- */
-public abstract class HashAlgorithm {
+import kotlin.test.assertTrue
+import kotlin.test.Test
 
-    /**
-     * Updates the internal state of the hash algorithm by inputting the specified [buffer].
-     */
-    public fun input(buffer: ByteArray) = input(buffer, 0, buffer.size)
+import org.cryptokt.algo.Md2
 
-    /**
-     * Updates the internal state of the hash algorithm by inputting the specified [buffer]
-     * segment, starting at the zero-based [offset] up to and including [length] bytes from
-     * there.
-     */
-    public abstract fun input(buffer: ByteArray, offset: Int, length: Int)
+class HashTests {
 
-    /**
-     * Returns the digest for the message that has been input.
-     */
-    public abstract val digest: ByteArray
+    @Test
+    fun `MD2`() {
 
-    /**
-     * Returns the length in whole bytes of the digest.
-     */
-    public abstract val length: Int
+        for (hashValue in md2HashValues) {
+            Md2().let { ha ->
+                ha.input(hashValue.key.toAsciiByteArray())
+                assertTrue(ha.digest.toHexString() == hashValue.value)
+            }
+        }
+    }
 
-    /**
-     * Returns the length in bits of the digest.
-     */
-    public abstract val size: Int
+    companion object {
+
+        val md2HashValues = mapOf(
+            "" to "8350e5a3e24c153df2275c9f80692773",
+            "a" to "32ec01ec4a6dac72c0ab96fb34c0b5d1",
+            "abc" to "da853b0d3f88d99b30283a69e6ded6bb",
+            "message digest" to "ab4f496bfb2a530b219ff33031fe06b0",
+            "abcdefghijklmnopqrstuvwxyz" to "4e8ddff3650292ab5a4108c3aa47940b",
+            "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789" to "da33def2a42df13975352846c30338cd",
+            "12345678901234567890123456789012345678901234567890123456789012345678901234567890" to "d5976f79d83d3a0dc9806c3c66f3efd8"
+        )
+    }
 }
