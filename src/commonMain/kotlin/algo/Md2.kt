@@ -24,6 +24,10 @@ import kotlin.experimental.xor
 import org.cryptokt.forEachSegment
 import org.cryptokt.toIntUnsigned
 
+/**
+ * The first in the MD series by Ronald Rivest. It has a digest size of 128 bits. It has been
+ * considered broken since 2004.
+ */
 public class Md2 : Hash() {
 
     private val imb = ByteArray(16)
