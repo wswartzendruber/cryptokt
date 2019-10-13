@@ -43,8 +43,8 @@ public class Md2 : Hash() {
             imb, mo,
             buffer, offset, length,
             {
-                transformBlock(ixb, imb)
                 updateChecksum(ick, imb)
+                transformBlock(ixb, imb)
             }
         )
     }
@@ -66,8 +66,8 @@ public class Md2 : Hash() {
             for (paddingIndex in mo..15)
                 dmb[paddingIndex] = paddingValue
 
-            transformBlock(dxb, dmb)
             updateChecksum(dck, dmb)
+            transformBlock(dxb, dmb)
 
             //
             // APPEND CHECKSUM
