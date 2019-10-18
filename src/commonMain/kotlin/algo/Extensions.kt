@@ -19,14 +19,11 @@
 
 package org.cryptokt
 
-import kotlin.experimental.and
-
-var x = 0
-
+@ExperimentalUnsignedTypes
 internal inline fun forEachSegment(
-    destination: ByteArray,
+    destination: UByteArray,
     destinationOffset: Int,
-    source: ByteArray,
+    source: UByteArray,
     sourceOffset: Int,
     length: Int,
     block: () -> Unit
@@ -53,5 +50,3 @@ internal inline fun forEachSegment(
 
     return ldo
 }
-
-internal fun Byte.toIntUnsigned() = this.toInt() and 0xFF

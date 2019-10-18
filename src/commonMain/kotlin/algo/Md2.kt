@@ -19,29 +19,27 @@
 
 package org.cryptokt.algo
 
-import kotlin.experimental.xor
-
 import org.cryptokt.forEachSegment
-import org.cryptokt.toIntUnsigned
 
 /**
  * The first in the MD series by Ronald Rivest. It has a digest size of 128 bits. It has been
  * considered broken since 2004.
  */
+@ExperimentalUnsignedTypes
 public class Md2 : Hash() {
 
-    private val imb = ByteArray(16)
-    private val dmb = ByteArray(16)
+    private val imb = UByteArray(16)
+    private val dmb = UByteArray(16)
     private var mo = 0
-    private val ixb = ByteArray(48)
-    private val dxb = ByteArray(48)
+    private val ixb = UByteArray(48)
+    private val dxb = UByteArray(48)
     private val ick = Checksum()
     private val dck = Checksum()
 
     public override fun input(buffer: ByteArray, offset: Int, length: Int) {
         mo = forEachSegment(
             imb, mo,
-            buffer, offset, length,
+            buffer.asUByteArray(), offset, length,
             {
                 updateChecksum(ick, imb)
                 transformBlock(ixb, imb)
@@ -61,7 +59,7 @@ public class Md2 : Hash() {
             // APPEND PADDING
             //
 
-            val paddingValue = (16 - mo).toByte()
+            val paddingValue = (16 - mo).toUByte()
 
             for (paddingIndex in mo..15)
                 dmb[paddingIndex] = paddingValue
@@ -75,17 +73,17 @@ public class Md2 : Hash() {
 
             transformBlock(dxb, dck.b)
 
-            return dxb.copyOfRange(0, 16)
+            return dxb.asByteArray().copyOfRange(0, 16)
         }
 
-    private fun updateChecksum(ck: Checksum, mb: ByteArray) {
+    private fun updateChecksum(ck: Checksum, mb: UByteArray) {
         for (j in 0..15) {
-            ck.b[j] = S[(mb[j] xor ck.l).toIntUnsigned()] xor ck.b[j]
+            ck.b[j] = S[mb[j] xor ck.l] xor ck.b[j]
             ck.l = ck.b[j]
         }
     }
 
-    private fun transformBlock(xb: ByteArray, mb: ByteArray) {
+    private fun transformBlock(xb: UByteArray, mb: UByteArray) {
 
         for (j in 0..15) {
             xb[16 + j] = mb[j]
@@ -97,15 +95,15 @@ public class Md2 : Hash() {
         for (j in 0..17) {
             for (k in 0..47) {
                 xb[k] = xb[k] xor S[t]
-                t = xb[k].toIntUnsigned()
+                t = xb[k].toInt()
             }
             t = (t + j).rem(256)
         }
     }
 
     private data class Checksum(
-        val b: ByteArray = ByteArray(16),
-        var l: Byte = 0
+        val b: UByteArray = UByteArray(16),
+        var l: UByte = 0U
     )
 
     public override val length: Int = 16
@@ -114,22 +112,31 @@ public class Md2 : Hash() {
 
     private companion object {
 
-        private val S = byteArrayOf(
-            41, 46, 67, -55, -94, -40, 124, 1, 61, 54, 84, -95, -20, -16, 6, 19, 98, -89, 5,
-            -13, -64, -57, 115, -116, -104, -109, 43, -39, -68, 76, -126, -54, 30, -101, 87, 60,
-            -3, -44, -32, 22, 103, 66, 111, 24, -118, 23, -27, 18, -66, 78, -60, -42, -38, -98,
-            -34, 73, -96, -5, -11, -114, -69, 47, -18, 122, -87, 104, 121, -111, 21, -78, 7, 63,
-            -108, -62, 16, -119, 11, 34, 95, 33, -128, 127, 93, -102, 90, -112, 50, 39, 53, 62,
-            -52, -25, -65, -9, -105, 3, -1, 25, 48, -77, 72, -91, -75, -47, -41, 94, -110, 42,
-            -84, 86, -86, -58, 79, -72, 56, -46, -106, -92, 125, -74, 118, -4, 107, -30, -100,
-            116, 4, -15, 69, -99, 112, 89, 100, 113, -121, 32, -122, 91, -49, 101, -26, 45, -88,
-            2, 27, 96, 37, -83, -82, -80, -71, -10, 28, 70, 97, 105, 52, 64, 126, 15, 85, 71,
-            -93, 35, -35, 81, -81, 58, -61, 92, -7, -50, -70, -59, -22, 38, 44, 83, 13, 110,
-            -123, 40, -124, 9, -45, -33, -51, -12, 65, -127, 77, 82, 106, -36, 55, -56, 108,
-            -63, -85, -6, 36, -31, 123, 8, 12, -67, -79, 74, 120, -120, -107, -117, -29, 99,
-            -24, 109, -23, -53, -43, -2, 59, 0, 29, 57, -14, -17, -73, 14, 102, 88, -48, -28,
-            -90, 119, 114, -8, -21, 117, 75, 10, 49, 68, 80, -76, -113, -19, 31, 26, -37, -103,
-            -115, 51, -97, 17, -125, 20
+        private val S = ubyteArrayOf(
+            0x29U, 0x2EU, 0x43U, 0xC9U, 0xA2U, 0xD8U, 0x7CU, 0x01U, 0x3DU, 0x36U, 0x54U, 0xA1U,
+            0xECU, 0xF0U, 0x06U, 0x13U, 0x62U, 0xA7U, 0x05U, 0xF3U, 0xC0U, 0xC7U, 0x73U, 0x8CU,
+            0x98U, 0x93U, 0x2BU, 0xD9U, 0xBCU, 0x4CU, 0x82U, 0xCAU, 0x1EU, 0x9BU, 0x57U, 0x3CU,
+            0xFDU, 0xD4U, 0xE0U, 0x16U, 0x67U, 0x42U, 0x6FU, 0x18U, 0x8AU, 0x17U, 0xE5U, 0x12U,
+            0xBEU, 0x4EU, 0xC4U, 0xD6U, 0xDAU, 0x9EU, 0xDEU, 0x49U, 0xA0U, 0xFBU, 0xF5U, 0x8EU,
+            0xBBU, 0x2FU, 0xEEU, 0x7AU, 0xA9U, 0x68U, 0x79U, 0x91U, 0x15U, 0xB2U, 0x07U, 0x3FU,
+            0x94U, 0xC2U, 0x10U, 0x89U, 0x0BU, 0x22U, 0x5FU, 0x21U, 0x80U, 0x7FU, 0x5DU, 0x9AU,
+            0x5AU, 0x90U, 0x32U, 0x27U, 0x35U, 0x3EU, 0xCCU, 0xE7U, 0xBFU, 0xF7U, 0x97U, 0x03U,
+            0xFFU, 0x19U, 0x30U, 0xB3U, 0x48U, 0xA5U, 0xB5U, 0xD1U, 0xD7U, 0x5EU, 0x92U, 0x2AU,
+            0xACU, 0x56U, 0xAAU, 0xC6U, 0x4FU, 0xB8U, 0x38U, 0xD2U, 0x96U, 0xA4U, 0x7DU, 0xB6U,
+            0x76U, 0xFCU, 0x6BU, 0xE2U, 0x9CU, 0x74U, 0x04U, 0xF1U, 0x45U, 0x9DU, 0x70U, 0x59U,
+            0x64U, 0x71U, 0x87U, 0x20U, 0x86U, 0x5BU, 0xCFU, 0x65U, 0xE6U, 0x2DU, 0xA8U, 0x02U,
+            0x1BU, 0x60U, 0x25U, 0xADU, 0xAEU, 0xB0U, 0xB9U, 0xF6U, 0x1CU, 0x46U, 0x61U, 0x69U,
+            0x34U, 0x40U, 0x7EU, 0x0FU, 0x55U, 0x47U, 0xA3U, 0x23U, 0xDDU, 0x51U, 0xAFU, 0x3AU,
+            0xC3U, 0x5CU, 0xF9U, 0xCEU, 0xBAU, 0xC5U, 0xEAU, 0x26U, 0x2CU, 0x53U, 0x0DU, 0x6EU,
+            0x85U, 0x28U, 0x84U, 0x09U, 0xD3U, 0xDFU, 0xCDU, 0xF4U, 0x41U, 0x81U, 0x4DU, 0x52U,
+            0x6AU, 0xDCU, 0x37U, 0xC8U, 0x6CU, 0xC1U, 0xABU, 0xFAU, 0x24U, 0xE1U, 0x7BU, 0x08U,
+            0x0CU, 0xBDU, 0xB1U, 0x4AU, 0x78U, 0x88U, 0x95U, 0x8BU, 0xE3U, 0x63U, 0xE8U, 0x6DU,
+            0xE9U, 0xCBU, 0xD5U, 0xFEU, 0x3BU, 0x00U, 0x1DU, 0x39U, 0xF2U, 0xEFU, 0xB7U, 0x0EU,
+            0x66U, 0x58U, 0xD0U, 0xE4U, 0xA6U, 0x77U, 0x72U, 0xF8U, 0xEBU, 0x75U, 0x4BU, 0x0AU,
+            0x31U, 0x44U, 0x50U, 0xB4U, 0x8FU, 0xEDU, 0x1FU, 0x1AU, 0xDBU, 0x99U, 0x8DU, 0x33U,
+            0x9FU, 0x11U, 0x83U, 0x14U
         )
+
+        private operator fun UByteArray.get(index: UByte) = this[index.toInt()]
     }
 }
