@@ -23,7 +23,7 @@ package org.cryptokt
 internal inline fun forEachSegment(
     destination: UByteArray,
     destinationOffset: Int,
-    source: UByteArray,
+    source: ByteArray,
     sourceOffset: Int,
     length: Int,
     block: () -> Unit
@@ -37,7 +37,7 @@ internal inline fun forEachSegment(
 
         val size = minOf(ll, destination.size - ldo)
 
-        source.copyInto(destination, ldo, lso, lso + size)
+        source.asUByteArray().copyInto(destination, ldo, lso, lso + size)
         lso += size
         ldo += size
         ll -= size

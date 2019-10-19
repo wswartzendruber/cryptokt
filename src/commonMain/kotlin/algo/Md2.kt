@@ -28,9 +28,9 @@ import org.cryptokt.forEachSegment
 @ExperimentalUnsignedTypes
 public class Md2 : Hash() {
 
+    private var mo = 0
     private val imb = UByteArray(16)
     private val dmb = UByteArray(16)
-    private var mo = 0
     private val ixb = UByteArray(48)
     private val dxb = UByteArray(48)
     private val ick = Checksum()
@@ -39,7 +39,7 @@ public class Md2 : Hash() {
     public override fun input(buffer: ByteArray, offset: Int, length: Int) {
         mo = forEachSegment(
             imb, mo,
-            buffer.asUByteArray(), offset, length,
+            buffer, offset, length,
             {
                 updateChecksum(ick, imb)
                 transformBlock(ixb, imb)
