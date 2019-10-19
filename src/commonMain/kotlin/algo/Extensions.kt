@@ -29,6 +29,7 @@ internal inline fun forEachSegment(
     block: () -> Unit
 ): Int {
 
+    val ls = source.asUByteArray()
     var ldo = destinationOffset
     var lso = sourceOffset
     var ll = length
@@ -37,7 +38,7 @@ internal inline fun forEachSegment(
 
         val size = minOf(ll, destination.size - ldo)
 
-        source.asUByteArray().copyInto(destination, ldo, lso, lso + size)
+        ls.copyInto(destination, ldo, lso, lso + size)
         lso += size
         ldo += size
         ll -= size
