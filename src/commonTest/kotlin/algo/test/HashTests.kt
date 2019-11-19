@@ -29,11 +29,12 @@ class HashTests {
     @Test
     fun `MD2`() {
 
+        val md2 = Md2()
+
         for (hashValue in md2HashValues) {
-            Md2().let { ha ->
-                ha.input(hashValue.key.toAsciiByteArray())
-                assertTrue(ha.digest.toHexString() == hashValue.value)
-            }
+            md2.input(hashValue.key.toAsciiByteArray())
+            assertTrue(md2.digest().toHexString() == hashValue.value)
+            md2.reset()
         }
     }
 

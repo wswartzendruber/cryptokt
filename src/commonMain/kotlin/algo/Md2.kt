@@ -19,6 +19,7 @@
 
 package org.cryptokt.algo
 
+import org.cryptokt.clear
 import org.cryptokt.forEachSegment
 
 /**
@@ -47,34 +48,45 @@ public class Md2 : Hash() {
         )
     }
 
-    public override val digest: ByteArray
-        get() {
+    public override fun digest(output: ByteArray, offset: Int): ByteArray
+    {
+        imb.copyInto(dmb)
+        ixb.copyInto(dxb)
+        ick.b.copyInto(dck.b)
+        dck.l = ick.l
 
-            imb.copyInto(dmb)
-            ixb.copyInto(dxb)
-            ick.b.copyInto(dck.b)
-            dck.l = ick.l
+        //
+        // APPEND PADDING
+        //
 
-            //
-            // APPEND PADDING
-            //
+        val paddingValue = (16 - mo).toUByte()
 
-            val paddingValue = (16 - mo).toUByte()
+        for (paddingIndex in mo..15)
+            dmb[paddingIndex] = paddingValue
 
-            for (paddingIndex in mo..15)
-                dmb[paddingIndex] = paddingValue
+        updateChecksum(dck, dmb)
+        transformBlock(dxb, dmb)
 
-            updateChecksum(dck, dmb)
-            transformBlock(dxb, dmb)
+        //
+        // APPEND CHECKSUM
+        //
 
-            //
-            // APPEND CHECKSUM
-            //
+        transformBlock(dxb, dck.b)
 
-            transformBlock(dxb, dck.b)
+        return dxb.asByteArray().copyInto(output, offset, 0, 16)
+    }
 
-            return dxb.asByteArray().copyOfRange(0, 16)
-        }
+    public override fun reset() {
+        mo = 0
+        imb.clear()
+        dmb.clear()
+        ixb.clear()
+        dxb.clear()
+        ick.b.clear()
+        ick.l = 0U
+        dck.b.clear()
+        dck.l = 0U
+    }
 
     private fun updateChecksum(ck: Checksum, mb: UByteArray) {
         for (j in 0..15) {

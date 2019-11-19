@@ -51,3 +51,9 @@ internal inline fun forEachSegment(
 
     return ldo
 }
+
+@ExperimentalUnsignedTypes
+internal fun UByteArray.clear() {
+    for (index in this.indices)
+        this[index] = 0U
+}

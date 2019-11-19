@@ -40,7 +40,17 @@ public abstract class Hash {
     /**
      * Returns the digest for the message that has been input.
      */
-    public abstract val digest: ByteArray
+    public fun digest(): ByteArray = digest(ByteArray(length), 0)
+
+    /**
+     * Writes the digest for the message into the specified buffer and then returns it.
+     */
+    public abstract fun digest(output: ByteArray, offset: Int): ByteArray
+
+    /**
+     * Resets the internal state of the hash algorithm.
+     */
+    public abstract fun reset()
 
     /**
      * Returns the length in whole bytes of the digest.
