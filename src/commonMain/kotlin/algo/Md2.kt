@@ -113,16 +113,16 @@ public class Md2 : Hash() {
         }
     }
 
-    private data class Checksum(
-        val b: UByteArray = UByteArray(16),
-        var l: UByte = 0U
-    )
-
     public override val length: Int = 16
 
     public override val size: Int = 128
 
     private companion object {
+
+        private data class Checksum(
+            val b: UByteArray = UByteArray(16),
+            var l: UByte = 0U
+        )
 
         private val S = ubyteArrayOf(
             0x29U, 0x2EU, 0x43U, 0xC9U, 0xA2U, 0xD8U, 0x7CU, 0x01U, 0x3DU, 0x36U, 0x54U, 0xA1U,
