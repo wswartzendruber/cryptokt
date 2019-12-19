@@ -57,3 +57,40 @@ internal fun UByteArray.clear() {
     for (index in this.indices)
         this[index] = 0U
 }
+
+@ExperimentalUnsignedTypes
+internal operator fun UByteArray.set(indices: IntRange, value: UByte) {
+    for (i in indices)
+        this[i] = value
+}
+
+@ExperimentalUnsignedTypes
+internal fun UInt.reverseByteOrder() =
+    (this and 0x000000FFU shl 24) or
+    (this and 0x0000FF00U shl 8) or
+    (this and 0x00FF0000U shr 8) or
+    (this and 0xFF000000U shr 24)
+
+@ExperimentalUnsignedTypes
+internal fun UInt.ubyteAt(index: Int) =
+    when (index) {
+        0 -> this.and(0xFF000000U).shr(24).and(0xFFU).toUByte()
+        1 -> this.and(0x00FF0000U).shr(16).and(0xFFU).toUByte()
+        2 -> this.and(0x0000FF00U).shr(8).and(0xFFU).toUByte()
+        3 -> this.and(0x000000FFU).toUByte()
+        else -> throw IllegalArgumentException("UByte index must be 0-7.")
+    }
+
+@ExperimentalUnsignedTypes
+internal fun ULong.ubyteAt(index: Int) =
+    when (index) {
+        0 -> this.and(0xFF00000000000000U).shr(56).and(0xFFU).toUByte()
+        1 -> this.and(0x00FF000000000000U).shr(48).and(0xFFU).toUByte()
+        2 -> this.and(0x0000FF0000000000U).shr(40).and(0xFFU).toUByte()
+        3 -> this.and(0x000000FF00000000U).shr(32).and(0xFFU).toUByte()
+        4 -> this.and(0x00000000FF000000U).shr(24).and(0xFFU).toUByte()
+        5 -> this.and(0x0000000000FF0000U).shr(16).and(0xFFU).toUByte()
+        6 -> this.and(0x000000000000FF00U).shr(8).and(0xFFU).toUByte()
+        7 -> this.and(0x00000000000000FFU).toUByte()
+        else -> throw IllegalArgumentException("UByte index must be 0-7.")
+    }

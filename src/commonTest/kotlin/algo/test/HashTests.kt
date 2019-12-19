@@ -23,10 +23,12 @@ import kotlin.test.assertTrue
 import kotlin.test.Test
 
 import org.cryptokt.algo.Md2
+import org.cryptokt.algo.Md4
 
 class HashTests {
 
     @Test
+    @ExperimentalUnsignedTypes
     fun `MD2`() {
 
         val md2 = Md2()
@@ -35,6 +37,20 @@ class HashTests {
             md2.input(hashValue.key.toAsciiByteArray())
             assertTrue(md2.digest().toHexString() == hashValue.value)
             md2.reset()
+        }
+    }
+
+    @Test
+    @ExperimentalStdlibApi
+    @ExperimentalUnsignedTypes
+    fun `MD4`() {
+
+        val md4 = Md4()
+
+        for (hashValue in md4HashValues) {
+            md4.input(hashValue.key.toAsciiByteArray())
+            assertTrue(md4.digest().toHexString() == hashValue.value)
+            md4.reset()
         }
     }
 
@@ -48,6 +64,16 @@ class HashTests {
             "abcdefghijklmnopqrstuvwxyz" to "4e8ddff3650292ab5a4108c3aa47940b",
             "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789" to "da33def2a42df13975352846c30338cd",
             "12345678901234567890123456789012345678901234567890123456789012345678901234567890" to "d5976f79d83d3a0dc9806c3c66f3efd8"
+        )
+
+        val md4HashValues = mapOf(
+            "" to "31d6cfe0d16ae931b73c59d7e0c089c0",
+            "a" to "bde52cb31de33e46245e05fbdbd6fb24",
+            "abc" to "a448017aaf21d8525fc10ae87aa6729d",
+            "message digest" to "d9130a8164549fe818874806e1c7014b",
+            "abcdefghijklmnopqrstuvwxyz" to "d79e1c308aa5bbcdeea8ed63df412da9",
+            "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789" to "043f8582f241db351ce627e153e7f0e4",
+            "12345678901234567890123456789012345678901234567890123456789012345678901234567890" to "e33b4ddc9c38f2199c3e7b164fcc0536"
         )
     }
 }
