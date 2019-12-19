@@ -27,7 +27,7 @@ import org.cryptokt.set
  * considered broken since 2004.
  */
 @ExperimentalUnsignedTypes
-public class Md2 : Hash() {
+public class Md2Hash : Hash() {
 
     private var mo = 0
     private val imb = UByteArray(16)

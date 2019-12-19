@@ -22,16 +22,16 @@ package org.cryptokt.algo.test
 import kotlin.test.assertTrue
 import kotlin.test.Test
 
-import org.cryptokt.algo.Md2
-import org.cryptokt.algo.Md4
+import org.cryptokt.algo.Md2Hash
+import org.cryptokt.algo.Md4Hash
 
 class HashTests {
 
     @Test
     @ExperimentalUnsignedTypes
-    fun `MD2`() {
+    fun `MD2 hash`() {
 
-        val md2 = Md2()
+        val md2 = Md2Hash()
 
         for (hashValue in md2HashValues) {
             md2.input(hashValue.key.toAsciiByteArray())
@@ -43,9 +43,9 @@ class HashTests {
     @Test
     @ExperimentalStdlibApi
     @ExperimentalUnsignedTypes
-    fun `MD4`() {
+    fun `MD4 hash`() {
 
-        val md4 = Md4()
+        val md4 = Md4Hash()
 
         for (hashValue in md4HashValues) {
             md4.input(hashValue.key.toAsciiByteArray())

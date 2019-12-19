@@ -29,7 +29,7 @@ import org.cryptokt.ubyteAt
  */
 @ExperimentalStdlibApi
 @ExperimentalUnsignedTypes
-public class Md4 : Hash() {
+public class Md4Hash : Hash() {
 
     private var mo = 0
     private var ms = 0UL
