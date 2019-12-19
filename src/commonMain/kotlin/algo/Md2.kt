@@ -19,8 +19,8 @@
 
 package org.cryptokt.algo
 
-import org.cryptokt.clear
 import org.cryptokt.forEachSegment
+import org.cryptokt.set
 
 /**
  * The first in the MD series by Ronald Rivest. It has a digest size of 128 bits. It has been
@@ -78,13 +78,13 @@ public class Md2 : Hash() {
 
     public override fun reset() {
         mo = 0
-        imb.clear()
-        dmb.clear()
-        ixb.clear()
-        dxb.clear()
-        ick.b.clear()
+        imb[mbRange] = 0x00U
+        dmb[mbRange] = 0x00U
+        ixb[xbRange] = 0x00U
+        dxb[xbRange] = 0x00U
+        ick.b[mbRange] = 0x00U
         ick.l = 0U
-        dck.b.clear()
+        dck.b[mbRange] = 0x00U
         dck.l = 0U
     }
 
@@ -123,6 +123,9 @@ public class Md2 : Hash() {
             val b: UByteArray = UByteArray(16),
             var l: UByte = 0U
         )
+
+        private val mbRange = 0..15
+        private val xbRange = 0..47
 
         private val S = ubyteArrayOf(
             0x29U, 0x2EU, 0x43U, 0xC9U, 0xA2U, 0xD8U, 0x7CU, 0x01U, 0x3DU, 0x36U, 0x54U, 0xA1U,

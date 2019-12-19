@@ -19,9 +19,7 @@
 
 package org.cryptokt.algo
 
-import org.cryptokt.clear
 import org.cryptokt.forEachSegment
-import org.cryptokt.reverseByteOrder
 import org.cryptokt.set
 import org.cryptokt.ubyteAt
 
