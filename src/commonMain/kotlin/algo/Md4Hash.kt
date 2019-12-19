@@ -19,6 +19,7 @@
 
 package org.cryptokt.algo
 
+import org.cryptokt.getLeUIntAt
 import org.cryptokt.forEachSegment
 import org.cryptokt.set
 import org.cryptokt.ubyteAt

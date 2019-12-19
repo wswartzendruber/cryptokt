@@ -53,10 +53,11 @@ internal inline fun forEachSegment(
 }
 
 @ExperimentalUnsignedTypes
-internal fun UByteArray.clear() {
-    for (index in this.indices)
-        this[index] = 0U
-}
+internal fun UByteArray.getLeUIntAt(index: Int) =
+    this[index].toUInt() or
+    (this[index + 1].toUInt() shl 8) or
+    (this[index + 2].toUInt() shl 16) or
+    (this[index + 3].toUInt() shl 24)
 
 @ExperimentalUnsignedTypes
 internal operator fun UByteArray.set(indices: IntRange, value: UByte) {
