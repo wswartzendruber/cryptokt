@@ -22,18 +22,18 @@ package org.cryptokt.algo.test
 import kotlin.test.assertTrue
 import kotlin.test.Test
 
-import org.cryptokt.algo.Md2Hash
-import org.cryptokt.algo.Md4Hash
-import org.cryptokt.algo.Md5Hash
-import org.cryptokt.algo.Sha1Hash
+import org.cryptokt.algo.Md2HashAlgorithm
+import org.cryptokt.algo.Md4HashAlgorithm
+import org.cryptokt.algo.Md5HashAlgorithm
+import org.cryptokt.algo.Sha1HashAlgorithm
 
-class HashTests {
+class HashAlgorithmTests {
 
     @Test
     @ExperimentalUnsignedTypes
     fun `MD2 hash`() {
 
-        val md2 = Md2Hash()
+        val md2 = Md2HashAlgorithm()
 
         for (hashValue in md2HashValues) {
             md2.input(hashValue.key.toAsciiByteArray())
@@ -47,7 +47,7 @@ class HashTests {
     @ExperimentalUnsignedTypes
     fun `MD4 hash`() {
 
-        val md4 = Md4Hash()
+        val md4 = Md4HashAlgorithm()
 
         for (hashValue in md4HashValues) {
             md4.input(hashValue.key.toAsciiByteArray())
@@ -61,7 +61,7 @@ class HashTests {
     @ExperimentalUnsignedTypes
     fun `MD5 hash`() {
 
-        val md5 = Md5Hash()
+        val md5 = Md5HashAlgorithm()
 
         for (hashValue in md5HashValues) {
             md5.input(hashValue.key.toAsciiByteArray())
@@ -75,7 +75,7 @@ class HashTests {
     @ExperimentalUnsignedTypes
     fun `SHA1 hash`() {
 
-        val sha1 = Sha1Hash()
+        val sha1 = Sha1HashAlgorithm()
 
         for (hashValue in sha1HashValues) {
             sha1.input(hashValue.key.toAsciiByteArray())

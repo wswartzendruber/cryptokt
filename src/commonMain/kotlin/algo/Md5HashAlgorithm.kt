@@ -30,7 +30,7 @@ import org.cryptokt.ubyteAt
  */
 @ExperimentalStdlibApi
 @ExperimentalUnsignedTypes
-public class Md5Hash : Hash() {
+public class Md5HashAlgorithm : HashAlgorithm() {
 
     private var mo = 0
     private var ms = 0UL
