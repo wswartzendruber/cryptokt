@@ -140,67 +140,88 @@ public class Md4HashAlgorithm : HashAlgorithm() {
         val dd = r.d
 
         //
+        // READ BLOCK
+        //
+
+        val w0 = mb.leUIntAt(0)
+        val w1 = mb.leUIntAt(4)
+        val w2 = mb.leUIntAt(8)
+        val w3 = mb.leUIntAt(12)
+        val w4 = mb.leUIntAt(16)
+        val w5 = mb.leUIntAt(20)
+        val w6 = mb.leUIntAt(24)
+        val w7 = mb.leUIntAt(28)
+        val w8 = mb.leUIntAt(32)
+        val w9 = mb.leUIntAt(36)
+        val w10 = mb.leUIntAt(40)
+        val w11 = mb.leUIntAt(44)
+        val w12 = mb.leUIntAt(48)
+        val w13 = mb.leUIntAt(52)
+        val w14 = mb.leUIntAt(56)
+        val w15 = mb.leUIntAt(60)
+
+        //
         // ROUND 1
         //
 
-        r.a = r1(r.a, r.b, r.c, r.d, mb.leUIntAt(0), 3)
-        r.d = r1(r.d, r.a, r.b, r.c, mb.leUIntAt(4), 7)
-        r.c = r1(r.c, r.d, r.a, r.b, mb.leUIntAt(8), 11)
-        r.b = r1(r.b, r.c, r.d, r.a, mb.leUIntAt(12), 19)
-        r.a = r1(r.a, r.b, r.c, r.d, mb.leUIntAt(16), 3)
-        r.d = r1(r.d, r.a, r.b, r.c, mb.leUIntAt(20), 7)
-        r.c = r1(r.c, r.d, r.a, r.b, mb.leUIntAt(24), 11)
-        r.b = r1(r.b, r.c, r.d, r.a, mb.leUIntAt(28), 19)
-        r.a = r1(r.a, r.b, r.c, r.d, mb.leUIntAt(32), 3)
-        r.d = r1(r.d, r.a, r.b, r.c, mb.leUIntAt(36), 7)
-        r.c = r1(r.c, r.d, r.a, r.b, mb.leUIntAt(40), 11)
-        r.b = r1(r.b, r.c, r.d, r.a, mb.leUIntAt(44), 19)
-        r.a = r1(r.a, r.b, r.c, r.d, mb.leUIntAt(48), 3)
-        r.d = r1(r.d, r.a, r.b, r.c, mb.leUIntAt(52), 7)
-        r.c = r1(r.c, r.d, r.a, r.b, mb.leUIntAt(56), 11)
-        r.b = r1(r.b, r.c, r.d, r.a, mb.leUIntAt(60), 19)
+        r.a = r1(r.a, r.b, r.c, r.d, w0, 3)
+        r.d = r1(r.d, r.a, r.b, r.c, w1, 7)
+        r.c = r1(r.c, r.d, r.a, r.b, w2, 11)
+        r.b = r1(r.b, r.c, r.d, r.a, w3, 19)
+        r.a = r1(r.a, r.b, r.c, r.d, w4, 3)
+        r.d = r1(r.d, r.a, r.b, r.c, w5, 7)
+        r.c = r1(r.c, r.d, r.a, r.b, w6, 11)
+        r.b = r1(r.b, r.c, r.d, r.a, w7, 19)
+        r.a = r1(r.a, r.b, r.c, r.d, w8, 3)
+        r.d = r1(r.d, r.a, r.b, r.c, w9, 7)
+        r.c = r1(r.c, r.d, r.a, r.b, w10, 11)
+        r.b = r1(r.b, r.c, r.d, r.a, w11, 19)
+        r.a = r1(r.a, r.b, r.c, r.d, w12, 3)
+        r.d = r1(r.d, r.a, r.b, r.c, w13, 7)
+        r.c = r1(r.c, r.d, r.a, r.b, w14, 11)
+        r.b = r1(r.b, r.c, r.d, r.a, w15, 19)
 
         //
         // ROUND 2
         //
 
-        r.a = r2(r.a, r.b, r.c, r.d, mb.leUIntAt(0), 3)
-        r.d = r2(r.d, r.a, r.b, r.c, mb.leUIntAt(16), 5)
-        r.c = r2(r.c, r.d, r.a, r.b, mb.leUIntAt(32), 9)
-        r.b = r2(r.b, r.c, r.d, r.a, mb.leUIntAt(48), 13)
-        r.a = r2(r.a, r.b, r.c, r.d, mb.leUIntAt(4), 3)
-        r.d = r2(r.d, r.a, r.b, r.c, mb.leUIntAt(20), 5)
-        r.c = r2(r.c, r.d, r.a, r.b, mb.leUIntAt(36), 9)
-        r.b = r2(r.b, r.c, r.d, r.a, mb.leUIntAt(52), 13)
-        r.a = r2(r.a, r.b, r.c, r.d, mb.leUIntAt(8), 3)
-        r.d = r2(r.d, r.a, r.b, r.c, mb.leUIntAt(24), 5)
-        r.c = r2(r.c, r.d, r.a, r.b, mb.leUIntAt(40), 9)
-        r.b = r2(r.b, r.c, r.d, r.a, mb.leUIntAt(56), 13)
-        r.a = r2(r.a, r.b, r.c, r.d, mb.leUIntAt(12), 3)
-        r.d = r2(r.d, r.a, r.b, r.c, mb.leUIntAt(28), 5)
-        r.c = r2(r.c, r.d, r.a, r.b, mb.leUIntAt(44), 9)
-        r.b = r2(r.b, r.c, r.d, r.a, mb.leUIntAt(60), 13)
+        r.a = r2(r.a, r.b, r.c, r.d, w0, 3)
+        r.d = r2(r.d, r.a, r.b, r.c, w4, 5)
+        r.c = r2(r.c, r.d, r.a, r.b, w8, 9)
+        r.b = r2(r.b, r.c, r.d, r.a, w12, 13)
+        r.a = r2(r.a, r.b, r.c, r.d, w1, 3)
+        r.d = r2(r.d, r.a, r.b, r.c, w5, 5)
+        r.c = r2(r.c, r.d, r.a, r.b, w9, 9)
+        r.b = r2(r.b, r.c, r.d, r.a, w13, 13)
+        r.a = r2(r.a, r.b, r.c, r.d, w2, 3)
+        r.d = r2(r.d, r.a, r.b, r.c, w6, 5)
+        r.c = r2(r.c, r.d, r.a, r.b, w10, 9)
+        r.b = r2(r.b, r.c, r.d, r.a, w14, 13)
+        r.a = r2(r.a, r.b, r.c, r.d, w3, 3)
+        r.d = r2(r.d, r.a, r.b, r.c, w7, 5)
+        r.c = r2(r.c, r.d, r.a, r.b, w11, 9)
+        r.b = r2(r.b, r.c, r.d, r.a, w15, 13)
 
         //
         // ROUND 3
         //
 
-        r.a = r3(r.a, r.b, r.c, r.d, mb.leUIntAt(0), 3)
-        r.d = r3(r.d, r.a, r.b, r.c, mb.leUIntAt(32), 9)
-        r.c = r3(r.c, r.d, r.a, r.b, mb.leUIntAt(16), 11)
-        r.b = r3(r.b, r.c, r.d, r.a, mb.leUIntAt(48), 15)
-        r.a = r3(r.a, r.b, r.c, r.d, mb.leUIntAt(8), 3)
-        r.d = r3(r.d, r.a, r.b, r.c, mb.leUIntAt(40), 9)
-        r.c = r3(r.c, r.d, r.a, r.b, mb.leUIntAt(24), 11)
-        r.b = r3(r.b, r.c, r.d, r.a, mb.leUIntAt(56), 15)
-        r.a = r3(r.a, r.b, r.c, r.d, mb.leUIntAt(4), 3)
-        r.d = r3(r.d, r.a, r.b, r.c, mb.leUIntAt(36), 9)
-        r.c = r3(r.c, r.d, r.a, r.b, mb.leUIntAt(20), 11)
-        r.b = r3(r.b, r.c, r.d, r.a, mb.leUIntAt(52), 15)
-        r.a = r3(r.a, r.b, r.c, r.d, mb.leUIntAt(12), 3)
-        r.d = r3(r.d, r.a, r.b, r.c, mb.leUIntAt(44), 9)
-        r.c = r3(r.c, r.d, r.a, r.b, mb.leUIntAt(28), 11)
-        r.b = r3(r.b, r.c, r.d, r.a, mb.leUIntAt(60), 15)
+        r.a = r3(r.a, r.b, r.c, r.d, w0, 3)
+        r.d = r3(r.d, r.a, r.b, r.c, w8, 9)
+        r.c = r3(r.c, r.d, r.a, r.b, w4, 11)
+        r.b = r3(r.b, r.c, r.d, r.a, w12, 15)
+        r.a = r3(r.a, r.b, r.c, r.d, w2, 3)
+        r.d = r3(r.d, r.a, r.b, r.c, w10, 9)
+        r.c = r3(r.c, r.d, r.a, r.b, w6, 11)
+        r.b = r3(r.b, r.c, r.d, r.a, w14, 15)
+        r.a = r3(r.a, r.b, r.c, r.d, w1, 3)
+        r.d = r3(r.d, r.a, r.b, r.c, w9, 9)
+        r.c = r3(r.c, r.d, r.a, r.b, w5, 11)
+        r.b = r3(r.b, r.c, r.d, r.a, w13, 15)
+        r.a = r3(r.a, r.b, r.c, r.d, w3, 3)
+        r.d = r3(r.d, r.a, r.b, r.c, w11, 9)
+        r.c = r3(r.c, r.d, r.a, r.b, w7, 11)
+        r.b = r3(r.b, r.c, r.d, r.a, w15, 15)
 
         r.a += aa
         r.b += bb
@@ -240,18 +261,12 @@ public class Md4HashAlgorithm : HashAlgorithm() {
         )
 
         private fun r1(p1: UInt, p2: UInt, p3: UInt, p4: UInt, p5: UInt, p6: Int) =
-            (p1 + f(p2, p3, p4) + p5).rotateLeft(p6)
-
-        private fun f(x: UInt, y: UInt, z: UInt) = (x and y) or (x.inv() and z)
+            (p1 + ((p2 and p3) or (p2.inv() and p4)) + p5).rotateLeft(p6)
 
         private fun r2(p1: UInt, p2: UInt, p3: UInt, p4: UInt, p5: UInt, p6: Int) =
-            (p1 + g(p2, p3, p4) + p5 + 0x5A827999U).rotateLeft(p6)
-
-        private fun g(x: UInt, y: UInt, z: UInt) = (x and y) or (x and z) or (y and z)
+            (p1 + ((p2 and p3) or (p2 and p4) or (p3 and p4)) + p5 + 0x5A827999U).rotateLeft(p6)
 
         private fun r3(p1: UInt, p2: UInt, p3: UInt, p4: UInt, p5: UInt, p6: Int) =
-            (p1 + h(p2, p3, p4) + p5 + 0x6ED9EBA1U).rotateLeft(p6)
-
-        private fun h(x: UInt, y: UInt, z: UInt) = x xor y xor z
+            (p1 + (p2 xor p3 xor p4) + p5 + 0x6ED9EBA1U).rotateLeft(p6)
     }
 }
