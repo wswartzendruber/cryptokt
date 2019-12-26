@@ -19,7 +19,7 @@
 
 package org.cryptokt.algo
 
-import org.cryptokt.getLeUIntAt
+import org.cryptokt.leUIntAt
 import org.cryptokt.forEachSegment
 import org.cryptokt.set
 import org.cryptokt.ubyteAt
@@ -143,64 +143,64 @@ public class Md4HashAlgorithm : HashAlgorithm() {
         // ROUND 1
         //
 
-        r.a = r1(r.a, r.b, r.c, r.d, mb.getLeUIntAt(0), 3)
-        r.d = r1(r.d, r.a, r.b, r.c, mb.getLeUIntAt(4), 7)
-        r.c = r1(r.c, r.d, r.a, r.b, mb.getLeUIntAt(8), 11)
-        r.b = r1(r.b, r.c, r.d, r.a, mb.getLeUIntAt(12), 19)
-        r.a = r1(r.a, r.b, r.c, r.d, mb.getLeUIntAt(16), 3)
-        r.d = r1(r.d, r.a, r.b, r.c, mb.getLeUIntAt(20), 7)
-        r.c = r1(r.c, r.d, r.a, r.b, mb.getLeUIntAt(24), 11)
-        r.b = r1(r.b, r.c, r.d, r.a, mb.getLeUIntAt(28), 19)
-        r.a = r1(r.a, r.b, r.c, r.d, mb.getLeUIntAt(32), 3)
-        r.d = r1(r.d, r.a, r.b, r.c, mb.getLeUIntAt(36), 7)
-        r.c = r1(r.c, r.d, r.a, r.b, mb.getLeUIntAt(40), 11)
-        r.b = r1(r.b, r.c, r.d, r.a, mb.getLeUIntAt(44), 19)
-        r.a = r1(r.a, r.b, r.c, r.d, mb.getLeUIntAt(48), 3)
-        r.d = r1(r.d, r.a, r.b, r.c, mb.getLeUIntAt(52), 7)
-        r.c = r1(r.c, r.d, r.a, r.b, mb.getLeUIntAt(56), 11)
-        r.b = r1(r.b, r.c, r.d, r.a, mb.getLeUIntAt(60), 19)
+        r.a = r1(r.a, r.b, r.c, r.d, mb.leUIntAt(0), 3)
+        r.d = r1(r.d, r.a, r.b, r.c, mb.leUIntAt(4), 7)
+        r.c = r1(r.c, r.d, r.a, r.b, mb.leUIntAt(8), 11)
+        r.b = r1(r.b, r.c, r.d, r.a, mb.leUIntAt(12), 19)
+        r.a = r1(r.a, r.b, r.c, r.d, mb.leUIntAt(16), 3)
+        r.d = r1(r.d, r.a, r.b, r.c, mb.leUIntAt(20), 7)
+        r.c = r1(r.c, r.d, r.a, r.b, mb.leUIntAt(24), 11)
+        r.b = r1(r.b, r.c, r.d, r.a, mb.leUIntAt(28), 19)
+        r.a = r1(r.a, r.b, r.c, r.d, mb.leUIntAt(32), 3)
+        r.d = r1(r.d, r.a, r.b, r.c, mb.leUIntAt(36), 7)
+        r.c = r1(r.c, r.d, r.a, r.b, mb.leUIntAt(40), 11)
+        r.b = r1(r.b, r.c, r.d, r.a, mb.leUIntAt(44), 19)
+        r.a = r1(r.a, r.b, r.c, r.d, mb.leUIntAt(48), 3)
+        r.d = r1(r.d, r.a, r.b, r.c, mb.leUIntAt(52), 7)
+        r.c = r1(r.c, r.d, r.a, r.b, mb.leUIntAt(56), 11)
+        r.b = r1(r.b, r.c, r.d, r.a, mb.leUIntAt(60), 19)
 
         //
         // ROUND 2
         //
 
-        r.a = r2(r.a, r.b, r.c, r.d, mb.getLeUIntAt(0), 3)
-        r.d = r2(r.d, r.a, r.b, r.c, mb.getLeUIntAt(16), 5)
-        r.c = r2(r.c, r.d, r.a, r.b, mb.getLeUIntAt(32), 9)
-        r.b = r2(r.b, r.c, r.d, r.a, mb.getLeUIntAt(48), 13)
-        r.a = r2(r.a, r.b, r.c, r.d, mb.getLeUIntAt(4), 3)
-        r.d = r2(r.d, r.a, r.b, r.c, mb.getLeUIntAt(20), 5)
-        r.c = r2(r.c, r.d, r.a, r.b, mb.getLeUIntAt(36), 9)
-        r.b = r2(r.b, r.c, r.d, r.a, mb.getLeUIntAt(52), 13)
-        r.a = r2(r.a, r.b, r.c, r.d, mb.getLeUIntAt(8), 3)
-        r.d = r2(r.d, r.a, r.b, r.c, mb.getLeUIntAt(24), 5)
-        r.c = r2(r.c, r.d, r.a, r.b, mb.getLeUIntAt(40), 9)
-        r.b = r2(r.b, r.c, r.d, r.a, mb.getLeUIntAt(56), 13)
-        r.a = r2(r.a, r.b, r.c, r.d, mb.getLeUIntAt(12), 3)
-        r.d = r2(r.d, r.a, r.b, r.c, mb.getLeUIntAt(28), 5)
-        r.c = r2(r.c, r.d, r.a, r.b, mb.getLeUIntAt(44), 9)
-        r.b = r2(r.b, r.c, r.d, r.a, mb.getLeUIntAt(60), 13)
+        r.a = r2(r.a, r.b, r.c, r.d, mb.leUIntAt(0), 3)
+        r.d = r2(r.d, r.a, r.b, r.c, mb.leUIntAt(16), 5)
+        r.c = r2(r.c, r.d, r.a, r.b, mb.leUIntAt(32), 9)
+        r.b = r2(r.b, r.c, r.d, r.a, mb.leUIntAt(48), 13)
+        r.a = r2(r.a, r.b, r.c, r.d, mb.leUIntAt(4), 3)
+        r.d = r2(r.d, r.a, r.b, r.c, mb.leUIntAt(20), 5)
+        r.c = r2(r.c, r.d, r.a, r.b, mb.leUIntAt(36), 9)
+        r.b = r2(r.b, r.c, r.d, r.a, mb.leUIntAt(52), 13)
+        r.a = r2(r.a, r.b, r.c, r.d, mb.leUIntAt(8), 3)
+        r.d = r2(r.d, r.a, r.b, r.c, mb.leUIntAt(24), 5)
+        r.c = r2(r.c, r.d, r.a, r.b, mb.leUIntAt(40), 9)
+        r.b = r2(r.b, r.c, r.d, r.a, mb.leUIntAt(56), 13)
+        r.a = r2(r.a, r.b, r.c, r.d, mb.leUIntAt(12), 3)
+        r.d = r2(r.d, r.a, r.b, r.c, mb.leUIntAt(28), 5)
+        r.c = r2(r.c, r.d, r.a, r.b, mb.leUIntAt(44), 9)
+        r.b = r2(r.b, r.c, r.d, r.a, mb.leUIntAt(60), 13)
 
         //
         // ROUND 3
         //
 
-        r.a = r3(r.a, r.b, r.c, r.d, mb.getLeUIntAt(0), 3)
-        r.d = r3(r.d, r.a, r.b, r.c, mb.getLeUIntAt(32), 9)
-        r.c = r3(r.c, r.d, r.a, r.b, mb.getLeUIntAt(16), 11)
-        r.b = r3(r.b, r.c, r.d, r.a, mb.getLeUIntAt(48), 15)
-        r.a = r3(r.a, r.b, r.c, r.d, mb.getLeUIntAt(8), 3)
-        r.d = r3(r.d, r.a, r.b, r.c, mb.getLeUIntAt(40), 9)
-        r.c = r3(r.c, r.d, r.a, r.b, mb.getLeUIntAt(24), 11)
-        r.b = r3(r.b, r.c, r.d, r.a, mb.getLeUIntAt(56), 15)
-        r.a = r3(r.a, r.b, r.c, r.d, mb.getLeUIntAt(4), 3)
-        r.d = r3(r.d, r.a, r.b, r.c, mb.getLeUIntAt(36), 9)
-        r.c = r3(r.c, r.d, r.a, r.b, mb.getLeUIntAt(20), 11)
-        r.b = r3(r.b, r.c, r.d, r.a, mb.getLeUIntAt(52), 15)
-        r.a = r3(r.a, r.b, r.c, r.d, mb.getLeUIntAt(12), 3)
-        r.d = r3(r.d, r.a, r.b, r.c, mb.getLeUIntAt(44), 9)
-        r.c = r3(r.c, r.d, r.a, r.b, mb.getLeUIntAt(28), 11)
-        r.b = r3(r.b, r.c, r.d, r.a, mb.getLeUIntAt(60), 15)
+        r.a = r3(r.a, r.b, r.c, r.d, mb.leUIntAt(0), 3)
+        r.d = r3(r.d, r.a, r.b, r.c, mb.leUIntAt(32), 9)
+        r.c = r3(r.c, r.d, r.a, r.b, mb.leUIntAt(16), 11)
+        r.b = r3(r.b, r.c, r.d, r.a, mb.leUIntAt(48), 15)
+        r.a = r3(r.a, r.b, r.c, r.d, mb.leUIntAt(8), 3)
+        r.d = r3(r.d, r.a, r.b, r.c, mb.leUIntAt(40), 9)
+        r.c = r3(r.c, r.d, r.a, r.b, mb.leUIntAt(24), 11)
+        r.b = r3(r.b, r.c, r.d, r.a, mb.leUIntAt(56), 15)
+        r.a = r3(r.a, r.b, r.c, r.d, mb.leUIntAt(4), 3)
+        r.d = r3(r.d, r.a, r.b, r.c, mb.leUIntAt(36), 9)
+        r.c = r3(r.c, r.d, r.a, r.b, mb.leUIntAt(20), 11)
+        r.b = r3(r.b, r.c, r.d, r.a, mb.leUIntAt(52), 15)
+        r.a = r3(r.a, r.b, r.c, r.d, mb.leUIntAt(12), 3)
+        r.d = r3(r.d, r.a, r.b, r.c, mb.leUIntAt(44), 9)
+        r.c = r3(r.c, r.d, r.a, r.b, mb.leUIntAt(28), 11)
+        r.b = r3(r.b, r.c, r.d, r.a, mb.leUIntAt(60), 15)
 
         r.a += aa
         r.b += bb
@@ -253,11 +253,5 @@ public class Md4HashAlgorithm : HashAlgorithm() {
             (p1 + h(p2, p3, p4) + p5 + 0x6ED9EBA1U).rotateLeft(p6)
 
         private fun h(x: UInt, y: UInt, z: UInt) = x xor y xor z
-
-        private fun UByteArray.getLeUIntAt(index: Int) =
-            this[index].toUInt() or
-            (this[index + 1].toUInt() shl 8) or
-            (this[index + 2].toUInt() shl 16) or
-            (this[index + 3].toUInt() shl 24)
     }
 }

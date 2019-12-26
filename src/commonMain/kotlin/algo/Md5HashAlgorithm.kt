@@ -19,7 +19,7 @@
 
 package org.cryptokt.algo
 
-import org.cryptokt.getLeUIntAt
+import org.cryptokt.leUIntAt
 import org.cryptokt.forEachSegment
 import org.cryptokt.set
 import org.cryptokt.ubyteAt
@@ -143,85 +143,85 @@ public class Md5HashAlgorithm : HashAlgorithm() {
         // ROUND 1
         //
 
-        r.a = r1(r.a, r.b, r.c, r.d, mb.getLeUIntAt(0), 0xD76AA478U, 7)
-        r.d = r1(r.d, r.a, r.b, r.c, mb.getLeUIntAt(4), 0xE8C7B756U, 12)
-        r.c = r1(r.c, r.d, r.a, r.b, mb.getLeUIntAt(8), 0x242070DBU, 17)
-        r.b = r1(r.b, r.c, r.d, r.a, mb.getLeUIntAt(12), 0xC1BDCEEEU, 22)
-        r.a = r1(r.a, r.b, r.c, r.d, mb.getLeUIntAt(16), 0xF57C0FAFU, 7)
-        r.d = r1(r.d, r.a, r.b, r.c, mb.getLeUIntAt(20), 0x4787C62AU, 12)
-        r.c = r1(r.c, r.d, r.a, r.b, mb.getLeUIntAt(24), 0xA8304613U, 17)
-        r.b = r1(r.b, r.c, r.d, r.a, mb.getLeUIntAt(28), 0xFD469501U, 22)
-        r.a = r1(r.a, r.b, r.c, r.d, mb.getLeUIntAt(32), 0x698098D8U, 7)
-        r.d = r1(r.d, r.a, r.b, r.c, mb.getLeUIntAt(36), 0x8B44F7AFU, 12)
-        r.c = r1(r.c, r.d, r.a, r.b, mb.getLeUIntAt(40), 0xFFFF5BB1U, 17)
-        r.b = r1(r.b, r.c, r.d, r.a, mb.getLeUIntAt(44), 0x895CD7BEU, 22)
-        r.a = r1(r.a, r.b, r.c, r.d, mb.getLeUIntAt(48), 0x6B901122U, 7)
-        r.d = r1(r.d, r.a, r.b, r.c, mb.getLeUIntAt(52), 0xFD987193U, 12)
-        r.c = r1(r.c, r.d, r.a, r.b, mb.getLeUIntAt(56), 0xA679438EU, 17)
-        r.b = r1(r.b, r.c, r.d, r.a, mb.getLeUIntAt(60), 0x49B40821U, 22)
+        r.a = r1(r.a, r.b, r.c, r.d, mb.leUIntAt(0), 0xD76AA478U, 7)
+        r.d = r1(r.d, r.a, r.b, r.c, mb.leUIntAt(4), 0xE8C7B756U, 12)
+        r.c = r1(r.c, r.d, r.a, r.b, mb.leUIntAt(8), 0x242070DBU, 17)
+        r.b = r1(r.b, r.c, r.d, r.a, mb.leUIntAt(12), 0xC1BDCEEEU, 22)
+        r.a = r1(r.a, r.b, r.c, r.d, mb.leUIntAt(16), 0xF57C0FAFU, 7)
+        r.d = r1(r.d, r.a, r.b, r.c, mb.leUIntAt(20), 0x4787C62AU, 12)
+        r.c = r1(r.c, r.d, r.a, r.b, mb.leUIntAt(24), 0xA8304613U, 17)
+        r.b = r1(r.b, r.c, r.d, r.a, mb.leUIntAt(28), 0xFD469501U, 22)
+        r.a = r1(r.a, r.b, r.c, r.d, mb.leUIntAt(32), 0x698098D8U, 7)
+        r.d = r1(r.d, r.a, r.b, r.c, mb.leUIntAt(36), 0x8B44F7AFU, 12)
+        r.c = r1(r.c, r.d, r.a, r.b, mb.leUIntAt(40), 0xFFFF5BB1U, 17)
+        r.b = r1(r.b, r.c, r.d, r.a, mb.leUIntAt(44), 0x895CD7BEU, 22)
+        r.a = r1(r.a, r.b, r.c, r.d, mb.leUIntAt(48), 0x6B901122U, 7)
+        r.d = r1(r.d, r.a, r.b, r.c, mb.leUIntAt(52), 0xFD987193U, 12)
+        r.c = r1(r.c, r.d, r.a, r.b, mb.leUIntAt(56), 0xA679438EU, 17)
+        r.b = r1(r.b, r.c, r.d, r.a, mb.leUIntAt(60), 0x49B40821U, 22)
 
         //
         // ROUND 2
         //
 
-        r.a = r2(r.a, r.b, r.c, r.d, mb.getLeUIntAt(4), 0xF61E2562U, 5)
-        r.d = r2(r.d, r.a, r.b, r.c, mb.getLeUIntAt(24), 0xC040B340U, 9)
-        r.c = r2(r.c, r.d, r.a, r.b, mb.getLeUIntAt(44), 0x265E5A51U, 14)
-        r.b = r2(r.b, r.c, r.d, r.a, mb.getLeUIntAt(0), 0xE9B6C7AAU, 20)
-        r.a = r2(r.a, r.b, r.c, r.d, mb.getLeUIntAt(20), 0xD62F105DU, 5)
-        r.d = r2(r.d, r.a, r.b, r.c, mb.getLeUIntAt(40), 0x02441453U, 9)
-        r.c = r2(r.c, r.d, r.a, r.b, mb.getLeUIntAt(60), 0xD8A1E681U, 14)
-        r.b = r2(r.b, r.c, r.d, r.a, mb.getLeUIntAt(16), 0xE7D3FBC8U, 20)
-        r.a = r2(r.a, r.b, r.c, r.d, mb.getLeUIntAt(36), 0x21E1CDE6U, 5)
-        r.d = r2(r.d, r.a, r.b, r.c, mb.getLeUIntAt(56), 0xC33707D6U, 9)
-        r.c = r2(r.c, r.d, r.a, r.b, mb.getLeUIntAt(12), 0xF4D50D87U, 14)
-        r.b = r2(r.b, r.c, r.d, r.a, mb.getLeUIntAt(32), 0x455A14EDU, 20)
-        r.a = r2(r.a, r.b, r.c, r.d, mb.getLeUIntAt(52), 0xA9E3E905U, 5)
-        r.d = r2(r.d, r.a, r.b, r.c, mb.getLeUIntAt(8), 0xFCEFA3F8U, 9)
-        r.c = r2(r.c, r.d, r.a, r.b, mb.getLeUIntAt(28), 0x676F02D9U, 14)
-        r.b = r2(r.b, r.c, r.d, r.a, mb.getLeUIntAt(48), 0x8D2A4C8AU, 20)
+        r.a = r2(r.a, r.b, r.c, r.d, mb.leUIntAt(4), 0xF61E2562U, 5)
+        r.d = r2(r.d, r.a, r.b, r.c, mb.leUIntAt(24), 0xC040B340U, 9)
+        r.c = r2(r.c, r.d, r.a, r.b, mb.leUIntAt(44), 0x265E5A51U, 14)
+        r.b = r2(r.b, r.c, r.d, r.a, mb.leUIntAt(0), 0xE9B6C7AAU, 20)
+        r.a = r2(r.a, r.b, r.c, r.d, mb.leUIntAt(20), 0xD62F105DU, 5)
+        r.d = r2(r.d, r.a, r.b, r.c, mb.leUIntAt(40), 0x02441453U, 9)
+        r.c = r2(r.c, r.d, r.a, r.b, mb.leUIntAt(60), 0xD8A1E681U, 14)
+        r.b = r2(r.b, r.c, r.d, r.a, mb.leUIntAt(16), 0xE7D3FBC8U, 20)
+        r.a = r2(r.a, r.b, r.c, r.d, mb.leUIntAt(36), 0x21E1CDE6U, 5)
+        r.d = r2(r.d, r.a, r.b, r.c, mb.leUIntAt(56), 0xC33707D6U, 9)
+        r.c = r2(r.c, r.d, r.a, r.b, mb.leUIntAt(12), 0xF4D50D87U, 14)
+        r.b = r2(r.b, r.c, r.d, r.a, mb.leUIntAt(32), 0x455A14EDU, 20)
+        r.a = r2(r.a, r.b, r.c, r.d, mb.leUIntAt(52), 0xA9E3E905U, 5)
+        r.d = r2(r.d, r.a, r.b, r.c, mb.leUIntAt(8), 0xFCEFA3F8U, 9)
+        r.c = r2(r.c, r.d, r.a, r.b, mb.leUIntAt(28), 0x676F02D9U, 14)
+        r.b = r2(r.b, r.c, r.d, r.a, mb.leUIntAt(48), 0x8D2A4C8AU, 20)
 
         //
         // ROUND 3
         //
 
-        r.a = r3(r.a, r.b, r.c, r.d, mb.getLeUIntAt(20), 0xFFFA3942U, 4)
-        r.d = r3(r.d, r.a, r.b, r.c, mb.getLeUIntAt(32), 0x8771F681U, 11)
-        r.c = r3(r.c, r.d, r.a, r.b, mb.getLeUIntAt(44), 0x6D9D6122U, 16)
-        r.b = r3(r.b, r.c, r.d, r.a, mb.getLeUIntAt(56), 0xFDE5380CU, 23)
-        r.a = r3(r.a, r.b, r.c, r.d, mb.getLeUIntAt(4), 0xA4BEEA44U, 4)
-        r.d = r3(r.d, r.a, r.b, r.c, mb.getLeUIntAt(16), 0x4BDECFA9U, 11)
-        r.c = r3(r.c, r.d, r.a, r.b, mb.getLeUIntAt(28), 0xF6BB4B60U, 16)
-        r.b = r3(r.b, r.c, r.d, r.a, mb.getLeUIntAt(40), 0xBEBFBC70U, 23)
-        r.a = r3(r.a, r.b, r.c, r.d, mb.getLeUIntAt(52), 0x289B7EC6U, 4)
-        r.d = r3(r.d, r.a, r.b, r.c, mb.getLeUIntAt(0), 0xEAA127FAU, 11)
-        r.c = r3(r.c, r.d, r.a, r.b, mb.getLeUIntAt(12), 0xD4EF3085U, 16)
-        r.b = r3(r.b, r.c, r.d, r.a, mb.getLeUIntAt(24), 0x04881D05U, 23)
-        r.a = r3(r.a, r.b, r.c, r.d, mb.getLeUIntAt(36), 0xD9D4D039U, 4)
-        r.d = r3(r.d, r.a, r.b, r.c, mb.getLeUIntAt(48), 0xE6DB99E5U, 11)
-        r.c = r3(r.c, r.d, r.a, r.b, mb.getLeUIntAt(60), 0x1FA27CF8U, 16)
-        r.b = r3(r.b, r.c, r.d, r.a, mb.getLeUIntAt(8), 0xC4AC5665U, 23)
+        r.a = r3(r.a, r.b, r.c, r.d, mb.leUIntAt(20), 0xFFFA3942U, 4)
+        r.d = r3(r.d, r.a, r.b, r.c, mb.leUIntAt(32), 0x8771F681U, 11)
+        r.c = r3(r.c, r.d, r.a, r.b, mb.leUIntAt(44), 0x6D9D6122U, 16)
+        r.b = r3(r.b, r.c, r.d, r.a, mb.leUIntAt(56), 0xFDE5380CU, 23)
+        r.a = r3(r.a, r.b, r.c, r.d, mb.leUIntAt(4), 0xA4BEEA44U, 4)
+        r.d = r3(r.d, r.a, r.b, r.c, mb.leUIntAt(16), 0x4BDECFA9U, 11)
+        r.c = r3(r.c, r.d, r.a, r.b, mb.leUIntAt(28), 0xF6BB4B60U, 16)
+        r.b = r3(r.b, r.c, r.d, r.a, mb.leUIntAt(40), 0xBEBFBC70U, 23)
+        r.a = r3(r.a, r.b, r.c, r.d, mb.leUIntAt(52), 0x289B7EC6U, 4)
+        r.d = r3(r.d, r.a, r.b, r.c, mb.leUIntAt(0), 0xEAA127FAU, 11)
+        r.c = r3(r.c, r.d, r.a, r.b, mb.leUIntAt(12), 0xD4EF3085U, 16)
+        r.b = r3(r.b, r.c, r.d, r.a, mb.leUIntAt(24), 0x04881D05U, 23)
+        r.a = r3(r.a, r.b, r.c, r.d, mb.leUIntAt(36), 0xD9D4D039U, 4)
+        r.d = r3(r.d, r.a, r.b, r.c, mb.leUIntAt(48), 0xE6DB99E5U, 11)
+        r.c = r3(r.c, r.d, r.a, r.b, mb.leUIntAt(60), 0x1FA27CF8U, 16)
+        r.b = r3(r.b, r.c, r.d, r.a, mb.leUIntAt(8), 0xC4AC5665U, 23)
 
         //
         // ROUND 4
         //
 
-        r.a = r4(r.a, r.b, r.c, r.d, mb.getLeUIntAt(0), 0xF4292244U, 6)
-        r.d = r4(r.d, r.a, r.b, r.c, mb.getLeUIntAt(28), 0x432AFF97U, 10)
-        r.c = r4(r.c, r.d, r.a, r.b, mb.getLeUIntAt(56), 0xAB9423A7U, 15)
-        r.b = r4(r.b, r.c, r.d, r.a, mb.getLeUIntAt(20), 0xFC93A039U, 21)
-        r.a = r4(r.a, r.b, r.c, r.d, mb.getLeUIntAt(48), 0x655B59C3U, 6)
-        r.d = r4(r.d, r.a, r.b, r.c, mb.getLeUIntAt(12), 0x8F0CCC92U, 10)
-        r.c = r4(r.c, r.d, r.a, r.b, mb.getLeUIntAt(40), 0xFFEFF47DU, 15)
-        r.b = r4(r.b, r.c, r.d, r.a, mb.getLeUIntAt(4), 0x85845DD1U, 21)
-        r.a = r4(r.a, r.b, r.c, r.d, mb.getLeUIntAt(32), 0x6FA87E4FU, 6)
-        r.d = r4(r.d, r.a, r.b, r.c, mb.getLeUIntAt(60), 0xFE2CE6E0U, 10)
-        r.c = r4(r.c, r.d, r.a, r.b, mb.getLeUIntAt(24), 0xA3014314U, 15)
-        r.b = r4(r.b, r.c, r.d, r.a, mb.getLeUIntAt(52), 0x4E0811A1U, 21)
-        r.a = r4(r.a, r.b, r.c, r.d, mb.getLeUIntAt(16), 0xF7537E82U, 6)
-        r.d = r4(r.d, r.a, r.b, r.c, mb.getLeUIntAt(44), 0xBD3AF235U, 10)
-        r.c = r4(r.c, r.d, r.a, r.b, mb.getLeUIntAt(8), 0x2AD7D2BBU, 15)
-        r.b = r4(r.b, r.c, r.d, r.a, mb.getLeUIntAt(36), 0xEB86D391U, 21)
+        r.a = r4(r.a, r.b, r.c, r.d, mb.leUIntAt(0), 0xF4292244U, 6)
+        r.d = r4(r.d, r.a, r.b, r.c, mb.leUIntAt(28), 0x432AFF97U, 10)
+        r.c = r4(r.c, r.d, r.a, r.b, mb.leUIntAt(56), 0xAB9423A7U, 15)
+        r.b = r4(r.b, r.c, r.d, r.a, mb.leUIntAt(20), 0xFC93A039U, 21)
+        r.a = r4(r.a, r.b, r.c, r.d, mb.leUIntAt(48), 0x655B59C3U, 6)
+        r.d = r4(r.d, r.a, r.b, r.c, mb.leUIntAt(12), 0x8F0CCC92U, 10)
+        r.c = r4(r.c, r.d, r.a, r.b, mb.leUIntAt(40), 0xFFEFF47DU, 15)
+        r.b = r4(r.b, r.c, r.d, r.a, mb.leUIntAt(4), 0x85845DD1U, 21)
+        r.a = r4(r.a, r.b, r.c, r.d, mb.leUIntAt(32), 0x6FA87E4FU, 6)
+        r.d = r4(r.d, r.a, r.b, r.c, mb.leUIntAt(60), 0xFE2CE6E0U, 10)
+        r.c = r4(r.c, r.d, r.a, r.b, mb.leUIntAt(24), 0xA3014314U, 15)
+        r.b = r4(r.b, r.c, r.d, r.a, mb.leUIntAt(52), 0x4E0811A1U, 21)
+        r.a = r4(r.a, r.b, r.c, r.d, mb.leUIntAt(16), 0xF7537E82U, 6)
+        r.d = r4(r.d, r.a, r.b, r.c, mb.leUIntAt(44), 0xBD3AF235U, 10)
+        r.c = r4(r.c, r.d, r.a, r.b, mb.leUIntAt(8), 0x2AD7D2BBU, 15)
+        r.b = r4(r.b, r.c, r.d, r.a, mb.leUIntAt(36), 0xEB86D391U, 21)
 
         r.a += aa
         r.b += bb

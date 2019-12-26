@@ -19,6 +19,7 @@
 
 package org.cryptokt.algo
 
+import org.cryptokt.beUIntAt
 import org.cryptokt.forEachSegment
 import org.cryptokt.set
 import org.cryptokt.ubyteAt
@@ -158,22 +159,22 @@ public class Sha1HashAlgorithm : HashAlgorithm() {
 
         var temp: UInt
 
-        var w0 = mb.getBeUIntAt(0)
-        var w1 = mb.getBeUIntAt(4)
-        var w2 = mb.getBeUIntAt(8)
-        var w3 = mb.getBeUIntAt(12)
-        var w4 = mb.getBeUIntAt(16)
-        var w5 = mb.getBeUIntAt(20)
-        var w6 = mb.getBeUIntAt(24)
-        var w7 = mb.getBeUIntAt(28)
-        var w8 = mb.getBeUIntAt(32)
-        var w9 = mb.getBeUIntAt(36)
-        var w10 = mb.getBeUIntAt(40)
-        var w11 = mb.getBeUIntAt(44)
-        var w12 = mb.getBeUIntAt(48)
-        var w13 = mb.getBeUIntAt(52)
-        var w14 = mb.getBeUIntAt(56)
-        var w15 = mb.getBeUIntAt(60)
+        var w0 = mb.beUIntAt(0)
+        var w1 = mb.beUIntAt(4)
+        var w2 = mb.beUIntAt(8)
+        var w3 = mb.beUIntAt(12)
+        var w4 = mb.beUIntAt(16)
+        var w5 = mb.beUIntAt(20)
+        var w6 = mb.beUIntAt(24)
+        var w7 = mb.beUIntAt(28)
+        var w8 = mb.beUIntAt(32)
+        var w9 = mb.beUIntAt(36)
+        var w10 = mb.beUIntAt(40)
+        var w11 = mb.beUIntAt(44)
+        var w12 = mb.beUIntAt(48)
+        var w13 = mb.beUIntAt(52)
+        var w14 = mb.beUIntAt(56)
+        var w15 = mb.beUIntAt(60)
         var w16 = (w13 xor w8 xor w2 xor w0).rotateLeft(1)
         var w17 = (w14 xor w9 xor w3 xor w1).rotateLeft(1)
         var w18 = (w15 xor w10 xor w4 xor w2).rotateLeft(1)
@@ -783,11 +784,5 @@ public class Sha1HashAlgorithm : HashAlgorithm() {
 
         private fun f3(b: UInt, c: UInt, d: UInt) =
             (b and c) or (b and d) or (c and d)
-
-        private fun UByteArray.getBeUIntAt(index: Int) =
-            this[index + 3].toUInt() or
-            (this[index + 2].toUInt() shl 8) or
-            (this[index + 1].toUInt() shl 16) or
-            (this[index + 0].toUInt() shl 24)
     }
 }
