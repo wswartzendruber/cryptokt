@@ -19,6 +19,7 @@
 
 package org.cryptokt.algo.test
 
+import kotlin.random.Random
 import kotlin.test.assertTrue
 import kotlin.test.Test
 
@@ -71,9 +72,7 @@ class HashAlgorithmTests {
     }
 
     @Test
-    @ExperimentalStdlibApi
-    @ExperimentalUnsignedTypes
-    fun `SHA1 hash`() {
+    fun `SHA1 accuracy`() {
 
         val sha1 = Sha1HashAlgorithm()
 
@@ -84,7 +83,20 @@ class HashAlgorithmTests {
         }
     }
 
+    @Test
+    fun `SHA1 performance (1 GB)`() {
+
+        val sha1 = Sha1HashAlgorithm()
+
+        for (i in 0..(1024 * 1024))
+            sha1.input(randomData)
+
+        sha1.digest()
+    }
+
     companion object {
+
+        val randomData = Random.nextBytes(ByteArray(1024))
 
         val md2HashValues = mapOf(
             "" to "8350e5a3e24c153df2275c9f80692773",
