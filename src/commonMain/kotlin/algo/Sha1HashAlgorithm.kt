@@ -283,484 +283,564 @@ public class Sha1HashAlgorithm : HashAlgorithm() {
         var rd = r[3]
         var re = r[4]
 
-        temp = (ra rl 5) + ((rb and rc) or (rb.inv() and rd)) + re + w0 + K1
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            ((rb and rc) or (rb.inv() and rd)) + re + w0 + K1
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + ((rb and rc) or (rb.inv() and rd)) + re + w1 + K1
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            ((rb and rc) or (rb.inv() and rd)) + re + w1 + K1
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + ((rb and rc) or (rb.inv() and rd)) + re + w2 + K1
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            ((rb and rc) or (rb.inv() and rd)) + re + w2 + K1
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + ((rb and rc) or (rb.inv() and rd)) + re + w3 + K1
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            ((rb and rc) or (rb.inv() and rd)) + re + w3 + K1
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + ((rb and rc) or (rb.inv() and rd)) + re + w4 + K1
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            ((rb and rc) or (rb.inv() and rd)) + re + w4 + K1
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + ((rb and rc) or (rb.inv() and rd)) + re + w5 + K1
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            ((rb and rc) or (rb.inv() and rd)) + re + w5 + K1
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + ((rb and rc) or (rb.inv() and rd)) + re + w6 + K1
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            ((rb and rc) or (rb.inv() and rd)) + re + w6 + K1
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + ((rb and rc) or (rb.inv() and rd)) + re + w7 + K1
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            ((rb and rc) or (rb.inv() and rd)) + re + w7 + K1
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + ((rb and rc) or (rb.inv() and rd)) + re + w8 + K1
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            ((rb and rc) or (rb.inv() and rd)) + re + w8 + K1
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + ((rb and rc) or (rb.inv() and rd)) + re + w9 + K1
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            ((rb and rc) or (rb.inv() and rd)) + re + w9 + K1
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + ((rb and rc) or (rb.inv() and rd)) + re + w10 + K1
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            ((rb and rc) or (rb.inv() and rd)) + re + w10 + K1
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + ((rb and rc) or (rb.inv() and rd)) + re + w11 + K1
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            ((rb and rc) or (rb.inv() and rd)) + re + w11 + K1
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + ((rb and rc) or (rb.inv() and rd)) + re + w12 + K1
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            ((rb and rc) or (rb.inv() and rd)) + re + w12 + K1
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + ((rb and rc) or (rb.inv() and rd)) + re + w13 + K1
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            ((rb and rc) or (rb.inv() and rd)) + re + w13 + K1
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + ((rb and rc) or (rb.inv() and rd)) + re + w14 + K1
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            ((rb and rc) or (rb.inv() and rd)) + re + w14 + K1
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + ((rb and rc) or (rb.inv() and rd)) + re + w15 + K1
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            ((rb and rc) or (rb.inv() and rd)) + re + w15 + K1
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + ((rb and rc) or (rb.inv() and rd)) + re + w16 + K1
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            ((rb and rc) or (rb.inv() and rd)) + re + w16 + K1
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + ((rb and rc) or (rb.inv() and rd)) + re + w17 + K1
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            ((rb and rc) or (rb.inv() and rd)) + re + w17 + K1
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + ((rb and rc) or (rb.inv() and rd)) + re + w18 + K1
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            ((rb and rc) or (rb.inv() and rd)) + re + w18 + K1
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + ((rb and rc) or (rb.inv() and rd)) + re + w19 + K1
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            ((rb and rc) or (rb.inv() and rd)) + re + w19 + K1
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + (rb xor rc xor rd) + re + w20 + K2
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            (rb xor rc xor rd) + re + w20 + K2
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + (rb xor rc xor rd) + re + w21 + K2
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            (rb xor rc xor rd) + re + w21 + K2
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + (rb xor rc xor rd) + re + w22 + K2
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            (rb xor rc xor rd) + re + w22 + K2
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + (rb xor rc xor rd) + re + w23 + K2
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            (rb xor rc xor rd) + re + w23 + K2
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + (rb xor rc xor rd) + re + w24 + K2
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            (rb xor rc xor rd) + re + w24 + K2
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + (rb xor rc xor rd) + re + w25 + K2
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            (rb xor rc xor rd) + re + w25 + K2
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + (rb xor rc xor rd) + re + w26 + K2
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            (rb xor rc xor rd) + re + w26 + K2
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + (rb xor rc xor rd) + re + w27 + K2
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            (rb xor rc xor rd) + re + w27 + K2
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + (rb xor rc xor rd) + re + w28 + K2
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            (rb xor rc xor rd) + re + w28 + K2
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + (rb xor rc xor rd) + re + w29 + K2
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            (rb xor rc xor rd) + re + w29 + K2
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + (rb xor rc xor rd) + re + w30 + K2
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            (rb xor rc xor rd) + re + w30 + K2
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + (rb xor rc xor rd) + re + w31 + K2
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            (rb xor rc xor rd) + re + w31 + K2
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + (rb xor rc xor rd) + re + w32 + K2
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            (rb xor rc xor rd) + re + w32 + K2
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + (rb xor rc xor rd) + re + w33 + K2
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            (rb xor rc xor rd) + re + w33 + K2
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + (rb xor rc xor rd) + re + w34 + K2
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            (rb xor rc xor rd) + re + w34 + K2
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + (rb xor rc xor rd) + re + w35 + K2
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            (rb xor rc xor rd) + re + w35 + K2
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + (rb xor rc xor rd) + re + w36 + K2
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            (rb xor rc xor rd) + re + w36 + K2
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + (rb xor rc xor rd) + re + w37 + K2
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            (rb xor rc xor rd) + re + w37 + K2
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + (rb xor rc xor rd) + re + w38 + K2
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            (rb xor rc xor rd) + re + w38 + K2
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + (rb xor rc xor rd) + re + w39 + K2
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            (rb xor rc xor rd) + re + w39 + K2
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + ((rb and rc) or (rb and rd) or (rc and rd)) + re + w40 + K3
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            ((rb and rc) or (rb and rd) or (rc and rd)) + re + w40 + K3
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + ((rb and rc) or (rb and rd) or (rc and rd)) + re + w41 + K3
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            ((rb and rc) or (rb and rd) or (rc and rd)) + re + w41 + K3
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + ((rb and rc) or (rb and rd) or (rc and rd)) + re + w42 + K3
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            ((rb and rc) or (rb and rd) or (rc and rd)) + re + w42 + K3
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + ((rb and rc) or (rb and rd) or (rc and rd)) + re + w43 + K3
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            ((rb and rc) or (rb and rd) or (rc and rd)) + re + w43 + K3
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + ((rb and rc) or (rb and rd) or (rc and rd)) + re + w44 + K3
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            ((rb and rc) or (rb and rd) or (rc and rd)) + re + w44 + K3
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + ((rb and rc) or (rb and rd) or (rc and rd)) + re + w45 + K3
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            ((rb and rc) or (rb and rd) or (rc and rd)) + re + w45 + K3
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + ((rb and rc) or (rb and rd) or (rc and rd)) + re + w46 + K3
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            ((rb and rc) or (rb and rd) or (rc and rd)) + re + w46 + K3
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + ((rb and rc) or (rb and rd) or (rc and rd)) + re + w47 + K3
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            ((rb and rc) or (rb and rd) or (rc and rd)) + re + w47 + K3
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + ((rb and rc) or (rb and rd) or (rc and rd)) + re + w48 + K3
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            ((rb and rc) or (rb and rd) or (rc and rd)) + re + w48 + K3
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + ((rb and rc) or (rb and rd) or (rc and rd)) + re + w49 + K3
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            ((rb and rc) or (rb and rd) or (rc and rd)) + re + w49 + K3
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + ((rb and rc) or (rb and rd) or (rc and rd)) + re + w50 + K3
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            ((rb and rc) or (rb and rd) or (rc and rd)) + re + w50 + K3
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + ((rb and rc) or (rb and rd) or (rc and rd)) + re + w51 + K3
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            ((rb and rc) or (rb and rd) or (rc and rd)) + re + w51 + K3
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + ((rb and rc) or (rb and rd) or (rc and rd)) + re + w52 + K3
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            ((rb and rc) or (rb and rd) or (rc and rd)) + re + w52 + K3
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + ((rb and rc) or (rb and rd) or (rc and rd)) + re + w53 + K3
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            ((rb and rc) or (rb and rd) or (rc and rd)) + re + w53 + K3
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + ((rb and rc) or (rb and rd) or (rc and rd)) + re + w54 + K3
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            ((rb and rc) or (rb and rd) or (rc and rd)) + re + w54 + K3
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + ((rb and rc) or (rb and rd) or (rc and rd)) + re + w55 + K3
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            ((rb and rc) or (rb and rd) or (rc and rd)) + re + w55 + K3
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + ((rb and rc) or (rb and rd) or (rc and rd)) + re + w56 + K3
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            ((rb and rc) or (rb and rd) or (rc and rd)) + re + w56 + K3
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + ((rb and rc) or (rb and rd) or (rc and rd)) + re + w57 + K3
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            ((rb and rc) or (rb and rd) or (rc and rd)) + re + w57 + K3
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + ((rb and rc) or (rb and rd) or (rc and rd)) + re + w58 + K3
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            ((rb and rc) or (rb and rd) or (rc and rd)) + re + w58 + K3
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + ((rb and rc) or (rb and rd) or (rc and rd)) + re + w59 + K3
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            ((rb and rc) or (rb and rd) or (rc and rd)) + re + w59 + K3
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + (rb xor rc xor rd) + re + w60 + K4
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            (rb xor rc xor rd) + re + w60 + K4
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + (rb xor rc xor rd) + re + w61 + K4
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            (rb xor rc xor rd) + re + w61 + K4
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + (rb xor rc xor rd) + re + w62 + K4
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            (rb xor rc xor rd) + re + w62 + K4
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + (rb xor rc xor rd) + re + w63 + K4
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            (rb xor rc xor rd) + re + w63 + K4
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + (rb xor rc xor rd) + re + w64 + K4
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            (rb xor rc xor rd) + re + w64 + K4
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + (rb xor rc xor rd) + re + w65 + K4
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            (rb xor rc xor rd) + re + w65 + K4
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + (rb xor rc xor rd) + re + w66 + K4
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            (rb xor rc xor rd) + re + w66 + K4
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + (rb xor rc xor rd) + re + w67 + K4
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            (rb xor rc xor rd) + re + w67 + K4
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + (rb xor rc xor rd) + re + w68 + K4
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            (rb xor rc xor rd) + re + w68 + K4
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + (rb xor rc xor rd) + re + w69 + K4
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            (rb xor rc xor rd) + re + w69 + K4
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + (rb xor rc xor rd) + re + w70 + K4
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            (rb xor rc xor rd) + re + w70 + K4
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + (rb xor rc xor rd) + re + w71 + K4
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            (rb xor rc xor rd) + re + w71 + K4
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + (rb xor rc xor rd) + re + w72 + K4
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            (rb xor rc xor rd) + re + w72 + K4
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + (rb xor rc xor rd) + re + w73 + K4
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            (rb xor rc xor rd) + re + w73 + K4
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + (rb xor rc xor rd) + re + w74 + K4
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            (rb xor rc xor rd) + re + w74 + K4
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + (rb xor rc xor rd) + re + w75 + K4
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            (rb xor rc xor rd) + re + w75 + K4
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + (rb xor rc xor rd) + re + w76 + K4
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            (rb xor rc xor rd) + re + w76 + K4
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + (rb xor rc xor rd) + re + w77 + K4
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            (rb xor rc xor rd) + re + w77 + K4
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + (rb xor rc xor rd) + re + w78 + K4
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            (rb xor rc xor rd) + re + w78 + K4
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
-        temp = (ra rl 5) + (rb xor rc xor rd) + re + w79 + K4
+        temp = ((ra shl 5) or (ra shr 1 and 2147483647 shr 26)) +
+            (rb xor rc xor rd) + re + w79 + K4
         re = rd
         rd = rc
-        rc = rb rl 30
+        rc = (rb shl 30) or (rb shr 1 and 2147483647 shr 1)
         rb = ra
         ra = temp
 
