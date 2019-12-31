@@ -131,6 +131,9 @@ internal fun Int.byteAt(index: Int) =
         else -> throw IllegalArgumentException("Byte index must be 0-3.")
     }
 
+internal infix fun Int.rl(count: Int) =
+    (this shl count) or (this shr 1 and 2147483647 shr (31 - count))
+
 @ExperimentalUnsignedTypes
 internal fun UInt.ubyteAt(index: Int) =
     when (index) {
