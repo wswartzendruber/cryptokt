@@ -19,6 +19,38 @@
 
 package org.cryptokt
 
+internal inline fun forEachSegment(
+    destination: ByteArray,
+    destinationOffset: Int,
+    source: ByteArray,
+    sourceOffset: Int,
+    length: Int,
+    block: () -> Unit
+): Int {
+
+    val ls = source
+    var ldo = destinationOffset
+    var lso = sourceOffset
+    var ll = length
+
+    while (ll > 0) {
+
+        val size = minOf(ll, destination.size - ldo)
+
+        ls.copyInto(destination, ldo, lso, lso + size)
+        lso += size
+        ldo += size
+        ll -= size
+
+        if (ldo == destination.size) {
+            ldo = 0
+            block()
+        }
+    }
+
+    return ldo
+}
+
 @ExperimentalUnsignedTypes
 internal inline fun forEachSegment(
     destination: UByteArray,
@@ -52,6 +84,12 @@ internal inline fun forEachSegment(
     return ldo
 }
 
+internal fun ByteArray.beIntAt(index: Int) =
+    this[index + 3].toInt().and(255) or
+    (this[index + 2].toInt().and(255) shl 8) or
+    (this[index + 1].toInt().and(255) shl 16) or
+    (this[index + 0].toInt().and(255) shl 24)
+
 @ExperimentalUnsignedTypes
 internal fun UByteArray.beUIntAt(index: Int) =
     this[index + 3].toUInt() or
@@ -66,6 +104,11 @@ internal fun UByteArray.leUIntAt(index: Int) =
     (this[index + 2].toUInt() shl 16) or
     (this[index + 3].toUInt() shl 24)
 
+internal operator fun ByteArray.set(indices: IntRange, value: Byte) {
+    for (i in indices)
+        this[i] = value
+}
+
 @ExperimentalUnsignedTypes
 internal operator fun UByteArray.set(indices: IntRange, value: UByte) {
     for (i in indices)
@@ -79,6 +122,15 @@ internal fun UInt.reverseByteOrder() =
     (this and 0x00FF0000U shr 8) or
     (this and 0xFF000000U shr 24)
 
+internal fun Int.byteAt(index: Int) =
+    when (index) {
+        0 -> this.and(-16777216).shr(24).and(255).toByte()
+        1 -> this.and(16711680).shr(16).and(255).toByte()
+        2 -> this.and(65280).shr(8).and(255).toByte()
+        3 -> this.and(255).toByte()
+        else -> throw IllegalArgumentException("Byte index must be 0-3.")
+    }
+
 @ExperimentalUnsignedTypes
 internal fun UInt.ubyteAt(index: Int) =
     when (index) {
@@ -86,7 +138,20 @@ internal fun UInt.ubyteAt(index: Int) =
         1 -> this.and(0x00FF0000U).shr(16).and(0xFFU).toUByte()
         2 -> this.and(0x0000FF00U).shr(8).and(0xFFU).toUByte()
         3 -> this.and(0x000000FFU).toUByte()
-        else -> throw IllegalArgumentException("UByte index must be 0-7.")
+        else -> throw IllegalArgumentException("UByte index must be 0-3.")
+    }
+
+internal fun Long.byteAt(index: Int) =
+    when (index) {
+        0 -> this.and(-72057594037927936).shr(56).and(255).toByte()
+        1 -> this.and(71776119061217280).shr(48).and(255).toByte()
+        2 -> this.and(280375465082880).shr(40).and(255).toByte()
+        3 -> this.and(1095216660480).shr(32).and(255).toByte()
+        4 -> this.and(4278190080).shr(24).and(255).toByte()
+        5 -> this.and(16711680).shr(16).and(255).toByte()
+        6 -> this.and(65280).shr(8).and(255).toByte()
+        7 -> this.and(255).toByte()
+        else -> throw IllegalArgumentException("Byte index must be 0-7.")
     }
 
 @ExperimentalUnsignedTypes

@@ -19,10 +19,10 @@
 
 package org.cryptokt.algo
 
-import org.cryptokt.beUIntAt
+import org.cryptokt.beIntAt
+import org.cryptokt.byteAt
 import org.cryptokt.forEachSegment
 import org.cryptokt.set
-import org.cryptokt.ubyteAt
 
 /**
  * The first formally published version of the U.S. Secure Hash Algorithm. It has a digest size
@@ -30,13 +30,12 @@ import org.cryptokt.ubyteAt
  * fully broken in 2019.
  */
 @ExperimentalStdlibApi
-@ExperimentalUnsignedTypes
 public class Sha1HashAlgorithm : HashAlgorithm() {
 
     private var mo = 0
-    private var ms = 0UL
-    private val imb = UByteArray(64)
-    private val dmb = UByteArray(64)
+    private var ms = 0L
+    private val imb = ByteArray(64)
+    private val dmb = ByteArray(64)
     private val ir = Registers()
     private val dr = Registers()
 
@@ -48,7 +47,7 @@ public class Sha1HashAlgorithm : HashAlgorithm() {
                 transformBlock(ir, imb)
             }
         )
-        ms += (length * 8).toULong()
+        ms += (length * 8).toLong()
     }
 
     public override fun digest(output: ByteArray, offset: Int): ByteArray {
@@ -85,14 +84,14 @@ public class Sha1HashAlgorithm : HashAlgorithm() {
         // APPEND LENGTH
         //
 
-        dmb[56] = ms.ubyteAt(0)
-        dmb[57] = ms.ubyteAt(1)
-        dmb[58] = ms.ubyteAt(2)
-        dmb[59] = ms.ubyteAt(3)
-        dmb[60] = ms.ubyteAt(4)
-        dmb[61] = ms.ubyteAt(5)
-        dmb[62] = ms.ubyteAt(6)
-        dmb[63] = ms.ubyteAt(7)
+        dmb[56] = ms.byteAt(0)
+        dmb[57] = ms.byteAt(1)
+        dmb[58] = ms.byteAt(2)
+        dmb[59] = ms.byteAt(3)
+        dmb[60] = ms.byteAt(4)
+        dmb[61] = ms.byteAt(5)
+        dmb[62] = ms.byteAt(6)
+        dmb[63] = ms.byteAt(7)
 
         //
         // TRANSFORM PADDING + LENGTH
@@ -104,35 +103,35 @@ public class Sha1HashAlgorithm : HashAlgorithm() {
         // SET OUTPUT
         //
 
-        output[0 + offset] = dr.h0.ubyteAt(0).toByte()
-        output[1 + offset] = dr.h0.ubyteAt(1).toByte()
-        output[2 + offset] = dr.h0.ubyteAt(2).toByte()
-        output[3 + offset] = dr.h0.ubyteAt(3).toByte()
-        output[4 + offset] = dr.h1.ubyteAt(0).toByte()
-        output[5 + offset] = dr.h1.ubyteAt(1).toByte()
-        output[6 + offset] = dr.h1.ubyteAt(2).toByte()
-        output[7 + offset] = dr.h1.ubyteAt(3).toByte()
-        output[8 + offset] = dr.h2.ubyteAt(0).toByte()
-        output[9 + offset] = dr.h2.ubyteAt(1).toByte()
-        output[10 + offset] = dr.h2.ubyteAt(2).toByte()
-        output[11 + offset] = dr.h2.ubyteAt(3).toByte()
-        output[12 + offset] = dr.h3.ubyteAt(0).toByte()
-        output[13 + offset] = dr.h3.ubyteAt(1).toByte()
-        output[14 + offset] = dr.h3.ubyteAt(2).toByte()
-        output[15 + offset] = dr.h3.ubyteAt(3).toByte()
-        output[16 + offset] = dr.h4.ubyteAt(0).toByte()
-        output[17 + offset] = dr.h4.ubyteAt(1).toByte()
-        output[18 + offset] = dr.h4.ubyteAt(2).toByte()
-        output[19 + offset] = dr.h4.ubyteAt(3).toByte()
+        output[0 + offset] = dr.h0.byteAt(0)
+        output[1 + offset] = dr.h0.byteAt(1)
+        output[2 + offset] = dr.h0.byteAt(2)
+        output[3 + offset] = dr.h0.byteAt(3)
+        output[4 + offset] = dr.h1.byteAt(0)
+        output[5 + offset] = dr.h1.byteAt(1)
+        output[6 + offset] = dr.h1.byteAt(2)
+        output[7 + offset] = dr.h1.byteAt(3)
+        output[8 + offset] = dr.h2.byteAt(0)
+        output[9 + offset] = dr.h2.byteAt(1)
+        output[10 + offset] = dr.h2.byteAt(2)
+        output[11 + offset] = dr.h2.byteAt(3)
+        output[12 + offset] = dr.h3.byteAt(0)
+        output[13 + offset] = dr.h3.byteAt(1)
+        output[14 + offset] = dr.h3.byteAt(2)
+        output[15 + offset] = dr.h3.byteAt(3)
+        output[16 + offset] = dr.h4.byteAt(0)
+        output[17 + offset] = dr.h4.byteAt(1)
+        output[18 + offset] = dr.h4.byteAt(2)
+        output[19 + offset] = dr.h4.byteAt(3)
 
         return output
     }
 
     public override fun reset() {
         mo = 0
-        ms = 0UL
-        imb[blockRange] = 0x00U
-        dmb[blockRange] = 0x00U
+        ms = 0L
+        imb[blockRange] = 0
+        dmb[blockRange] = 0
         ir.a = H0
         ir.b = H1
         ir.c = H2
@@ -155,26 +154,26 @@ public class Sha1HashAlgorithm : HashAlgorithm() {
         dr.h4 = H4
     }
 
-    private fun transformBlock(r: Registers, mb: UByteArray) {
+    private fun transformBlock(r: Registers, mb: ByteArray) {
 
-        var temp: UInt
+        var temp: Int
 
-        val w0 = mb.beUIntAt(0)
-        val w1 = mb.beUIntAt(4)
-        val w2 = mb.beUIntAt(8)
-        val w3 = mb.beUIntAt(12)
-        val w4 = mb.beUIntAt(16)
-        val w5 = mb.beUIntAt(20)
-        val w6 = mb.beUIntAt(24)
-        val w7 = mb.beUIntAt(28)
-        val w8 = mb.beUIntAt(32)
-        val w9 = mb.beUIntAt(36)
-        val w10 = mb.beUIntAt(40)
-        val w11 = mb.beUIntAt(44)
-        val w12 = mb.beUIntAt(48)
-        val w13 = mb.beUIntAt(52)
-        val w14 = mb.beUIntAt(56)
-        val w15 = mb.beUIntAt(60)
+        val w0 = mb.beIntAt(0)
+        val w1 = mb.beIntAt(4)
+        val w2 = mb.beIntAt(8)
+        val w3 = mb.beIntAt(12)
+        val w4 = mb.beIntAt(16)
+        val w5 = mb.beIntAt(20)
+        val w6 = mb.beIntAt(24)
+        val w7 = mb.beIntAt(28)
+        val w8 = mb.beIntAt(32)
+        val w9 = mb.beIntAt(36)
+        val w10 = mb.beIntAt(40)
+        val w11 = mb.beIntAt(44)
+        val w12 = mb.beIntAt(48)
+        val w13 = mb.beIntAt(52)
+        val w14 = mb.beIntAt(56)
+        val w15 = mb.beIntAt(60)
         val w16 = (w13 xor w8 xor w2 xor w0).rotateLeft(1)
         val w17 = (w14 xor w9 xor w3 xor w1).rotateLeft(1)
         val w18 = (w15 xor w10 xor w4 xor w2).rotateLeft(1)
@@ -741,48 +740,48 @@ public class Sha1HashAlgorithm : HashAlgorithm() {
     private companion object {
 
         private data class Registers(
-            var a: UInt = H0,
-            var b: UInt = H1,
-            var c: UInt = H2,
-            var d: UInt = H3,
-            var e: UInt = H4,
-            var h0: UInt = H0,
-            var h1: UInt = H1,
-            var h2: UInt = H2,
-            var h3: UInt = H3,
-            var h4: UInt = H4
+            var a: Int = H0,
+            var b: Int = H1,
+            var c: Int = H2,
+            var d: Int = H3,
+            var e: Int = H4,
+            var h0: Int = H0,
+            var h1: Int = H1,
+            var h2: Int = H2,
+            var h3: Int = H3,
+            var h4: Int = H4
         )
 
-        private const val H0 = 0x67452301U
-        private const val H1 = 0xEFCDAB89U
-        private const val H2 = 0x98BADCFEU
-        private const val H3 = 0x10325476U
-        private const val H4 = 0xC3D2E1F0U
-        private const val K1 = 0x5A827999U
-        private const val K2 = 0x6ED9EBA1U
-        private const val K3 = 0x8F1BBCDCU
-        private const val K4 = 0xCA62C1D6U
+        private const val H0 = 1732584193
+        private const val H1 = -271733879
+        private const val H2 = -1732584194
+        private const val H3 = 271733878
+        private const val H4 = -1009589776
+        private const val K1 = 1518500249
+        private const val K2 = 1859775393
+        private const val K3 = -1894007588
+        private const val K4 = -899497514
 
         private val blockRange = 0..63
 
-        private val padding = ubyteArrayOf(
-            0x80U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U,
-            0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U,
-            0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U,
-            0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U,
-            0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U,
-            0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U,
-            0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U,
-            0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U
+        private val padding = byteArrayOf(
+            -128, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0
         )
 
-        private fun f1(b: UInt, c: UInt, d: UInt) =
+        private fun f1(b: Int, c: Int, d: Int) =
             (b and c) or (b.inv() and d)
 
-        private fun f24(b: UInt, c: UInt, d: UInt) =
+        private fun f24(b: Int, c: Int, d: Int) =
             b xor c xor d
 
-        private fun f3(b: UInt, c: UInt, d: UInt) =
+        private fun f3(b: Int, c: Int, d: Int) =
             (b and c) or (b and d) or (c and d)
     }
 }
