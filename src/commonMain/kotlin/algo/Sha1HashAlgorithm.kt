@@ -37,8 +37,12 @@ public class Sha1HashAlgorithm : HashAlgorithm() {
     private var ms = 0L
     private val imb = ByteArray(64)
     private val dmb = ByteArray(64)
-    private val ir = Registers()
-    private val dr = Registers()
+    private val ir = IntArray(5)
+    private val dr = IntArray(5)
+
+    init {
+        reset()
+    }
 
     public override fun input(buffer: ByteArray, offset: Int, length: Int) {
         mo = forEachSegment(
@@ -58,11 +62,11 @@ public class Sha1HashAlgorithm : HashAlgorithm() {
         //
 
         imb.copyInto(dmb)
-        dr.h0 = ir.h0
-        dr.h1 = ir.h1
-        dr.h2 = ir.h2
-        dr.h3 = ir.h3
-        dr.h4 = ir.h4
+        dr[0] = ir[0]
+        dr[1] = ir[1]
+        dr[2] = ir[2]
+        dr[3] = ir[3]
+        dr[4] = ir[4]
 
         //
         // APPEND PADDING
@@ -99,26 +103,26 @@ public class Sha1HashAlgorithm : HashAlgorithm() {
         // SET OUTPUT
         //
 
-        output[0 + offset] = dr.h0.byteAt(0)
-        output[1 + offset] = dr.h0.byteAt(1)
-        output[2 + offset] = dr.h0.byteAt(2)
-        output[3 + offset] = dr.h0.byteAt(3)
-        output[4 + offset] = dr.h1.byteAt(0)
-        output[5 + offset] = dr.h1.byteAt(1)
-        output[6 + offset] = dr.h1.byteAt(2)
-        output[7 + offset] = dr.h1.byteAt(3)
-        output[8 + offset] = dr.h2.byteAt(0)
-        output[9 + offset] = dr.h2.byteAt(1)
-        output[10 + offset] = dr.h2.byteAt(2)
-        output[11 + offset] = dr.h2.byteAt(3)
-        output[12 + offset] = dr.h3.byteAt(0)
-        output[13 + offset] = dr.h3.byteAt(1)
-        output[14 + offset] = dr.h3.byteAt(2)
-        output[15 + offset] = dr.h3.byteAt(3)
-        output[16 + offset] = dr.h4.byteAt(0)
-        output[17 + offset] = dr.h4.byteAt(1)
-        output[18 + offset] = dr.h4.byteAt(2)
-        output[19 + offset] = dr.h4.byteAt(3)
+        output[0 + offset] = dr[0].byteAt(0)
+        output[1 + offset] = dr[0].byteAt(1)
+        output[2 + offset] = dr[0].byteAt(2)
+        output[3 + offset] = dr[0].byteAt(3)
+        output[4 + offset] = dr[1].byteAt(0)
+        output[5 + offset] = dr[1].byteAt(1)
+        output[6 + offset] = dr[1].byteAt(2)
+        output[7 + offset] = dr[1].byteAt(3)
+        output[8 + offset] = dr[2].byteAt(0)
+        output[9 + offset] = dr[2].byteAt(1)
+        output[10 + offset] = dr[2].byteAt(2)
+        output[11 + offset] = dr[2].byteAt(3)
+        output[12 + offset] = dr[3].byteAt(0)
+        output[13 + offset] = dr[3].byteAt(1)
+        output[14 + offset] = dr[3].byteAt(2)
+        output[15 + offset] = dr[3].byteAt(3)
+        output[16 + offset] = dr[4].byteAt(0)
+        output[17 + offset] = dr[4].byteAt(1)
+        output[18 + offset] = dr[4].byteAt(2)
+        output[19 + offset] = dr[4].byteAt(3)
 
         return output
     }
@@ -128,38 +132,86 @@ public class Sha1HashAlgorithm : HashAlgorithm() {
         ms = 0L
         imb[blockRange] = 0
         dmb[blockRange] = 0
-        ir.h0 = H0
-        ir.h1 = H1
-        ir.h2 = H2
-        ir.h3 = H3
-        ir.h4 = H4
-        dr.h0 = H0
-        dr.h1 = H1
-        dr.h2 = H2
-        dr.h3 = H3
-        dr.h4 = H4
+        ir[0] = H0
+        ir[1] = H1
+        ir[2] = H2
+        ir[3] = H3
+        ir[4] = H4
+        dr[0] = H0
+        dr[1] = H1
+        dr[2] = H2
+        dr[3] = H3
+        dr[4] = H4
     }
 
-    private fun transformBlock(r: Registers, mb: ByteArray) {
+    private fun transformBlock(r: IntArray, mb: ByteArray) {
 
         var temp: Int
 
-        val w0 = mb.beIntAt(0)
-        val w1 = mb.beIntAt(4)
-        val w2 = mb.beIntAt(8)
-        val w3 = mb.beIntAt(12)
-        val w4 = mb.beIntAt(16)
-        val w5 = mb.beIntAt(20)
-        val w6 = mb.beIntAt(24)
-        val w7 = mb.beIntAt(28)
-        val w8 = mb.beIntAt(32)
-        val w9 = mb.beIntAt(36)
-        val w10 = mb.beIntAt(40)
-        val w11 = mb.beIntAt(44)
-        val w12 = mb.beIntAt(48)
-        val w13 = mb.beIntAt(52)
-        val w14 = mb.beIntAt(56)
-        val w15 = mb.beIntAt(60)
+        val w0 = mb[0 + 3].toInt().and(255) or
+            (mb[0 + 2].toInt().and(255) shl 8) or
+            (mb[0 + 1].toInt().and(255) shl 16) or
+            (mb[0 + 0].toInt().and(255) shl 24)
+        val w1 = mb[4 + 3].toInt().and(255) or
+            (mb[4 + 2].toInt().and(255) shl 8) or
+            (mb[4 + 1].toInt().and(255) shl 16) or
+            (mb[4 + 0].toInt().and(255) shl 24)
+        val w2 = mb[8 + 3].toInt().and(255) or
+            (mb[8 + 2].toInt().and(255) shl 8) or
+            (mb[8 + 1].toInt().and(255) shl 16) or
+            (mb[8 + 0].toInt().and(255) shl 24)
+        val w3 = mb[12 + 3].toInt().and(255) or
+            (mb[12 + 2].toInt().and(255) shl 8) or
+            (mb[12 + 1].toInt().and(255) shl 16) or
+            (mb[12 + 0].toInt().and(255) shl 24)
+        val w4 = mb[16 + 3].toInt().and(255) or
+            (mb[16 + 2].toInt().and(255) shl 8) or
+            (mb[16 + 1].toInt().and(255) shl 16) or
+            (mb[16 + 0].toInt().and(255) shl 24)
+        val w5 = mb[20 + 3].toInt().and(255) or
+            (mb[20 + 2].toInt().and(255) shl 8) or
+            (mb[20 + 1].toInt().and(255) shl 16) or
+            (mb[20 + 0].toInt().and(255) shl 24)
+        val w6 = mb[24 + 3].toInt().and(255) or
+            (mb[24 + 2].toInt().and(255) shl 8) or
+            (mb[24 + 1].toInt().and(255) shl 16) or
+            (mb[24 + 0].toInt().and(255) shl 24)
+        val w7 = mb[28 + 3].toInt().and(255) or
+            (mb[28 + 2].toInt().and(255) shl 8) or
+            (mb[28 + 1].toInt().and(255) shl 16) or
+            (mb[28 + 0].toInt().and(255) shl 24)
+        val w8 = mb[32 + 3].toInt().and(255) or
+            (mb[32 + 2].toInt().and(255) shl 8) or
+            (mb[32 + 1].toInt().and(255) shl 16) or
+            (mb[32 + 0].toInt().and(255) shl 24)
+        val w9 = mb[36 + 3].toInt().and(255) or
+            (mb[36 + 2].toInt().and(255) shl 8) or
+            (mb[36 + 1].toInt().and(255) shl 16) or
+            (mb[36 + 0].toInt().and(255) shl 24)
+        val w10 = mb[40 + 3].toInt().and(255) or
+            (mb[40 + 2].toInt().and(255) shl 8) or
+            (mb[40 + 1].toInt().and(255) shl 16) or
+            (mb[40 + 0].toInt().and(255) shl 24)
+        val w11 = mb[44 + 3].toInt().and(255) or
+            (mb[44 + 2].toInt().and(255) shl 8) or
+            (mb[44 + 1].toInt().and(255) shl 16) or
+            (mb[44 + 0].toInt().and(255) shl 24)
+        val w12 = mb[48 + 3].toInt().and(255) or
+            (mb[48 + 2].toInt().and(255) shl 8) or
+            (mb[48 + 1].toInt().and(255) shl 16) or
+            (mb[48 + 0].toInt().and(255) shl 24)
+        val w13 = mb[52 + 3].toInt().and(255) or
+            (mb[52 + 2].toInt().and(255) shl 8) or
+            (mb[52 + 1].toInt().and(255) shl 16) or
+            (mb[52 + 0].toInt().and(255) shl 24)
+        val w14 = mb[56 + 3].toInt().and(255) or
+            (mb[56 + 2].toInt().and(255) shl 8) or
+            (mb[56 + 1].toInt().and(255) shl 16) or
+            (mb[56 + 0].toInt().and(255) shl 24)
+        val w15 = mb[60 + 3].toInt().and(255) or
+            (mb[60 + 2].toInt().and(255) shl 8) or
+            (mb[60 + 1].toInt().and(255) shl 16) or
+            (mb[60 + 0].toInt().and(255) shl 24)
         val w16 = (w13 xor w8 xor w2 xor w0) rl 1
         val w17 = (w14 xor w9 xor w3 xor w1) rl 1
         val w18 = (w15 xor w10 xor w4 xor w2) rl 1
@@ -225,11 +277,11 @@ public class Sha1HashAlgorithm : HashAlgorithm() {
         val w78 = (w75 xor w70 xor w64 xor w62) rl 1
         val w79 = (w76 xor w71 xor w65 xor w63) rl 1
 
-        var ra = r.h0
-        var rb = r.h1
-        var rc = r.h2
-        var rd = r.h3
-        var re = r.h4
+        var ra = r[0]
+        var rb = r[1]
+        var rc = r[2]
+        var rd = r[3]
+        var re = r[4]
 
         temp = (ra rl 5) + ((rb and rc) or (rb.inv() and rd)) + re + w0 + K1
         re = rd
@@ -712,11 +764,11 @@ public class Sha1HashAlgorithm : HashAlgorithm() {
         rb = ra
         ra = temp
 
-        r.h0 += ra
-        r.h1 += rb
-        r.h2 += rc
-        r.h3 += rd
-        r.h4 += re
+        r[0] += ra
+        r[1] += rb
+        r[2] += rc
+        r[3] += rd
+        r[4] += re
     }
 
     public override val length: Int = 20
@@ -724,14 +776,6 @@ public class Sha1HashAlgorithm : HashAlgorithm() {
     public override val size: Int = 160
 
     private companion object {
-
-        private data class Registers(
-            var h0: Int = H0,
-            var h1: Int = H1,
-            var h2: Int = H2,
-            var h3: Int = H3,
-            var h4: Int = H4
-        )
 
         private const val H0 = 1732584193
         private const val H1 = -271733879
