@@ -20,7 +20,6 @@
 package org.cryptokt.algo
 
 import org.cryptokt.forEachSegment
-import org.cryptokt.rl
 
 /**
  * The first formally published version of the U.S. Secure Hash Algorithm. It has a digest size
