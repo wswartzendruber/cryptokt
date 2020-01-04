@@ -104,21 +104,8 @@ public class Md2HashAlgorithm : HashAlgorithm() {
     private fun updateChecksum(cl: Byte, cb: ByteArray, mb: ByteArray): Byte {
 
         cb[0] = s[(mb[0] xor cl).toInt() and 255] xor cb[0]
-        cb[1] = s[(mb[1] xor cb[0]).toInt() and 255] xor cb[1]
-        cb[2] = s[(mb[2] xor cb[1]).toInt() and 255] xor cb[2]
-        cb[3] = s[(mb[3] xor cb[2]).toInt() and 255] xor cb[3]
-        cb[4] = s[(mb[4] xor cb[3]).toInt() and 255] xor cb[4]
-        cb[5] = s[(mb[5] xor cb[4]).toInt() and 255] xor cb[5]
-        cb[6] = s[(mb[6] xor cb[5]).toInt() and 255] xor cb[6]
-        cb[7] = s[(mb[7] xor cb[6]).toInt() and 255] xor cb[7]
-        cb[8] = s[(mb[8] xor cb[7]).toInt() and 255] xor cb[8]
-        cb[9] = s[(mb[9] xor cb[8]).toInt() and 255] xor cb[9]
-        cb[10] = s[(mb[10] xor cb[9]).toInt() and 255] xor cb[10]
-        cb[11] = s[(mb[11] xor cb[10]).toInt() and 255] xor cb[11]
-        cb[12] = s[(mb[12] xor cb[11]).toInt() and 255] xor cb[12]
-        cb[13] = s[(mb[13] xor cb[12]).toInt() and 255] xor cb[13]
-        cb[14] = s[(mb[14] xor cb[13]).toInt() and 255] xor cb[14]
-        cb[15] = s[(mb[15] xor cb[14]).toInt() and 255] xor cb[15]
+        for (i in 1..15)
+            cb[i] = s[(mb[i] xor cb[i - 1]).toInt() and 255] xor cb[i]
 
         return cb[15]
     }

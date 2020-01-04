@@ -32,7 +32,7 @@ class HashAlgorithmTests {
 
     @Test
     @ExperimentalUnsignedTypes
-    fun `MD2 hash`() {
+    fun `MD2 accuracy`() {
 
         val md2 = Md2HashAlgorithm()
 
