@@ -146,7 +146,7 @@ public class Sha1HashAlgorithm : HashAlgorithm() {
 
         for (i in 16..79) {
             t = (w[i - 3] xor w[i - 8] xor w[i - 14] xor w[i - 16])
-            w[i] = (t shl 1) or (t shr 31 and 1)
+            w[i] = (t shl 1) or (t ushr 31)
         }
 
         var ra = r[0]
@@ -156,39 +156,39 @@ public class Sha1HashAlgorithm : HashAlgorithm() {
         var re = r[4]
 
         for (i in 0..19) {
-            t = ((ra shl 5) or (ra shr 27 and 31)) +
+            t = ((ra shl 5) or (ra ushr 27)) +
                 ((rb and rc) or (rb.inv() and rd)) + re + w[i] + K1
             re = rd
             rd = rc
-            rc = (rb shl 30) or (rb shr 2 and 1073741823)
+            rc = (rb shl 30) or (rb ushr 2)
             rb = ra
             ra = t
         }
 
         for (i in 20..39) {
-            t = ((ra shl 5) or (ra shr 27 and 31)) + (rb xor rc xor rd) + re + w[i] + K2
+            t = ((ra shl 5) or (ra ushr 27)) + (rb xor rc xor rd) + re + w[i] + K2
             re = rd
             rd = rc
-            rc = (rb shl 30) or (rb shr 2 and 1073741823)
+            rc = (rb shl 30) or (rb ushr 2)
             rb = ra
             ra = t
         }
 
         for (i in 40..59) {
-            t = ((ra shl 5) or (ra shr 27 and 31)) +
+            t = ((ra shl 5) or (ra ushr 27)) +
                 ((rb and rc) or (rb and rd) or (rc and rd)) + re + w[i] + K3
             re = rd
             rd = rc
-            rc = (rb shl 30) or (rb shr 2 and 1073741823)
+            rc = (rb shl 30) or (rb ushr 2)
             rb = ra
             ra = t
         }
 
         for (i in 60..79) {
-            t = ((ra shl 5) or (ra shr 27 and 31)) + (rb xor rc xor rd) + re + w[i] + K4
+            t = ((ra shl 5) or (ra ushr 27)) + (rb xor rc xor rd) + re + w[i] + K4
             re = rd
             rd = rc
-            rc = (rb shl 30) or (rb shr 2 and 1073741823)
+            rc = (rb shl 30) or (rb ushr 2)
             rb = ra
             ra = t
         }
@@ -215,14 +215,9 @@ public class Sha1HashAlgorithm : HashAlgorithm() {
         private val rmb = ByteArray(64)
         private val rr = intArrayOf(1732584193, -271733879, -1732584194, 271733878, -1009589776)
         private val padding = byteArrayOf(
-            -128, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0
+            -128, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0
         )
     }
 }

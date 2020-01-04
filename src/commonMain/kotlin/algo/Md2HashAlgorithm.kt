@@ -66,10 +66,9 @@ public class Md2HashAlgorithm : HashAlgorithm() {
         //
 
         val paddingValue = (16 - mo).toByte()
-        var paddingIndex = mo
 
-        while (16 > paddingIndex)
-            dmb[paddingIndex++] = paddingValue
+        for (i in mo..15)
+            dmb[i] = paddingValue
 
         dcl = updateChecksum(dcl, dcb, dmb)
         transformBlock(dxb, dmb)
