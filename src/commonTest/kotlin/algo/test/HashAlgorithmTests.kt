@@ -44,6 +44,17 @@ class HashAlgorithmTests {
     }
 
     @Test
+    fun `MD2 performance (1 GB)`() {
+
+        val md2 = Sha1HashAlgorithm()
+
+        for (i in 0..(1024 * 1024))
+            md2.input(randomData)
+
+        md2.digest()
+    }
+
+    @Test
     @ExperimentalStdlibApi
     @ExperimentalUnsignedTypes
     fun `MD4 hash`() {
