@@ -38,7 +38,7 @@ public class Sha1HashAlgorithm : HashAlgorithm() {
     private val w = IntArray(80)
 
     init {
-        reset()
+        clear()
     }
 
     public override fun input(buffer: ByteArray, offset: Int, length: Int) {
@@ -117,10 +117,12 @@ public class Sha1HashAlgorithm : HashAlgorithm() {
         output[18 + offset] = dr[4].shr(8).toByte()
         output[19 + offset] = dr[4].toByte()
 
+        clear()
+
         return output
     }
 
-    public override fun reset() {
+    private fun clear() {
         mo = 0
         ms = 0L
         rw.copyInto(w)

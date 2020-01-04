@@ -39,6 +39,10 @@ public class Md4HashAlgorithm : HashAlgorithm() {
     private val ir = Registers()
     private val dr = Registers()
 
+    init {
+        clear()
+    }
+
     public override fun input(buffer: ByteArray, offset: Int, length: Int) {
         mo = forEachSegment(
             imb, mo,
@@ -114,10 +118,12 @@ public class Md4HashAlgorithm : HashAlgorithm() {
         output[14 + offset] = dr.d.ubyteAt(1).toByte()
         output[15 + offset] = dr.d.ubyteAt(0).toByte()
 
+        clear()
+
         return output
     }
 
-    public override fun reset() {
+    private fun clear() {
         mo = 0
         ms = 0UL
         imb[blockRange] = 0x00U

@@ -39,7 +39,6 @@ class HashAlgorithmTests {
         for (hashValue in md2HashValues) {
             md2.input(hashValue.key.toAsciiByteArray())
             assertTrue(md2.digest().toHexString() == hashValue.value)
-            md2.reset()
         }
     }
 
@@ -64,7 +63,6 @@ class HashAlgorithmTests {
         for (hashValue in md4HashValues) {
             md4.input(hashValue.key.toAsciiByteArray())
             assertTrue(md4.digest().toHexString() == hashValue.value)
-            md4.reset()
         }
     }
 
@@ -78,7 +76,6 @@ class HashAlgorithmTests {
         for (hashValue in md5HashValues) {
             md5.input(hashValue.key.toAsciiByteArray())
             assertTrue(md5.digest().toHexString() == hashValue.value)
-            md5.reset()
         }
     }
 
@@ -90,7 +87,6 @@ class HashAlgorithmTests {
         for (hashValue in sha1HashValues) {
             sha1.input(hashValue.key.toAsciiByteArray())
             assertTrue(sha1.digest().toHexString() == hashValue.value)
-            sha1.reset()
         }
     }
 

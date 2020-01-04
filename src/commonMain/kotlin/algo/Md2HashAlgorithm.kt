@@ -40,7 +40,7 @@ public class Md2HashAlgorithm : HashAlgorithm() {
     private val dcb = ByteArray(16)
 
     init {
-        reset()
+        clear()
     }
 
     public override fun input(buffer: ByteArray, offset: Int, length: Int) {
@@ -80,10 +80,17 @@ public class Md2HashAlgorithm : HashAlgorithm() {
 
         transformBlock(dxb, dcb)
 
-        return dxb.copyInto(output, offset, 0, 16)
+        //
+        // SET OUTPUT
+        //
+
+        dxb.copyInto(output, offset, 0, 16)
+        clear()
+
+        return output
     }
 
-    public override fun reset() {
+    private fun clear() {
         mo = 0
         rmb.copyInto(imb)
         rmb.copyInto(dmb)
