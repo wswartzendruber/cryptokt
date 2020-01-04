@@ -19,10 +19,8 @@
 
 package org.cryptokt.algo
 
-import org.cryptokt.byteAt
 import org.cryptokt.forEachSegment
 import org.cryptokt.rl
-import org.cryptokt.set
 
 /**
  * The first formally published version of the U.S. Secure Hash Algorithm. It has a digest size
@@ -60,11 +58,7 @@ public class Sha1HashAlgorithm : HashAlgorithm() {
         //
 
         imb.copyInto(dmb)
-        dr[0] = ir[0]
-        dr[1] = ir[1]
-        dr[2] = ir[2]
-        dr[3] = ir[3]
-        dr[4] = ir[4]
+        ir.copyInto(dr)
 
         //
         // APPEND PADDING
@@ -82,14 +76,14 @@ public class Sha1HashAlgorithm : HashAlgorithm() {
         // APPEND LENGTH
         //
 
-        dmb[56] = ms.byteAt(0)
-        dmb[57] = ms.byteAt(1)
-        dmb[58] = ms.byteAt(2)
-        dmb[59] = ms.byteAt(3)
-        dmb[60] = ms.byteAt(4)
-        dmb[61] = ms.byteAt(5)
-        dmb[62] = ms.byteAt(6)
-        dmb[63] = ms.byteAt(7)
+        dmb[56] = ms.shr(56).toByte()
+        dmb[57] = ms.shr(48).toByte()
+        dmb[58] = ms.shr(40).toByte()
+        dmb[59] = ms.shr(32).toByte()
+        dmb[60] = ms.shr(24).toByte()
+        dmb[61] = ms.shr(16).toByte()
+        dmb[62] = ms.shr(8).toByte()
+        dmb[63] = ms.toByte()
 
         //
         // TRANSFORM PADDING + LENGTH
@@ -101,26 +95,26 @@ public class Sha1HashAlgorithm : HashAlgorithm() {
         // SET OUTPUT
         //
 
-        output[0 + offset] = dr[0].byteAt(0)
-        output[1 + offset] = dr[0].byteAt(1)
-        output[2 + offset] = dr[0].byteAt(2)
-        output[3 + offset] = dr[0].byteAt(3)
-        output[4 + offset] = dr[1].byteAt(0)
-        output[5 + offset] = dr[1].byteAt(1)
-        output[6 + offset] = dr[1].byteAt(2)
-        output[7 + offset] = dr[1].byteAt(3)
-        output[8 + offset] = dr[2].byteAt(0)
-        output[9 + offset] = dr[2].byteAt(1)
-        output[10 + offset] = dr[2].byteAt(2)
-        output[11 + offset] = dr[2].byteAt(3)
-        output[12 + offset] = dr[3].byteAt(0)
-        output[13 + offset] = dr[3].byteAt(1)
-        output[14 + offset] = dr[3].byteAt(2)
-        output[15 + offset] = dr[3].byteAt(3)
-        output[16 + offset] = dr[4].byteAt(0)
-        output[17 + offset] = dr[4].byteAt(1)
-        output[18 + offset] = dr[4].byteAt(2)
-        output[19 + offset] = dr[4].byteAt(3)
+        output[0 + offset] = dr[0].shr(24).toByte()
+        output[1 + offset] = dr[0].shr(16).toByte()
+        output[2 + offset] = dr[0].shr(8).toByte()
+        output[3 + offset] = dr[0].toByte()
+        output[4 + offset] = dr[1].shr(24).toByte()
+        output[5 + offset] = dr[1].shr(16).toByte()
+        output[6 + offset] = dr[1].shr(8).toByte()
+        output[7 + offset] = dr[1].toByte()
+        output[8 + offset] = dr[2].shr(24).toByte()
+        output[9 + offset] = dr[2].shr(16).toByte()
+        output[10 + offset] = dr[2].shr(8).toByte()
+        output[11 + offset] = dr[2].toByte()
+        output[12 + offset] = dr[3].shr(24).toByte()
+        output[13 + offset] = dr[3].shr(16).toByte()
+        output[14 + offset] = dr[3].shr(8).toByte()
+        output[15 + offset] = dr[3].toByte()
+        output[16 + offset] = dr[4].shr(24).toByte()
+        output[17 + offset] = dr[4].shr(16).toByte()
+        output[18 + offset] = dr[4].shr(8).toByte()
+        output[19 + offset] = dr[4].toByte()
 
         return output
     }
@@ -128,18 +122,10 @@ public class Sha1HashAlgorithm : HashAlgorithm() {
     public override fun reset() {
         mo = 0
         ms = 0L
-        imb[blockRange] = 0
-        dmb[blockRange] = 0
-        ir[0] = H0
-        ir[1] = H1
-        ir[2] = H2
-        ir[3] = H3
-        ir[4] = H4
-        dr[0] = H0
-        dr[1] = H1
-        dr[2] = H2
-        dr[3] = H3
-        dr[4] = H4
+        rmb.copyInto(imb)
+        rmb.copyInto(dmb)
+        rr.copyInto(ir)
+        rr.copyInto(dr)
     }
 
     private fun transformBlock(r: IntArray, mb: ByteArray) {
@@ -855,17 +841,14 @@ public class Sha1HashAlgorithm : HashAlgorithm() {
 
     private companion object {
 
-        private const val H0 = 1732584193
-        private const val H1 = -271733879
-        private const val H2 = -1732584194
-        private const val H3 = 271733878
-        private const val H4 = -1009589776
         private const val K1 = 1518500249
         private const val K2 = 1859775393
         private const val K3 = -1894007588
         private const val K4 = -899497514
 
-        private val blockRange = 0..63
+        private val rmb = ByteArray(64)
+
+        private val rr = intArrayOf(1732584193, -271733879, -1732584194, 271733878, -1009589776)
 
         private val padding = byteArrayOf(
             -128, 0, 0, 0, 0, 0, 0, 0,
