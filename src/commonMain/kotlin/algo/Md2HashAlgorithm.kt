@@ -30,14 +30,10 @@ import org.cryptokt.forEachSegment
 public class Md2HashAlgorithm : HashAlgorithm() {
 
     private var mo = 0
-    private var icl: Byte = 0
-    private var dcl: Byte = 0
-    private val imb = ByteArray(16)
-    private val dmb = ByteArray(16)
-    private val ixb = ByteArray(48)
-    private val dxb = ByteArray(48)
-    private val icb = ByteArray(16)
-    private val dcb = ByteArray(16)
+    private var cl: Byte = 0
+    private val cb = ByteArray(16)
+    private val mb = ByteArray(16)
+    private val xb = ByteArray(48)
 
     init {
         clear()
@@ -45,21 +41,16 @@ public class Md2HashAlgorithm : HashAlgorithm() {
 
     public override fun input(buffer: ByteArray, offset: Int, length: Int) {
         mo = forEachSegment(
-            imb, mo,
+            mb, mo,
             buffer, offset, length,
             {
-                icl = updateChecksum(icl, icb, imb)
-                transformBlock(ixb, imb)
+                updateChecksum()
+                transformBlock(mb)
             }
         )
     }
 
-    public override fun digest(output: ByteArray, offset: Int): ByteArray
-    {
-        imb.copyInto(dmb)
-        ixb.copyInto(dxb)
-        icb.copyInto(dcb)
-        dcl = icl
+    public override fun digest(output: ByteArray, offset: Int): ByteArray {
 
         //
         // APPEND PADDING
@@ -68,22 +59,22 @@ public class Md2HashAlgorithm : HashAlgorithm() {
         val paddingValue = (16 - mo).toByte()
 
         for (i in mo..15)
-            dmb[i] = paddingValue
+            mb[i] = paddingValue
 
-        dcl = updateChecksum(dcl, dcb, dmb)
-        transformBlock(dxb, dmb)
+        updateChecksum()
+        transformBlock(mb)
 
         //
         // APPEND CHECKSUM
         //
 
-        transformBlock(dxb, dcb)
+        transformBlock(cb)
 
         //
         // SET OUTPUT
         //
 
-        dxb.copyInto(output, offset, 0, 16)
+        xb.copyInto(output, offset, 0, 16)
         clear()
 
         return output
@@ -91,29 +82,25 @@ public class Md2HashAlgorithm : HashAlgorithm() {
 
     private fun clear() {
         mo = 0
-        rmb.copyInto(imb)
-        rmb.copyInto(dmb)
-        rxb.copyInto(ixb)
-        rxb.copyInto(dxb)
-        rcb.copyInto(icb)
-        rcb.copyInto(dcb)
-        icl = 0
-        dcl = 0
+        cl = 0
+        rcb.copyInto(cb)
+        rmb.copyInto(mb)
+        rxb.copyInto(xb)
     }
 
-    private fun updateChecksum(cl: Byte, cb: ByteArray, mb: ByteArray): Byte {
+    private fun updateChecksum() {
 
         cb[0] = s[(mb[0] xor cl).toInt() and 255] xor cb[0]
         for (i in 1..15)
             cb[i] = s[(mb[i] xor cb[i - 1]).toInt() and 255] xor cb[i]
 
-        return cb[15]
+        cl = cb[15]
     }
 
-    private fun transformBlock(xb: ByteArray, mb: ByteArray) {
+    private fun transformBlock(lmb: ByteArray) {
 
         for (j in 0..15) {
-            xb[16 + j] = mb[j]
+            xb[16 + j] = lmb[j]
             xb[32 + j] = xb[16 + j] xor xb[j]
         }
 
@@ -137,7 +124,6 @@ public class Md2HashAlgorithm : HashAlgorithm() {
         private val rcb = ByteArray(16)
         private val rmb = ByteArray(16)
         private val rxb = ByteArray(48)
-
         private val s = byteArrayOf(
             41, 46, 67, -55, -94, -40, 124, 1, 61, 54, 84, -95, -20, -16, 6, 19, 98, -89, 5,
             -13, -64, -57, 115, -116, -104, -109, 43, -39, -68, 76, -126, -54, 30, -101, 87, 60,
