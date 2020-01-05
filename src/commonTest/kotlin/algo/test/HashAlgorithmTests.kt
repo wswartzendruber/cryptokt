@@ -31,7 +31,6 @@ import org.cryptokt.algo.Sha1HashAlgorithm
 class HashAlgorithmTests {
 
     @Test
-    @ExperimentalUnsignedTypes
     fun `MD2 accuracy`() {
 
         val md2 = Md2HashAlgorithm()
@@ -45,7 +44,7 @@ class HashAlgorithmTests {
     @Test
     fun `MD2 performance (1 GB)`() {
 
-        val md2 = Sha1HashAlgorithm()
+        val md2 = Md2HashAlgorithm()
 
         for (i in 0..(1024 * 1024))
             md2.input(randomData)
@@ -54,7 +53,7 @@ class HashAlgorithmTests {
     }
 
     @Test
-    fun `MD4 hash`() {
+    fun `MD4 accurancy`() {
 
         val md4 = Md4HashAlgorithm()
 
@@ -62,6 +61,17 @@ class HashAlgorithmTests {
             md4.input(hashValue.key.toAsciiByteArray())
             assertTrue(md4.digest().toHexString() == hashValue.value)
         }
+    }
+
+    @Test
+    fun `MD4 performance (1 GB)`() {
+
+        val md4 = Md4HashAlgorithm()
+
+        for (i in 0..(1024 * 1024))
+            md4.input(randomData)
+
+        md4.digest()
     }
 
     @Test
