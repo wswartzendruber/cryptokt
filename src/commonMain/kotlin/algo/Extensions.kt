@@ -51,32 +51,64 @@ internal inline fun forEachSegment(
     return ldo
 }
 
-internal fun ByteArray.beIntAt(index: Int) =
-    this[index + 3].toInt().and(255) or
-    (this[index + 2].toInt().and(255) shl 8) or
-    (this[index + 1].toInt().and(255) shl 16) or
-    (this[index + 0].toInt().and(255) shl 24)
+//
+// ByteArray
+//
 
-internal fun Int.byteAt(index: Int) =
-    when (index) {
-        0 -> this.and(-16777216).shr(24).and(255).toByte()
-        1 -> this.and(16711680).shr(16).and(255).toByte()
-        2 -> this.and(65280).shr(8).and(255).toByte()
-        3 -> this.and(255).toByte()
-        else -> throw IllegalArgumentException("Byte index must be 0-3.")
-    }
+internal fun ByteArray.beIntAt(index: Int) =
+    (this[index].toInt() shl 24) or
+        (this[index + 1].toInt() and 255 shl 16) or
+        (this[index + 2].toInt() and 255 shl 8) or
+        (this[index + 3].toInt() and 255)
+
+internal fun ByteArray.leIntAt(index: Int) =
+    (this[index].toInt() and 255) or
+        (this[index + 1].toInt() and 255 shl 8) or
+        (this[index + 2].toInt() and 255 shl 16) or
+        (this[index + 3].toInt() shl 24)
+
+//
+// Int
+//
+
+internal fun Int.copyIntoBe(buffer: ByteArray, offset: Int) {
+    buffer[offset] = this.ushr(24).toByte()
+    buffer[offset + 1] = this.ushr(16).toByte()
+    buffer[offset + 2] = this.ushr(8).toByte()
+    buffer[offset + 3] = this.toByte()
+}
+
+internal fun Int.copyIntoLe(buffer: ByteArray, offset: Int) {
+    buffer[offset] = this.toByte()
+    buffer[offset + 1] = this.ushr(8).toByte()
+    buffer[offset + 2] = this.ushr(16).toByte()
+    buffer[offset + 3] = this.ushr(24).toByte()
+}
 
 internal infix fun Int.rl(count: Int) = (this shl count) or (this ushr (32 - count))
 
-internal fun Long.byteAt(index: Int) =
-    when (index) {
-        0 -> this.and(-72057594037927936).shr(56).and(255).toByte()
-        1 -> this.and(71776119061217280).shr(48).and(255).toByte()
-        2 -> this.and(280375465082880).shr(40).and(255).toByte()
-        3 -> this.and(1095216660480).shr(32).and(255).toByte()
-        4 -> this.and(4278190080).shr(24).and(255).toByte()
-        5 -> this.and(16711680).shr(16).and(255).toByte()
-        6 -> this.and(65280).shr(8).and(255).toByte()
-        7 -> this.and(255).toByte()
-        else -> throw IllegalArgumentException("Byte index must be 0-7.")
-    }
+//
+// Long
+//
+
+internal fun Long.copyIntoBe(buffer: ByteArray, offset: Int) {
+    buffer[offset] = this.ushr(56).toByte()
+    buffer[offset + 1] = this.ushr(48).toByte()
+    buffer[offset + 2] = this.ushr(40).toByte()
+    buffer[offset + 3] = this.ushr(32).toByte()
+    buffer[offset + 4] = this.ushr(24).toByte()
+    buffer[offset + 5] = this.ushr(16).toByte()
+    buffer[offset + 6] = this.ushr(8).toByte()
+    buffer[offset + 7] = this.toByte()
+}
+
+internal fun Long.copyIntoLe(buffer: ByteArray, offset: Int) {
+    buffer[offset] = this.toByte()
+    buffer[offset + 1] = this.ushr(8).toByte()
+    buffer[offset + 2] = this.ushr(16).toByte()
+    buffer[offset + 3] = this.ushr(24).toByte()
+    buffer[offset + 4] = this.ushr(32).toByte()
+    buffer[offset + 5] = this.ushr(40).toByte()
+    buffer[offset + 6] = this.ushr(48).toByte()
+    buffer[offset + 7] = this.ushr(56).toByte()
+}

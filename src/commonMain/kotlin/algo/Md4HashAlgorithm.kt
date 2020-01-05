@@ -19,7 +19,9 @@
 
 package org.cryptokt.algo
 
+import org.cryptokt.copyIntoLe
 import org.cryptokt.forEachSegment
+import org.cryptokt.leIntAt
 import org.cryptokt.rl
 
 /**
@@ -67,14 +69,7 @@ public class Md4HashAlgorithm : HashAlgorithm() {
         // APPEND LENGTH
         //
 
-        mb[56] = ms.toByte()
-        mb[57] = ms.ushr(8).toByte()
-        mb[58] = ms.ushr(16).toByte()
-        mb[59] = ms.ushr(24).toByte()
-        mb[60] = ms.ushr(32).toByte()
-        mb[61] = ms.ushr(40).toByte()
-        mb[62] = ms.ushr(48).toByte()
-        mb[63] = ms.ushr(56).toByte()
+        ms.copyIntoLe(mb, 56)
 
         //
         // TRANSFORM PADDING + LENGTH
@@ -86,22 +81,8 @@ public class Md4HashAlgorithm : HashAlgorithm() {
         // SET OUTPUT
         //
 
-        output[0 + offset] = r[0].toByte()
-        output[1 + offset] = r[0].ushr(8).toByte()
-        output[2 + offset] = r[0].ushr(16).toByte()
-        output[3 + offset] = r[0].ushr(24).toByte()
-        output[4 + offset] = r[1].toByte()
-        output[5 + offset] = r[1].ushr(8).toByte()
-        output[6 + offset] = r[1].ushr(16).toByte()
-        output[7 + offset] = r[1].ushr(24).toByte()
-        output[8 + offset] = r[2].toByte()
-        output[9 + offset] = r[2].ushr(8).toByte()
-        output[10 + offset] = r[2].ushr(16).toByte()
-        output[11 + offset] = r[2].ushr(24).toByte()
-        output[12 + offset] = r[3].toByte()
-        output[13 + offset] = r[3].ushr(8).toByte()
-        output[14 + offset] = r[3].ushr(16).toByte()
-        output[15 + offset] = r[3].ushr(24).toByte()
+        for (i in 0..3)
+            r[i].copyIntoLe(output, 4 * i)
 
         clear()
 
@@ -122,15 +103,8 @@ public class Md4HashAlgorithm : HashAlgorithm() {
         // READ BLOCK
         //
 
-        var t: Int
-
-        for (i in 0..15) {
-            t = 4 * i
-            w[i] = (mb[t].toInt() and 255) or
-                (mb[t + 1].toInt() and 255 shl 8) or
-                (mb[t + 2].toInt() and 255 shl 16) or
-                (mb[t + 3].toInt() shl 24)
-        }
+        for (i in 0..15)
+            w[i] = mb.leIntAt(4 * i)
 
         val aa = r[0]
         val bb = r[1]
