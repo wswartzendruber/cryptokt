@@ -126,10 +126,10 @@ public class Md4HashAlgorithm : HashAlgorithm() {
 
         for (i in 0..15) {
             t = 4 * i
-            w[i] = mb[t].toInt().and(255) or
-            (mb[t + 1].toInt().and(255) shl 8) or
-            (mb[t + 2].toInt().and(255) shl 16) or
-            (mb[t + 3].toInt() shl 24)
+            w[i] = (mb[t].toInt() and 255) or
+                (mb[t + 1].toInt() and 255 shl 8) or
+                (mb[t + 2].toInt() and 255 shl 16) or
+                (mb[t + 3].toInt() shl 24)
         }
 
         val aa = r[0]

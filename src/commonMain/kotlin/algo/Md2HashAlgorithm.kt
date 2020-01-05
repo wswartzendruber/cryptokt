@@ -83,9 +83,9 @@ public class Md2HashAlgorithm : HashAlgorithm() {
     private fun clear() {
         mo = 0
         cl = 0
-        rcb.copyInto(cb)
-        rmb.copyInto(mb)
-        rxb.copyInto(xb)
+        ccb.copyInto(cb)
+        cmb.copyInto(mb)
+        cxb.copyInto(xb)
     }
 
     private fun updateChecksum() {
@@ -121,9 +121,9 @@ public class Md2HashAlgorithm : HashAlgorithm() {
 
     private companion object {
 
-        private val rcb = ByteArray(16)
-        private val rmb = ByteArray(16)
-        private val rxb = ByteArray(48)
+        private val ccb = ByteArray(16)
+        private val cmb = ByteArray(16)
+        private val cxb = ByteArray(48)
         private val s = byteArrayOf(
             41, 46, 67, -55, -94, -40, 124, 1, 61, 54, 84, -95, -20, -16, 6, 19, 98, -89, 5,
             -13, -64, -57, 115, -116, -104, -109, 43, -39, -68, 76, -126, -54, 30, -101, 87, 60,

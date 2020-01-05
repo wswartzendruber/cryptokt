@@ -132,7 +132,7 @@ internal fun Int.byteAt(index: Int) =
     }
 
 internal infix fun Int.rl(count: Int) =
-    (this shl count) or (this shr 1 and 2147483647 shr (31 - count))
+    (this shl count) or (this ushr (32 - count))
 
 @ExperimentalUnsignedTypes
 internal fun UInt.ubyteAt(index: Int) =

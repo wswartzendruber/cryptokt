@@ -20,6 +20,7 @@
 package org.cryptokt.algo
 
 import org.cryptokt.forEachSegment
+import org.cryptokt.rl
 
 /**
  * The first formally published version of the U.S. Secure Hash Algorithm. It has a digest size
@@ -30,11 +31,8 @@ public class Sha1HashAlgorithm : HashAlgorithm() {
 
     private var mo = 0
     private var ms = 0L
-    private val dw = ByteArray(80)
-    private val imb = ByteArray(64)
-    private val dmb = ByteArray(64)
-    private val ir = IntArray(5)
-    private val dr = IntArray(5)
+    private val mb = ByteArray(64)
+    private val r = IntArray(5)
     private val w = IntArray(80)
 
     init {
@@ -43,10 +41,10 @@ public class Sha1HashAlgorithm : HashAlgorithm() {
 
     public override fun input(buffer: ByteArray, offset: Int, length: Int) {
         mo = forEachSegment(
-            imb, mo,
+            mb, mo,
             buffer, offset, length,
             {
-                transformBlock(ir, imb)
+                transformBlock()
             }
         )
         ms += (length * 8).toLong()
@@ -55,67 +53,60 @@ public class Sha1HashAlgorithm : HashAlgorithm() {
     public override fun digest(output: ByteArray, offset: Int): ByteArray {
 
         //
-        // COPY STATE
-        //
-
-        imb.copyInto(dmb)
-        ir.copyInto(dr)
-
-        //
         // APPEND PADDING
         //
 
         if (mo > 55) {
-            padding.copyInto(dmb, mo, 0, 64 - mo)
-            transformBlock(dr, dmb)
-            padding.copyInto(dmb, 0, 8, 64)
+            padding.copyInto(mb, mo, 0, 64 - mo)
+            transformBlock()
+            padding.copyInto(mb, 0, 8, 64)
         } else {
-            padding.copyInto(dmb, mo, 0, 56 - mo)
+            padding.copyInto(mb, mo, 0, 56 - mo)
         }
 
         //
         // APPEND LENGTH
         //
 
-        dmb[56] = ms.shr(56).toByte()
-        dmb[57] = ms.shr(48).toByte()
-        dmb[58] = ms.shr(40).toByte()
-        dmb[59] = ms.shr(32).toByte()
-        dmb[60] = ms.shr(24).toByte()
-        dmb[61] = ms.shr(16).toByte()
-        dmb[62] = ms.shr(8).toByte()
-        dmb[63] = ms.toByte()
+        mb[56] = ms.ushr(56).toByte()
+        mb[57] = ms.ushr(48).toByte()
+        mb[58] = ms.ushr(40).toByte()
+        mb[59] = ms.ushr(32).toByte()
+        mb[60] = ms.ushr(24).toByte()
+        mb[61] = ms.ushr(16).toByte()
+        mb[62] = ms.ushr(8).toByte()
+        mb[63] = ms.toByte()
 
         //
         // TRANSFORM PADDING + LENGTH
         //
 
-        transformBlock(dr, dmb)
+        transformBlock()
 
         //
         // SET OUTPUT
         //
 
-        output[0 + offset] = dr[0].shr(24).toByte()
-        output[1 + offset] = dr[0].shr(16).toByte()
-        output[2 + offset] = dr[0].shr(8).toByte()
-        output[3 + offset] = dr[0].toByte()
-        output[4 + offset] = dr[1].shr(24).toByte()
-        output[5 + offset] = dr[1].shr(16).toByte()
-        output[6 + offset] = dr[1].shr(8).toByte()
-        output[7 + offset] = dr[1].toByte()
-        output[8 + offset] = dr[2].shr(24).toByte()
-        output[9 + offset] = dr[2].shr(16).toByte()
-        output[10 + offset] = dr[2].shr(8).toByte()
-        output[11 + offset] = dr[2].toByte()
-        output[12 + offset] = dr[3].shr(24).toByte()
-        output[13 + offset] = dr[3].shr(16).toByte()
-        output[14 + offset] = dr[3].shr(8).toByte()
-        output[15 + offset] = dr[3].toByte()
-        output[16 + offset] = dr[4].shr(24).toByte()
-        output[17 + offset] = dr[4].shr(16).toByte()
-        output[18 + offset] = dr[4].shr(8).toByte()
-        output[19 + offset] = dr[4].toByte()
+        output[0 + offset] = r[0].ushr(24).toByte()
+        output[1 + offset] = r[0].ushr(16).toByte()
+        output[2 + offset] = r[0].ushr(8).toByte()
+        output[3 + offset] = r[0].toByte()
+        output[4 + offset] = r[1].ushr(24).toByte()
+        output[5 + offset] = r[1].ushr(16).toByte()
+        output[6 + offset] = r[1].ushr(8).toByte()
+        output[7 + offset] = r[1].toByte()
+        output[8 + offset] = r[2].ushr(24).toByte()
+        output[9 + offset] = r[2].ushr(16).toByte()
+        output[10 + offset] = r[2].ushr(8).toByte()
+        output[11 + offset] = r[2].toByte()
+        output[12 + offset] = r[3].ushr(24).toByte()
+        output[13 + offset] = r[3].ushr(16).toByte()
+        output[14 + offset] = r[3].ushr(8).toByte()
+        output[15 + offset] = r[3].toByte()
+        output[16 + offset] = r[4].ushr(24).toByte()
+        output[17 + offset] = r[4].ushr(16).toByte()
+        output[18 + offset] = r[4].ushr(8).toByte()
+        output[19 + offset] = r[4].toByte()
 
         clear()
 
@@ -125,29 +116,25 @@ public class Sha1HashAlgorithm : HashAlgorithm() {
     private fun clear() {
         mo = 0
         ms = 0L
-        rw.copyInto(w)
-        rmb.copyInto(imb)
-        rmb.copyInto(dmb)
-        rr.copyInto(ir)
-        rr.copyInto(dr)
+        cmb.copyInto(mb)
+        cr.copyInto(r)
+        cw.copyInto(w)
     }
 
-    private fun transformBlock(r: IntArray, mb: ByteArray) {
+    private fun transformBlock() {
 
         var t: Int
 
         for (i in 0..15) {
             t = 4 * i
-            w[i] = mb[t + 3].toInt().and(255) or
-            (mb[t + 2].toInt().and(255) shl 8) or
-            (mb[t + 1].toInt().and(255) shl 16) or
-            (mb[t].toInt() shl 24)
+            w[i] = (mb[t + 3].toInt() and 255) or
+                (mb[t + 2].toInt() and 255 shl 8) or
+                (mb[t + 1].toInt() and 255 shl 16) or
+                (mb[t].toInt() shl 24)
         }
 
-        for (i in 16..79) {
-            t = (w[i - 3] xor w[i - 8] xor w[i - 14] xor w[i - 16])
-            w[i] = (t shl 1) or (t ushr 31)
-        }
+        for (i in 16..79)
+            w[i] = (w[i - 3] xor w[i - 8] xor w[i - 14] xor w[i - 16]) rl 1
 
         var ra = r[0]
         var rb = r[1]
@@ -156,39 +143,37 @@ public class Sha1HashAlgorithm : HashAlgorithm() {
         var re = r[4]
 
         for (i in 0..19) {
-            t = ((ra shl 5) or (ra ushr 27)) +
-                ((rb and rc) or (rb.inv() and rd)) + re + w[i] + K1
+            t = (ra rl 5) + ((rb and rc) or (rb.inv() and rd)) + re + w[i] + K1
             re = rd
             rd = rc
-            rc = (rb shl 30) or (rb ushr 2)
+            rc = rb rl 30
             rb = ra
             ra = t
         }
 
         for (i in 20..39) {
-            t = ((ra shl 5) or (ra ushr 27)) + (rb xor rc xor rd) + re + w[i] + K2
+            t = (ra rl 5) + (rb xor rc xor rd) + re + w[i] + K2
             re = rd
             rd = rc
-            rc = (rb shl 30) or (rb ushr 2)
+            rc = rb rl 30
             rb = ra
             ra = t
         }
 
         for (i in 40..59) {
-            t = ((ra shl 5) or (ra ushr 27)) +
-                ((rb and rc) or (rb and rd) or (rc and rd)) + re + w[i] + K3
+            t = (ra rl 5) + ((rb and rc) or (rb and rd) or (rc and rd)) + re + w[i] + K3
             re = rd
             rd = rc
-            rc = (rb shl 30) or (rb ushr 2)
+            rc = rb rl 30
             rb = ra
             ra = t
         }
 
         for (i in 60..79) {
-            t = ((ra shl 5) or (ra ushr 27)) + (rb xor rc xor rd) + re + w[i] + K4
+            t = (ra rl 5) + (rb xor rc xor rd) + re + w[i] + K4
             re = rd
             rd = rc
-            rc = (rb shl 30) or (rb ushr 2)
+            rc = rb rl 30
             rb = ra
             ra = t
         }
@@ -211,9 +196,9 @@ public class Sha1HashAlgorithm : HashAlgorithm() {
         private const val K3 = -1894007588
         private const val K4 = -899497514
 
-        private val rw = IntArray(80)
-        private val rmb = ByteArray(64)
-        private val rr = intArrayOf(1732584193, -271733879, -1732584194, 271733878, -1009589776)
+        private val cmb = ByteArray(64)
+        private val cr = intArrayOf(1732584193, -271733879, -1732584194, 271733878, -1009589776)
+        private val cw = IntArray(80)
         private val padding = byteArrayOf(
             -128, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
