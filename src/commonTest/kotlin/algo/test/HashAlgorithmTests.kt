@@ -54,8 +54,6 @@ class HashAlgorithmTests {
     }
 
     @Test
-    @ExperimentalStdlibApi
-    @ExperimentalUnsignedTypes
     fun `MD4 hash`() {
 
         val md4 = Md4HashAlgorithm()

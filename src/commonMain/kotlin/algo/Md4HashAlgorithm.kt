@@ -19,25 +19,20 @@
 
 package org.cryptokt.algo
 
-import org.cryptokt.leUIntAt
 import org.cryptokt.forEachSegment
-import org.cryptokt.set
-import org.cryptokt.ubyteAt
+import org.cryptokt.rl
 
 /**
  * The second in the MD series by Ronald Rivest. It has a digest size of 128 bits. It has been
  * considered broken since 1995.
  */
-@ExperimentalStdlibApi
-@ExperimentalUnsignedTypes
 public class Md4HashAlgorithm : HashAlgorithm() {
 
     private var mo = 0
-    private var ms = 0UL
-    private val imb = UByteArray(64)
-    private val dmb = UByteArray(64)
-    private val ir = Registers()
-    private val dr = Registers()
+    private var ms = 0L
+    private val mb = ByteArray(64)
+    private val r = IntArray(4)
+    private val w = IntArray(16)
 
     init {
         clear()
@@ -45,78 +40,68 @@ public class Md4HashAlgorithm : HashAlgorithm() {
 
     public override fun input(buffer: ByteArray, offset: Int, length: Int) {
         mo = forEachSegment(
-            imb, mo,
+            mb, mo,
             buffer, offset, length,
             {
-                transformBlock(ir, imb)
+                transformBlock()
             }
         )
-        ms += (length * 8).toULong()
+        ms += (length * 8).toLong()
     }
 
     public override fun digest(output: ByteArray, offset: Int): ByteArray {
-
-        //
-        // COPY STATE
-        //
-
-        imb.copyInto(dmb)
-        dr.a = ir.a
-        dr.b = ir.b
-        dr.c = ir.c
-        dr.d = ir.d
 
         //
         // APPEND PADDING
         //
 
         if (mo > 55) {
-            padding.copyInto(dmb, mo, 0, 64 - mo)
-            transformBlock(dr, dmb)
-            padding.copyInto(dmb, 0, 8, 64)
+            padding.copyInto(mb, mo, 0, 64 - mo)
+            transformBlock()
+            padding.copyInto(mb, 0, 8, 64)
         } else {
-            padding.copyInto(dmb, mo, 0, 56 - mo)
+            padding.copyInto(mb, mo, 0, 56 - mo)
         }
 
         //
         // APPEND LENGTH
         //
 
-        dmb[56] = ms.ubyteAt(7)
-        dmb[57] = ms.ubyteAt(6)
-        dmb[58] = ms.ubyteAt(5)
-        dmb[59] = ms.ubyteAt(4)
-        dmb[60] = ms.ubyteAt(3)
-        dmb[61] = ms.ubyteAt(2)
-        dmb[62] = ms.ubyteAt(1)
-        dmb[63] = ms.ubyteAt(0)
+        mb[56] = ms.toByte()
+        mb[57] = ms.ushr(8).toByte()
+        mb[58] = ms.ushr(16).toByte()
+        mb[59] = ms.ushr(24).toByte()
+        mb[60] = ms.ushr(32).toByte()
+        mb[61] = ms.ushr(40).toByte()
+        mb[62] = ms.ushr(48).toByte()
+        mb[63] = ms.ushr(56).toByte()
 
         //
         // TRANSFORM PADDING + LENGTH
         //
 
-        transformBlock(dr, dmb)
+        transformBlock()
 
         //
         // SET OUTPUT
         //
 
-        output[0 + offset] = dr.a.ubyteAt(3).toByte()
-        output[1 + offset] = dr.a.ubyteAt(2).toByte()
-        output[2 + offset] = dr.a.ubyteAt(1).toByte()
-        output[3 + offset] = dr.a.ubyteAt(0).toByte()
-        output[4 + offset] = dr.b.ubyteAt(3).toByte()
-        output[5 + offset] = dr.b.ubyteAt(2).toByte()
-        output[6 + offset] = dr.b.ubyteAt(1).toByte()
-        output[7 + offset] = dr.b.ubyteAt(0).toByte()
-        output[8 + offset] = dr.c.ubyteAt(3).toByte()
-        output[9 + offset] = dr.c.ubyteAt(2).toByte()
-        output[10 + offset] = dr.c.ubyteAt(1).toByte()
-        output[11 + offset] = dr.c.ubyteAt(0).toByte()
-        output[12 + offset] = dr.d.ubyteAt(3).toByte()
-        output[13 + offset] = dr.d.ubyteAt(2).toByte()
-        output[14 + offset] = dr.d.ubyteAt(1).toByte()
-        output[15 + offset] = dr.d.ubyteAt(0).toByte()
+        output[0 + offset] = r[0].toByte()
+        output[1 + offset] = r[0].ushr(8).toByte()
+        output[2 + offset] = r[0].ushr(16).toByte()
+        output[3 + offset] = r[0].ushr(24).toByte()
+        output[4 + offset] = r[1].toByte()
+        output[5 + offset] = r[1].ushr(8).toByte()
+        output[6 + offset] = r[1].ushr(16).toByte()
+        output[7 + offset] = r[1].ushr(24).toByte()
+        output[8 + offset] = r[2].toByte()
+        output[9 + offset] = r[2].ushr(8).toByte()
+        output[10 + offset] = r[2].ushr(16).toByte()
+        output[11 + offset] = r[2].ushr(24).toByte()
+        output[12 + offset] = r[3].toByte()
+        output[13 + offset] = r[3].ushr(8).toByte()
+        output[14 + offset] = r[3].ushr(16).toByte()
+        output[15 + offset] = r[3].ushr(24).toByte()
 
         clear()
 
@@ -125,114 +110,100 @@ public class Md4HashAlgorithm : HashAlgorithm() {
 
     private fun clear() {
         mo = 0
-        ms = 0UL
-        imb[blockRange] = 0x00U
-        dmb[blockRange] = 0x00U
-        ir.a = A
-        ir.b = B
-        ir.c = C
-        ir.d = D
-        dr.a = A
-        dr.b = B
-        dr.c = C
-        dr.d = D
+        ms = 0L
+        cmb.copyInto(mb)
+        cr.copyInto(r)
+        cw.copyInto(w)
     }
 
-    private fun transformBlock(r: Registers, mb: UByteArray) {
-
-        val aa = r.a
-        val bb = r.b
-        val cc = r.c
-        val dd = r.d
+    private fun transformBlock() {
 
         //
         // READ BLOCK
         //
 
-        val w0 = mb.leUIntAt(0)
-        val w1 = mb.leUIntAt(4)
-        val w2 = mb.leUIntAt(8)
-        val w3 = mb.leUIntAt(12)
-        val w4 = mb.leUIntAt(16)
-        val w5 = mb.leUIntAt(20)
-        val w6 = mb.leUIntAt(24)
-        val w7 = mb.leUIntAt(28)
-        val w8 = mb.leUIntAt(32)
-        val w9 = mb.leUIntAt(36)
-        val w10 = mb.leUIntAt(40)
-        val w11 = mb.leUIntAt(44)
-        val w12 = mb.leUIntAt(48)
-        val w13 = mb.leUIntAt(52)
-        val w14 = mb.leUIntAt(56)
-        val w15 = mb.leUIntAt(60)
+        var t: Int
+
+        for (i in 0..15) {
+            t = 4 * i
+            w[i] = mb[t].toInt().and(255) or
+            (mb[t + 1].toInt().and(255) shl 8) or
+            (mb[t + 2].toInt().and(255) shl 16) or
+            (mb[t + 3].toInt() shl 24)
+        }
+
+        val aa = r[0]
+        val bb = r[1]
+        val cc = r[2]
+        val dd = r[3]
 
         //
         // ROUND 1
         //
 
-        r.a = r1(r.a, r.b, r.c, r.d, w0, 3)
-        r.d = r1(r.d, r.a, r.b, r.c, w1, 7)
-        r.c = r1(r.c, r.d, r.a, r.b, w2, 11)
-        r.b = r1(r.b, r.c, r.d, r.a, w3, 19)
-        r.a = r1(r.a, r.b, r.c, r.d, w4, 3)
-        r.d = r1(r.d, r.a, r.b, r.c, w5, 7)
-        r.c = r1(r.c, r.d, r.a, r.b, w6, 11)
-        r.b = r1(r.b, r.c, r.d, r.a, w7, 19)
-        r.a = r1(r.a, r.b, r.c, r.d, w8, 3)
-        r.d = r1(r.d, r.a, r.b, r.c, w9, 7)
-        r.c = r1(r.c, r.d, r.a, r.b, w10, 11)
-        r.b = r1(r.b, r.c, r.d, r.a, w11, 19)
-        r.a = r1(r.a, r.b, r.c, r.d, w12, 3)
-        r.d = r1(r.d, r.a, r.b, r.c, w13, 7)
-        r.c = r1(r.c, r.d, r.a, r.b, w14, 11)
-        r.b = r1(r.b, r.c, r.d, r.a, w15, 19)
+        r[0] = r1(r[0], r[1], r[2], r[3], w[0], 3)
+        r[3] = r1(r[3], r[0], r[1], r[2], w[1], 7)
+        r[2] = r1(r[2], r[3], r[0], r[1], w[2], 11)
+        r[1] = r1(r[1], r[2], r[3], r[0], w[3], 19)
+        r[0] = r1(r[0], r[1], r[2], r[3], w[4], 3)
+        r[3] = r1(r[3], r[0], r[1], r[2], w[5], 7)
+        r[2] = r1(r[2], r[3], r[0], r[1], w[6], 11)
+        r[1] = r1(r[1], r[2], r[3], r[0], w[7], 19)
+        r[0] = r1(r[0], r[1], r[2], r[3], w[8], 3)
+        r[3] = r1(r[3], r[0], r[1], r[2], w[9], 7)
+        r[2] = r1(r[2], r[3], r[0], r[1], w[10], 11)
+        r[1] = r1(r[1], r[2], r[3], r[0], w[11], 19)
+        r[0] = r1(r[0], r[1], r[2], r[3], w[12], 3)
+        r[3] = r1(r[3], r[0], r[1], r[2], w[13], 7)
+        r[2] = r1(r[2], r[3], r[0], r[1], w[14], 11)
+        r[1] = r1(r[1], r[2], r[3], r[0], w[15], 19)
 
         //
         // ROUND 2
         //
 
-        r.a = r2(r.a, r.b, r.c, r.d, w0, 3)
-        r.d = r2(r.d, r.a, r.b, r.c, w4, 5)
-        r.c = r2(r.c, r.d, r.a, r.b, w8, 9)
-        r.b = r2(r.b, r.c, r.d, r.a, w12, 13)
-        r.a = r2(r.a, r.b, r.c, r.d, w1, 3)
-        r.d = r2(r.d, r.a, r.b, r.c, w5, 5)
-        r.c = r2(r.c, r.d, r.a, r.b, w9, 9)
-        r.b = r2(r.b, r.c, r.d, r.a, w13, 13)
-        r.a = r2(r.a, r.b, r.c, r.d, w2, 3)
-        r.d = r2(r.d, r.a, r.b, r.c, w6, 5)
-        r.c = r2(r.c, r.d, r.a, r.b, w10, 9)
-        r.b = r2(r.b, r.c, r.d, r.a, w14, 13)
-        r.a = r2(r.a, r.b, r.c, r.d, w3, 3)
-        r.d = r2(r.d, r.a, r.b, r.c, w7, 5)
-        r.c = r2(r.c, r.d, r.a, r.b, w11, 9)
-        r.b = r2(r.b, r.c, r.d, r.a, w15, 13)
+        r[0] = r2(r[0], r[1], r[2], r[3], w[0], 3)
+        r[3] = r2(r[3], r[0], r[1], r[2], w[4], 5)
+        r[2] = r2(r[2], r[3], r[0], r[1], w[8], 9)
+        r[1] = r2(r[1], r[2], r[3], r[0], w[12], 13)
+        r[0] = r2(r[0], r[1], r[2], r[3], w[1], 3)
+        r[3] = r2(r[3], r[0], r[1], r[2], w[5], 5)
+        r[2] = r2(r[2], r[3], r[0], r[1], w[9], 9)
+        r[1] = r2(r[1], r[2], r[3], r[0], w[13], 13)
+        r[0] = r2(r[0], r[1], r[2], r[3], w[2], 3)
+        r[3] = r2(r[3], r[0], r[1], r[2], w[6], 5)
+        r[2] = r2(r[2], r[3], r[0], r[1], w[10], 9)
+        r[1] = r2(r[1], r[2], r[3], r[0], w[14], 13)
+        r[0] = r2(r[0], r[1], r[2], r[3], w[3], 3)
+        r[3] = r2(r[3], r[0], r[1], r[2], w[7], 5)
+        r[2] = r2(r[2], r[3], r[0], r[1], w[11], 9)
+        r[1] = r2(r[1], r[2], r[3], r[0], w[15], 13)
 
         //
         // ROUND 3
         //
 
-        r.a = r3(r.a, r.b, r.c, r.d, w0, 3)
-        r.d = r3(r.d, r.a, r.b, r.c, w8, 9)
-        r.c = r3(r.c, r.d, r.a, r.b, w4, 11)
-        r.b = r3(r.b, r.c, r.d, r.a, w12, 15)
-        r.a = r3(r.a, r.b, r.c, r.d, w2, 3)
-        r.d = r3(r.d, r.a, r.b, r.c, w10, 9)
-        r.c = r3(r.c, r.d, r.a, r.b, w6, 11)
-        r.b = r3(r.b, r.c, r.d, r.a, w14, 15)
-        r.a = r3(r.a, r.b, r.c, r.d, w1, 3)
-        r.d = r3(r.d, r.a, r.b, r.c, w9, 9)
-        r.c = r3(r.c, r.d, r.a, r.b, w5, 11)
-        r.b = r3(r.b, r.c, r.d, r.a, w13, 15)
-        r.a = r3(r.a, r.b, r.c, r.d, w3, 3)
-        r.d = r3(r.d, r.a, r.b, r.c, w11, 9)
-        r.c = r3(r.c, r.d, r.a, r.b, w7, 11)
-        r.b = r3(r.b, r.c, r.d, r.a, w15, 15)
+        r[0] = r3(r[0], r[1], r[2], r[3], w[0], 3)
+        r[3] = r3(r[3], r[0], r[1], r[2], w[8], 9)
+        r[2] = r3(r[2], r[3], r[0], r[1], w[4], 11)
+        r[1] = r3(r[1], r[2], r[3], r[0], w[12], 15)
+        r[0] = r3(r[0], r[1], r[2], r[3], w[2], 3)
+        r[3] = r3(r[3], r[0], r[1], r[2], w[10], 9)
+        r[2] = r3(r[2], r[3], r[0], r[1], w[6], 11)
+        r[1] = r3(r[1], r[2], r[3], r[0], w[14], 15)
+        r[0] = r3(r[0], r[1], r[2], r[3], w[1], 3)
+        r[3] = r3(r[3], r[0], r[1], r[2], w[9], 9)
+        r[2] = r3(r[2], r[3], r[0], r[1], w[5], 11)
+        r[1] = r3(r[1], r[2], r[3], r[0], w[13], 15)
+        r[0] = r3(r[0], r[1], r[2], r[3], w[3], 3)
+        r[3] = r3(r[3], r[0], r[1], r[2], w[11], 9)
+        r[2] = r3(r[2], r[3], r[0], r[1], w[7], 11)
+        r[1] = r3(r[1], r[2], r[3], r[0], w[15], 15)
 
-        r.a += aa
-        r.b += bb
-        r.c += cc
-        r.d += dd
+        r[0] += aa
+        r[1] += bb
+        r[2] += cc
+        r[3] += dd
     }
 
     public override val length: Int = 16
@@ -241,38 +212,22 @@ public class Md4HashAlgorithm : HashAlgorithm() {
 
     private companion object {
 
-        private data class Registers(
-            var a: UInt = A,
-            var b: UInt = B,
-            var c: UInt = C,
-            var d: UInt = D
+        private val cmb = ByteArray(64)
+        private val cr = intArrayOf(1732584193, -271733879, -1732584194, 271733878)
+        private val cw = IntArray(16)
+        private val padding = byteArrayOf(
+            -128, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0
         )
 
-        private const val A = 0x67452301U
-        private const val B = 0xEFCDAB89U
-        private const val C = 0x98BADCFEU
-        private const val D = 0x10325476U
+        private fun r1(p1: Int, p2: Int, p3: Int, p4: Int, p5: Int, p6: Int) =
+            (p1 + ((p2 and p3) or (p2.inv() and p4)) + p5) rl p6
 
-        private val blockRange = 0..63
+        private fun r2(p1: Int, p2: Int, p3: Int, p4: Int, p5: Int, p6: Int) =
+            (p1 + ((p2 and p3) or (p2 and p4) or (p3 and p4)) + p5 + 1518500249) rl p6
 
-        private val padding = ubyteArrayOf(
-            0x80U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U,
-            0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U,
-            0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U,
-            0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U,
-            0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U,
-            0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U,
-            0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U,
-            0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U
-        )
-
-        private fun r1(p1: UInt, p2: UInt, p3: UInt, p4: UInt, p5: UInt, p6: Int) =
-            (p1 + ((p2 and p3) or (p2.inv() and p4)) + p5).rotateLeft(p6)
-
-        private fun r2(p1: UInt, p2: UInt, p3: UInt, p4: UInt, p5: UInt, p6: Int) =
-            (p1 + ((p2 and p3) or (p2 and p4) or (p3 and p4)) + p5 + 0x5A827999U).rotateLeft(p6)
-
-        private fun r3(p1: UInt, p2: UInt, p3: UInt, p4: UInt, p5: UInt, p6: Int) =
-            (p1 + (p2 xor p3 xor p4) + p5 + 0x6ED9EBA1U).rotateLeft(p6)
+        private fun r3(p1: Int, p2: Int, p3: Int, p4: Int, p5: Int, p6: Int) =
+            (p1 + (p2 xor p3 xor p4) + p5 + 1859775393) rl p6
     }
 }
