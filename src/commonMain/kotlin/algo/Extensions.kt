@@ -51,76 +51,11 @@ internal inline fun forEachSegment(
     return ldo
 }
 
-@ExperimentalUnsignedTypes
-internal inline fun forEachSegment(
-    destination: UByteArray,
-    destinationOffset: Int,
-    source: ByteArray,
-    sourceOffset: Int,
-    length: Int,
-    block: () -> Unit
-): Int {
-
-    val ls = source.asUByteArray()
-    var ldo = destinationOffset
-    var lso = sourceOffset
-    var ll = length
-
-    while (ll > 0) {
-
-        val size = minOf(ll, destination.size - ldo)
-
-        ls.copyInto(destination, ldo, lso, lso + size)
-        lso += size
-        ldo += size
-        ll -= size
-
-        if (ldo == destination.size) {
-            ldo = 0
-            block()
-        }
-    }
-
-    return ldo
-}
-
 internal fun ByteArray.beIntAt(index: Int) =
     this[index + 3].toInt().and(255) or
     (this[index + 2].toInt().and(255) shl 8) or
     (this[index + 1].toInt().and(255) shl 16) or
     (this[index + 0].toInt().and(255) shl 24)
-
-@ExperimentalUnsignedTypes
-internal fun UByteArray.beUIntAt(index: Int) =
-    this[index + 3].toUInt() or
-    (this[index + 2].toUInt() shl 8) or
-    (this[index + 1].toUInt() shl 16) or
-    (this[index + 0].toUInt() shl 24)
-
-@ExperimentalUnsignedTypes
-internal fun UByteArray.leUIntAt(index: Int) =
-    this[index].toUInt() or
-    (this[index + 1].toUInt() shl 8) or
-    (this[index + 2].toUInt() shl 16) or
-    (this[index + 3].toUInt() shl 24)
-
-internal operator fun ByteArray.set(indices: IntRange, value: Byte) {
-    for (i in indices)
-        this[i] = value
-}
-
-@ExperimentalUnsignedTypes
-internal operator fun UByteArray.set(indices: IntRange, value: UByte) {
-    for (i in indices)
-        this[i] = value
-}
-
-@ExperimentalUnsignedTypes
-internal fun UInt.reverseByteOrder() =
-    (this and 0x000000FFU shl 24) or
-    (this and 0x0000FF00U shl 8) or
-    (this and 0x00FF0000U shr 8) or
-    (this and 0xFF000000U shr 24)
 
 internal fun Int.byteAt(index: Int) =
     when (index) {
@@ -131,18 +66,7 @@ internal fun Int.byteAt(index: Int) =
         else -> throw IllegalArgumentException("Byte index must be 0-3.")
     }
 
-internal infix fun Int.rl(count: Int) =
-    (this shl count) or (this ushr (32 - count))
-
-@ExperimentalUnsignedTypes
-internal fun UInt.ubyteAt(index: Int) =
-    when (index) {
-        0 -> this.and(0xFF000000U).shr(24).and(0xFFU).toUByte()
-        1 -> this.and(0x00FF0000U).shr(16).and(0xFFU).toUByte()
-        2 -> this.and(0x0000FF00U).shr(8).and(0xFFU).toUByte()
-        3 -> this.and(0x000000FFU).toUByte()
-        else -> throw IllegalArgumentException("UByte index must be 0-3.")
-    }
+internal infix fun Int.rl(count: Int) = (this shl count) or (this ushr (32 - count))
 
 internal fun Long.byteAt(index: Int) =
     when (index) {
@@ -155,18 +79,4 @@ internal fun Long.byteAt(index: Int) =
         6 -> this.and(65280).shr(8).and(255).toByte()
         7 -> this.and(255).toByte()
         else -> throw IllegalArgumentException("Byte index must be 0-7.")
-    }
-
-@ExperimentalUnsignedTypes
-internal fun ULong.ubyteAt(index: Int) =
-    when (index) {
-        0 -> this.and(0xFF00000000000000U).shr(56).and(0xFFU).toUByte()
-        1 -> this.and(0x00FF000000000000U).shr(48).and(0xFFU).toUByte()
-        2 -> this.and(0x0000FF0000000000U).shr(40).and(0xFFU).toUByte()
-        3 -> this.and(0x000000FF00000000U).shr(32).and(0xFFU).toUByte()
-        4 -> this.and(0x00000000FF000000U).shr(24).and(0xFFU).toUByte()
-        5 -> this.and(0x0000000000FF0000U).shr(16).and(0xFFU).toUByte()
-        6 -> this.and(0x000000000000FF00U).shr(8).and(0xFFU).toUByte()
-        7 -> this.and(0x00000000000000FFU).toUByte()
-        else -> throw IllegalArgumentException("UByte index must be 0-7.")
     }
