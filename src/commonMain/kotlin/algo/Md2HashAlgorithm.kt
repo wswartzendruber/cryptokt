@@ -111,7 +111,7 @@ public class Md2HashAlgorithm : HashAlgorithm() {
                 xb[k] = xb[k] xor s[t]
                 t = xb[k].toInt().and(255)
             }
-            t = (t + j).rem(256)
+            t = (t + j) % 256
         }
     }
 
