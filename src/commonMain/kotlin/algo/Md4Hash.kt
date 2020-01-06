@@ -28,7 +28,7 @@ import org.cryptokt.rl
  * The second in the MD series by Ronald Rivest. It has a digest size of 128 bits. It has been
  * considered broken since 1995.
  */
-public class Md4HashAlgorithm : HashAlgorithm() {
+public class Md4Hash : Hash() {
 
     private var mo = 0
     private var ms = 0L

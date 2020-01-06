@@ -29,7 +29,7 @@ import org.cryptokt.rl
  * of 160 bits. It has had progressively diminished levels of security beginning in 2010 and was
  * fully broken in 2019.
  */
-public class Sha1HashAlgorithm : HashAlgorithm() {
+public class Sha1Hash : Hash() {
 
     private var mo = 0
     private var ms = 0L

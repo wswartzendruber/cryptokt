@@ -27,7 +27,7 @@ import org.cryptokt.forEachSegment
  * The first in the MD series by Ronald Rivest. It has a digest size of 128 bits. It has been
  * considered broken since 2004.
  */
-public class Md2HashAlgorithm : HashAlgorithm() {
+public class Md2Hash : Hash() {
 
     private var mo = 0
     private var cl: Byte = 0

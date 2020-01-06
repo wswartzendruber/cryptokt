@@ -28,7 +28,7 @@ import org.cryptokt.rl
  * The third in the MD series by Ronald Rivest. It has a digest size of 128 bits. It has been
  * considered broken since 2013.
  */
-public class Md5HashAlgorithm : HashAlgorithm() {
+public class Md5Hash : Hash() {
 
     private var mo = 0
     private var ms = 0L

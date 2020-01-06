@@ -23,17 +23,17 @@ import kotlin.random.Random
 import kotlin.test.assertTrue
 import kotlin.test.Test
 
-import org.cryptokt.algo.Md2HashAlgorithm
-import org.cryptokt.algo.Md4HashAlgorithm
-import org.cryptokt.algo.Md5HashAlgorithm
-import org.cryptokt.algo.Sha1HashAlgorithm
+import org.cryptokt.algo.Md2Hash
+import org.cryptokt.algo.Md4Hash
+import org.cryptokt.algo.Md5Hash
+import org.cryptokt.algo.Sha1Hash
 
-class HashAlgorithmTests {
+class HashTests {
 
     @Test
     fun `MD2 accuracy`() {
 
-        val md2 = Md2HashAlgorithm()
+        val md2 = Md2Hash()
 
         for (hashValue in md2HashValues) {
             md2.input(hashValue.key.toAsciiByteArray())
@@ -44,7 +44,7 @@ class HashAlgorithmTests {
     @Test
     fun `MD2 performance (1 GB)`() {
 
-        val md2 = Md2HashAlgorithm()
+        val md2 = Md2Hash()
 
         for (i in 0..(1024 * 1024))
             md2.input(randomData)
@@ -55,7 +55,7 @@ class HashAlgorithmTests {
     @Test
     fun `MD4 accurancy`() {
 
-        val md4 = Md4HashAlgorithm()
+        val md4 = Md4Hash()
 
         for (hashValue in md4HashValues) {
             md4.input(hashValue.key.toAsciiByteArray())
@@ -66,7 +66,7 @@ class HashAlgorithmTests {
     @Test
     fun `MD4 performance (1 GB)`() {
 
-        val md4 = Md4HashAlgorithm()
+        val md4 = Md4Hash()
 
         for (i in 0..(1024 * 1024))
             md4.input(randomData)
@@ -77,7 +77,7 @@ class HashAlgorithmTests {
     @Test
     fun `MD5 accuracy`() {
 
-        val md5 = Md5HashAlgorithm()
+        val md5 = Md5Hash()
 
         for (hashValue in md5HashValues) {
             md5.input(hashValue.key.toAsciiByteArray())
@@ -88,7 +88,7 @@ class HashAlgorithmTests {
     @Test
     fun `MD5 performance (1 GB)`() {
 
-        val md5 = Md5HashAlgorithm()
+        val md5 = Md5Hash()
 
         for (i in 0..(1024 * 1024))
             md5.input(randomData)
@@ -99,7 +99,7 @@ class HashAlgorithmTests {
     @Test
     fun `SHA1 accuracy`() {
 
-        val sha1 = Sha1HashAlgorithm()
+        val sha1 = Sha1Hash()
 
         for (hashValue in sha1HashValues) {
             sha1.input(hashValue.key.toAsciiByteArray())
@@ -110,7 +110,7 @@ class HashAlgorithmTests {
     @Test
     fun `SHA1 performance (1 GB)`() {
 
-        val sha1 = Sha1HashAlgorithm()
+        val sha1 = Sha1Hash()
 
         for (i in 0..(1024 * 1024))
             sha1.input(randomData)

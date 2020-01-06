@@ -23,7 +23,7 @@ package org.cryptokt.algo
  * Represents a hash algorithm which takes input of an arbitrary length and produces a digest of
  * a fixed length.
  */
-public abstract class HashAlgorithm {
+public abstract class Hash {
 
     /**
      * Updates the internal state of the hash algorithm by inputting the specified [buffer]
