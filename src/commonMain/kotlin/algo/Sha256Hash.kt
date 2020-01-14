@@ -129,7 +129,10 @@ public class Sha256Hash(size: Int = 256) : Hash() {
             w[t] = mb.beIntAt(4 * t)
 
         for (t in 16..79)
-            w[t] = o1(w[t - 2]) + w[t - 7] + o0(w[t - 15]) + w[t - 16]
+            w[t] = ((w[t - 2] rr 17) xor (w[t - 2] rr 19) xor (w[t - 2] ushr 10)) +
+                w[t - 7] +
+                ((w[t - 15] rr 7) xor (w[t - 15] rr 18) xor (w[t - 15] ushr 3)) +
+                w[t - 16]
 
         var t1: Int
         var t2: Int
@@ -143,8 +146,10 @@ public class Sha256Hash(size: Int = 256) : Hash() {
         var h = r[7]
 
         for (t in 0..63) {
-            t1 = h + sum1(e) + ch(e, f, g) + k[t] + w[t]
-            t2 = sum0(a) + maj(a, b, c)
+            t1 = h + ((e rr 6) xor (e rr 11) xor (e rr 25)) +
+                ((e and f) xor (e.inv() and g)) + k[t] + w[t]
+            t2 = ((a rr 2) xor (a rr 13) xor (a rr 22)) +
+                ((a and b) xor (a and c) xor (b and c))
             h = g
             g = f
             f = e
@@ -198,17 +203,5 @@ public class Sha256Hash(size: Int = 256) : Hash() {
             1322822218, 1537002063, 1747873779, 1955562222, 2024104815, -2067236844,
             -1933114872, -1866530822, -1538233109, -1090935817, -965641998
         )
-
-        private fun ch(x: Int, y: Int, z: Int) = (x and y) xor (x.inv() and z)
-
-        private fun maj(x: Int, y: Int, z: Int) = (x and y) xor (x and z) xor (y and z)
-
-        private fun sum0(x: Int) = (x rr 2) xor (x rr 13) xor (x rr 22)
-
-        private fun sum1(x: Int) = (x rr 6) xor (x rr 11) xor (x rr 25)
-
-        private fun o0(x: Int) = (x rr 7) xor (x rr 18) xor (x ushr 3)
-
-        private fun o1(x: Int) = (x rr 17) xor (x rr 19) xor (x ushr 10)
     }
 }
