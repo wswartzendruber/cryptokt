@@ -61,11 +61,31 @@ internal fun ByteArray.beIntAt(index: Int) =
         (this[index + 2].toInt() and 255 shl 8) or
         (this[index + 3].toInt() and 255)
 
+internal fun ByteArray.beLongAt(index: Int) =
+    (this[index].toLong() shl 56) or
+        (this[index + 1].toLong() and 255 shl 48) or
+        (this[index + 2].toLong() and 255 shl 40) or
+        (this[index + 3].toLong() and 255 shl 32) or
+        (this[index + 4].toLong() and 255 shl 24) or
+        (this[index + 5].toLong() and 255 shl 16) or
+        (this[index + 6].toLong() and 255 shl 8) or
+        (this[index + 7].toLong() and 255)
+
 internal fun ByteArray.leIntAt(index: Int) =
     (this[index].toInt() and 255) or
         (this[index + 1].toInt() and 255 shl 8) or
         (this[index + 2].toInt() and 255 shl 16) or
         (this[index + 3].toInt() shl 24)
+
+internal fun ByteArray.leLongAt(index: Int) =
+    (this[index].toLong() and 255) or
+        (this[index + 1].toLong() and 255 shl 8) or
+        (this[index + 2].toLong() and 255 shl 16) or
+        (this[index + 3].toLong() and 255 shl 24) or
+        (this[index + 4].toLong() and 255 shl 32) or
+        (this[index + 5].toLong() and 255 shl 40) or
+        (this[index + 6].toLong() and 255 shl 48) or
+        (this[index + 7].toLong() shl 56)
 
 //
 // Int
@@ -86,6 +106,8 @@ internal fun Int.copyIntoLe(buffer: ByteArray, offset: Int) {
 }
 
 internal infix fun Int.rl(count: Int) = (this shl count) or (this ushr (32 - count))
+
+internal infix fun Int.rr(count: Int) = (this ushr count) or (this shl (32 - count))
 
 //
 // Long
@@ -112,3 +134,7 @@ internal fun Long.copyIntoLe(buffer: ByteArray, offset: Int) {
     buffer[offset + 6] = this.ushr(48).toByte()
     buffer[offset + 7] = this.ushr(56).toByte()
 }
+
+internal infix fun Long.rl(count: Int) = (this shl count) or (this ushr (64 - count))
+
+internal infix fun Long.rr(count: Int) = (this ushr count) or (this shl (64 - count))

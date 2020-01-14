@@ -27,6 +27,7 @@ import org.cryptokt.algo.Md2Hash
 import org.cryptokt.algo.Md4Hash
 import org.cryptokt.algo.Md5Hash
 import org.cryptokt.algo.Sha1Hash
+import org.cryptokt.algo.Sha256Hash
 
 class HashTests {
 
@@ -118,6 +119,50 @@ class HashTests {
         sha1.digest()
     }
 
+    @Test
+    fun `SHA2-256 accuracy`() {
+
+        val sha256 = Sha256Hash()
+
+        for (hashValue in sha2256HashValues) {
+            sha256.input(hashValue.key.toAsciiByteArray())
+            assertTrue(sha256.digest().toHexString() == hashValue.value)
+        }
+    }
+
+    @Test
+    fun `SHA2-256 performance (1 GB)`() {
+
+        val sha256 = Sha256Hash()
+
+        for (i in 0..(1024 * 1024))
+            sha256.input(randomData)
+
+        sha256.digest()
+    }
+
+    @Test
+    fun `SHA2-224 accuracy`() {
+
+        val sha256 = Sha256Hash(224)
+
+        for (hashValue in sha2224HashValues) {
+            sha256.input(hashValue.key.toAsciiByteArray())
+            assertTrue(sha256.digest().toHexString() == hashValue.value)
+        }
+    }
+
+    @Test
+    fun `SHA2-224 performance (1 GB)`() {
+
+        val sha256 = Sha256Hash(224)
+
+        for (i in 0..(1024 * 1024))
+            sha256.input(randomData)
+
+        sha256.digest()
+    }
+
     companion object {
 
         val randomData = Random.nextBytes(ByteArray(1024))
@@ -160,6 +205,26 @@ class HashTests {
             "abcdefghijklmnopqrstuvwxyz" to "32d10c7b8cf96570ca04ce37f2a19d84240d3a89",
             "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789" to "761c457bf73b14d27e9e9265c46f4b4dda11f940",
             "12345678901234567890123456789012345678901234567890123456789012345678901234567890" to "50abf5706a150990a08b2c5ea40fa0e585554732"
+        )
+
+        val sha2224HashValues = mapOf(
+            "" to "d14a028c2a3a2bc9476102bb288234c415a2b01f828ea62ac5b3e42f",
+            "a" to "abd37534c7d9a2efb9465de931cd7055ffdb8879563ae98078d6d6d5",
+            "abc" to "23097d223405d8228642a477bda255b32aadbce4bda0b3f7e36c9da7",
+            "message digest" to "2cb21c83ae2f004de7e81c3c7019cbcb65b71ab656b22d6d0c39b8eb",
+            "abcdefghijklmnopqrstuvwxyz" to "45a5f72c39c5cff2522eb3429799e49e5f44b356ef926bcf390dccc2",
+            "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789" to "bff72b4fcb7d75e5632900ac5f90d219e05e97a7bde72e740db393d9",
+            "12345678901234567890123456789012345678901234567890123456789012345678901234567890" to "b50aecbe4e9bb0b57bc5f3ae760a8e01db24f203fb3cdcd13148046e"
+        )
+
+        val sha2256HashValues = mapOf(
+            "" to "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "a" to "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb",
+            "abc" to "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad",
+            "message digest" to "f7846f55cf23e14eebeab5b4e1550cad5b509e3348fbc4efa3a1413d393cb650",
+            "abcdefghijklmnopqrstuvwxyz" to "71c480df93d6ae2f1efad1447c66c9525e316218cf51fc8d9ed832f2daf18b73",
+            "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789" to "db4bfcbd4da0cd85a60c3c37d3fbd8805c77f15fc6b1fdfe614ee0a7c8fdb4c0",
+            "12345678901234567890123456789012345678901234567890123456789012345678901234567890" to "f371bc4a311f2b009eef952dd83ca80e2b60026c8e935592d0f9c308453c813e"
         )
     }
 }
