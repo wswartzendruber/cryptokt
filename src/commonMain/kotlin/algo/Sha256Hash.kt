@@ -37,7 +37,7 @@ public class Sha256Hash(size: Int = 256) : Hash() {
     private var ms = 0L
     private val mb = ByteArray(64)
     private val r = IntArray(8)
-    private val w = IntArray(80)
+    private val w = IntArray(64)
     private val cr: IntArray
     private val rc: Int
     private val _length: Int
@@ -128,7 +128,7 @@ public class Sha256Hash(size: Int = 256) : Hash() {
         for (t in 0..15)
             w[t] = mb.beIntAt(4 * t)
 
-        for (t in 16..79)
+        for (t in 16..63)
             w[t] = ((w[t - 2] rr 17) xor (w[t - 2] rr 19) xor (w[t - 2] ushr 10)) +
                 w[t - 7] +
                 ((w[t - 15] rr 7) xor (w[t - 15] rr 18) xor (w[t - 15] ushr 3)) +
@@ -185,7 +185,7 @@ public class Sha256Hash(size: Int = 256) : Hash() {
             1779033703, -1150833019, 1013904242, -1521486534, 1359893119, -1694144372,
             528734635, 1541459225
         )
-        private val cw = IntArray(80)
+        private val cw = IntArray(64)
         private val padding = byteArrayOf(
             -128, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
