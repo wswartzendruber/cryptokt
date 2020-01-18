@@ -100,60 +100,60 @@ public class Sha1Hash : Hash() {
 
     private fun transformBlock() {
 
-        for (i in 0..15)
-            w[i] = mb.beIntAt(4 * i)
+        for (t in 0..15)
+            w[t] = mb.beIntAt(4 * t)
 
-        for (i in 16..79)
-            w[i] = (w[i - 3] xor w[i - 8] xor w[i - 14] xor w[i - 16]) rl 1
+        for (t in 16..79)
+            w[t] = (w[t - 3] xor w[t - 8] xor w[t - 14] xor w[t - 16]) rl 1
 
-        var t: Int
-        var ra = r[0]
-        var rb = r[1]
-        var rc = r[2]
-        var rd = r[3]
-        var re = r[4]
+        var t1: Int
+        var a = r[0]
+        var b = r[1]
+        var c = r[2]
+        var d = r[3]
+        var e = r[4]
 
-        for (i in 0..19) {
-            t = (ra rl 5) + ((rb and rc) or (rb.inv() and rd)) + re + w[i] + K1
-            re = rd
-            rd = rc
-            rc = rb rl 30
-            rb = ra
-            ra = t
+        for (t in 0..19) {
+            t1 = (a rl 5) + ((b and c) or (b.inv() and d)) + e + w[t] + K1
+            e = d
+            d = c
+            c = b rl 30
+            b = a
+            a = t1
         }
 
-        for (i in 20..39) {
-            t = (ra rl 5) + (rb xor rc xor rd) + re + w[i] + K2
-            re = rd
-            rd = rc
-            rc = rb rl 30
-            rb = ra
-            ra = t
+        for (t in 20..39) {
+            t1 = (a rl 5) + (b xor c xor d) + e + w[t] + K2
+            e = d
+            d = c
+            c = b rl 30
+            b = a
+            a = t1
         }
 
-        for (i in 40..59) {
-            t = (ra rl 5) + ((rb and rc) or (rb and rd) or (rc and rd)) + re + w[i] + K3
-            re = rd
-            rd = rc
-            rc = rb rl 30
-            rb = ra
-            ra = t
+        for (t in 40..59) {
+            t1 = (a rl 5) + ((b and c) or (b and d) or (c and d)) + e + w[t] + K3
+            e = d
+            d = c
+            c = b rl 30
+            b = a
+            a = t1
         }
 
-        for (i in 60..79) {
-            t = (ra rl 5) + (rb xor rc xor rd) + re + w[i] + K4
-            re = rd
-            rd = rc
-            rc = rb rl 30
-            rb = ra
-            ra = t
+        for (t in 60..79) {
+            t1 = (a rl 5) + (b xor c xor d) + e + w[t] + K4
+            e = d
+            d = c
+            c = b rl 30
+            b = a
+            a = t1
         }
 
-        r[0] += ra
-        r[1] += rb
-        r[2] += rc
-        r[3] += rd
-        r[4] += re
+        r[0] += a
+        r[1] += b
+        r[2] += c
+        r[3] += d
+        r[4] += e
     }
 
     public override val length: Int = 20
