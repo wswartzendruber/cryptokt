@@ -63,10 +63,10 @@ public class Sha256Hash(size: Int = 256) : Hash() {
             }
         }
 
-        clear()
+        reset()
     }
 
-    public override fun input(buffer: ByteArray, offset: Int, length: Int) {
+    public override fun input(buffer: ByteArray, offset: Int, length: Int): Unit {
         mo = forEachSegment(
             mb, mo,
             buffer, offset, length,
@@ -110,12 +110,12 @@ public class Sha256Hash(size: Int = 256) : Hash() {
         for (i in 0..rc)
             r[i].copyIntoBe(output, 4 * i)
 
-        clear()
+        reset()
 
         return output
     }
 
-    private fun clear() {
+    public override fun reset(): Unit {
         mo = 0
         ms = 0L
         cmb.copyInto(mb)

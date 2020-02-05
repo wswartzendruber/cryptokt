@@ -36,10 +36,10 @@ public class Md2Hash : Hash() {
     private val xb = ByteArray(48)
 
     init {
-        clear()
+        reset()
     }
 
-    public override fun input(buffer: ByteArray, offset: Int, length: Int) {
+    public override fun input(buffer: ByteArray, offset: Int, length: Int): Unit {
         mo = forEachSegment(
             mb, mo,
             buffer, offset, length,
@@ -75,12 +75,12 @@ public class Md2Hash : Hash() {
         //
 
         xb.copyInto(output, offset, 0, 16)
-        clear()
+        reset()
 
         return output
     }
 
-    private fun clear() {
+    public override fun reset(): Unit {
         mo = 0
         cl = 0
         ccb.copyInto(cb)

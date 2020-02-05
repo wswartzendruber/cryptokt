@@ -30,7 +30,11 @@ public abstract class Hash {
      * segment, starting at the zero-based [offset] up to and including [length] bytes from
      * there.
      */
-    public abstract fun input(buffer: ByteArray, offset: Int = 0, length: Int = buffer.size)
+    public abstract fun input(
+        buffer: ByteArray,
+        offset: Int = 0,
+        length: Int = buffer.size
+    ): Unit
 
     /**
      * Writes the digest for the message into the specified [output] buffer starting at the
@@ -41,6 +45,11 @@ public abstract class Hash {
         output: ByteArray = ByteArray(length),
         offset: Int = 0
     ): ByteArray
+
+    /**
+     * Resets the internal state of the hash algorithm, preserving any configuration parameters.
+     */
+    public abstract fun reset(): Unit
 
     /**
      * Returns the length in whole bytes of the digest.

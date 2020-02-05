@@ -37,10 +37,10 @@ public class Md4Hash : Hash() {
     private val w = IntArray(16)
 
     init {
-        clear()
+        reset()
     }
 
-    public override fun input(buffer: ByteArray, offset: Int, length: Int) {
+    public override fun input(buffer: ByteArray, offset: Int, length: Int): Unit {
         mo = forEachSegment(
             mb, mo,
             buffer, offset, length,
@@ -84,12 +84,12 @@ public class Md4Hash : Hash() {
         for (i in 0..3)
             r[i].copyIntoLe(output, 4 * i)
 
-        clear()
+        reset()
 
         return output
     }
 
-    private fun clear() {
+    public override fun reset(): Unit {
         mo = 0
         ms = 0L
         cmb.copyInto(mb)

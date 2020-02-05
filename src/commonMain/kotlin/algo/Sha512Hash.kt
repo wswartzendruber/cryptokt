@@ -75,10 +75,10 @@ public class Sha512Hash(size: Int = 512) : Hash() {
             }
         }
 
-        clear()
+        reset()
     }
 
-    public override fun input(buffer: ByteArray, offset: Int, length: Int) {
+    public override fun input(buffer: ByteArray, offset: Int, length: Int): Unit {
         mo = forEachSegment(
             mb, mo,
             buffer, offset, length,
@@ -128,12 +128,12 @@ public class Sha512Hash(size: Int = 512) : Hash() {
         else
             r[rc].copyIntoBe(output, 8 * rc)
 
-        clear()
+        reset()
 
         return output
     }
 
-    private fun clear() {
+    public override fun reset(): Unit {
         mo = 0
         ms = 0L
         cmb.copyInto(mb)
