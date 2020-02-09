@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 William Swartzendruber
+ * Copyright 2020 William Swartzendruber
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software
  * and associated documentation files (the "Software"), to deal in the Software without
@@ -21,87 +21,25 @@ package org.cryptokt.algo
 
 import org.cryptokt.beIntAt
 import org.cryptokt.copyIntoBe
-import org.cryptokt.forEachSegment
 import org.cryptokt.rl
 
 /**
- * The first formally published version of the U.S. Secure Hash Algorithm. It has a digest size
- * of 160 bits. It has had progressively diminished levels of security beginning in 2010 and was
- * fully broken in 2019.
+ * The first formally published version of the U.S. Secure Hash Algorithm. It has had
+ * diminishing levels of security since 2010 and was fully broken in 2019.
+ *
+ * @constructor Initializes a new SHA1 instance with a block size of 512 bits and a digest size
+ *     of 160 bits.
  */
-public class Sha1Hash : Hash() {
+public class Sha1Hash : Hash(512, 160) {
 
-    private var mo = 0
     private var ms = 0L
-    private val mb = ByteArray(64)
-    private val r = IntArray(5)
-    private val w = IntArray(80)
+    private val r = cr.copyInto(IntArray(5))
+    private val w = cw.copyInto(IntArray(80))
 
-    init {
-        reset()
-    }
-
-    public override fun input(buffer: ByteArray, offset: Int, length: Int): Unit {
-        mo = forEachSegment(
-            mb, mo,
-            buffer, offset, length,
-            {
-                transformBlock()
-            }
-        )
-        ms += (length * 8).toLong()
-    }
-
-    public override fun digest(output: ByteArray, offset: Int): ByteArray {
-
-        //
-        // APPEND PADDING
-        //
-
-        if (mo > 55) {
-            padding.copyInto(mb, mo, 0, 64 - mo)
-            transformBlock()
-            padding.copyInto(mb, 0, 8, 64)
-        } else {
-            padding.copyInto(mb, mo, 0, 56 - mo)
-        }
-
-        //
-        // APPEND LENGTH
-        //
-
-        ms.copyIntoBe(mb, 56)
-
-        //
-        // TRANSFORM PADDING + LENGTH
-        //
-
-        transformBlock()
-
-        //
-        // SET OUTPUT
-        //
-
-        for (i in 0..4)
-            r[i].copyIntoBe(output, 4 * i)
-
-        reset()
-
-        return output
-    }
-
-    public override fun reset(): Unit {
-        mo = 0
-        ms = 0L
-        cmb.copyInto(mb)
-        cr.copyInto(r)
-        cw.copyInto(w)
-    }
-
-    private fun transformBlock() {
+    protected override fun transformBlock(block: ByteArray): Unit {
 
         for (t in 0..15)
-            w[t] = mb.beIntAt(4 * t)
+            w[t] = block.beIntAt(4 * t)
 
         for (t in 16..79)
             w[t] = (w[t - 3] xor w[t - 8] xor w[t - 14] xor w[t - 16]) rl 1
@@ -154,11 +92,40 @@ public class Sha1Hash : Hash() {
         r[2] += c
         r[3] += d
         r[4] += e
+
+        ms += 512L
     }
 
-    public override val length: Int = 20
+    protected override fun transformFinal(
+        output: ByteArray,
+        offset: Int,
+        remaining: ByteArray,
+        remainingSize: Int
+    ): Unit {
 
-    public override val size: Int = 160
+        val lms = ms + remainingSize.toLong() * 8L
+
+        if (remainingSize > 55) {
+            padding.copyInto(remaining, remainingSize, 0, 64 - remainingSize)
+            transformBlock(remaining)
+            padding.copyInto(remaining, 0, 8, 64)
+        } else {
+            padding.copyInto(remaining, remainingSize, 0, 56 - remainingSize)
+        }
+
+        lms.copyIntoBe(remaining, 56)
+
+        transformBlock(remaining)
+
+        for (i in 0..4)
+            r[i].copyIntoBe(output, 4 * i)
+    }
+
+    protected override fun resetState(): Unit {
+        ms = 0L
+        cr.copyInto(r)
+        cw.copyInto(w)
+    }
 
     private companion object {
 
@@ -167,7 +134,6 @@ public class Sha1Hash : Hash() {
         private const val K3 = -1894007588
         private const val K4 = -899497514
 
-        private val cmb = ByteArray(64)
         private val cr = intArrayOf(1732584193, -271733879, -1732584194, 271733878, -1009589776)
         private val cw = IntArray(80)
         private val padding = byteArrayOf(

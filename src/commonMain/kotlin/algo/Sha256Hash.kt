@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 William Swartzendruber
+ * Copyright 2020 William Swartzendruber
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software
  * and associated documentation files (the "Software"), to deal in the Software without
@@ -21,112 +21,44 @@ package org.cryptokt.algo
 
 import org.cryptokt.beIntAt
 import org.cryptokt.copyIntoBe
-import org.cryptokt.forEachSegment
 import org.cryptokt.rr
+
+/**
+ * Represents the possible digest sizes for SHA2-256.
+ *
+ * @property[value] The digest size in bits.
+ */
+public enum class Sha256DigestSize(val value: Int) {
+    /** SHA2-224 */
+    _224(224),
+    /** SHA2-256 */
+    _256(256)
+}
 
 /**
  * The second formally published version of the U.S. Secure Hash Algorithm. This implementation
  * handles SHA2-224 and SHA2-256.
  *
- * @param[size] The digest size for the hash algorithm to output. Valid values are `224` and
- *     `256`.
+ * @constructor Initializes a new SHA2-256 instance with a block size of 512 bits and a
+ *     configurable digest size.
  */
-public class Sha256Hash(size: Int = 256) : Hash() {
+public class Sha256Hash(
+    private val size: Sha256DigestSize = Sha256DigestSize._256
+) : Hash(512, size.value) {
 
-    private var mo = 0
     private var ms = 0L
-    private val mb = ByteArray(64)
-    private val r = IntArray(8)
-    private val w = IntArray(64)
-    private val cr: IntArray
-    private val rc: Int
-    private val _length: Int
-    private val _size: Int
-
-    init {
-
+    private val r = cr[size]!!.copyInto(IntArray(8))
+    private val w = cw.copyInto(IntArray(64))
+    private val rc =
         when (size) {
-            224 -> {
-                cr = cr224
-                rc = 6
-                _length = 28
-                _size = 224
-            }
-            256 -> {
-                cr = cr256
-                rc = 7
-                _length = 32
-                _size = 256
-            }
-            else -> {
-                throw IllegalArgumentException("Valid digest sizes are 224 and 256.")
-            }
+            Sha256DigestSize._224 -> 6
+            Sha256DigestSize._256 -> 7
         }
 
-        reset()
-    }
-
-    public override fun input(buffer: ByteArray, offset: Int, length: Int): Unit {
-        mo = forEachSegment(
-            mb, mo,
-            buffer, offset, length,
-            {
-                transformBlock()
-            }
-        )
-        ms += (length * 8).toLong()
-    }
-
-    public override fun digest(output: ByteArray, offset: Int): ByteArray {
-
-        //
-        // APPEND PADDING
-        //
-
-        if (mo > 55) {
-            padding.copyInto(mb, mo, 0, 64 - mo)
-            transformBlock()
-            padding.copyInto(mb, 0, 8, 64)
-        } else {
-            padding.copyInto(mb, mo, 0, 56 - mo)
-        }
-
-        //
-        // APPEND LENGTH
-        //
-
-        ms.copyIntoBe(mb, 56)
-
-        //
-        // TRANSFORM PADDING + LENGTH
-        //
-
-        transformBlock()
-
-        //
-        // SET OUTPUT
-        //
-
-        for (i in 0..rc)
-            r[i].copyIntoBe(output, 4 * i)
-
-        reset()
-
-        return output
-    }
-
-    public override fun reset(): Unit {
-        mo = 0
-        ms = 0L
-        cmb.copyInto(mb)
-        cr.copyInto(r)
-        cw.copyInto(w)
-    }
-
-    private fun transformBlock() {
+    protected override fun transformBlock(block: ByteArray): Unit {
 
         for (t in 0..15)
-            w[t] = mb.beIntAt(4 * t)
+            w[t] = block.beIntAt(4 * t)
 
         for (t in 16..63)
             w[t] = ((w[t - 2] rr 17) xor (w[t - 2] rr 19) xor (w[t - 2] ushr 10)) +
@@ -168,22 +100,52 @@ public class Sha256Hash(size: Int = 256) : Hash() {
         r[5] += f
         r[6] += g
         r[7] += h
+
+        ms += 512L
     }
 
-    public override val length: Int = _length
+    protected override fun transformFinal(
+        output: ByteArray,
+        offset: Int,
+        remaining: ByteArray,
+        remainingSize: Int
+    ): Unit {
 
-    public override val size: Int = _size
+        val lms = ms + remainingSize.toLong() * 8L
+
+        if (remainingSize > 55) {
+            padding.copyInto(remaining, remainingSize, 0, 64 - remainingSize)
+            transformBlock(remaining)
+            padding.copyInto(remaining, 0, 8, 64)
+        } else {
+            padding.copyInto(remaining, remainingSize, 0, 56 - remainingSize)
+        }
+
+        lms.copyIntoBe(remaining, 56)
+
+        transformBlock(remaining)
+
+        for (i in 0..rc)
+            r[i].copyIntoBe(output, 4 * i)
+    }
+
+    protected override fun resetState(): Unit {
+        ms = 0L
+        cr[size]!!.copyInto(r)
+        cw.copyInto(w)
+    }
 
     private companion object {
 
-        private val cmb = ByteArray(64)
-        private val cr224 = intArrayOf(
-            -1056596264, 914150663, 812702999, -150054599, -4191439, 1750603025, 1694076839,
-            -1090891868
-        )
-        private val cr256 = intArrayOf(
-            1779033703, -1150833019, 1013904242, -1521486534, 1359893119, -1694144372,
-            528734635, 1541459225
+        private val cr = mapOf(
+            Sha256DigestSize._224 to intArrayOf(
+                -1056596264, 914150663, 812702999, -150054599, -4191439, 1750603025, 1694076839,
+                -1090891868
+            ),
+            Sha256DigestSize._256 to intArrayOf(
+                1779033703, -1150833019, 1013904242, -1521486534, 1359893119, -1694144372,
+                528734635, 1541459225
+            )
         )
         private val cw = IntArray(64)
         private val padding = byteArrayOf(

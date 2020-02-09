@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 William Swartzendruber
+ * Copyright 2020 William Swartzendruber
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software
  * and associated documentation files (the "Software"), to deal in the Software without
@@ -21,86 +21,21 @@ package org.cryptokt.algo
 
 import kotlin.experimental.xor
 
-import org.cryptokt.forEachSegment
-
 /**
- * The first in the MD series by Ronald Rivest. It has a digest size of 128 bits. It has been
- * considered broken since 2004.
+ * The first in the MD series by Ronald Rivest. It has been considered broken since 2004.
+ *
+ * @constructor Initializes a new MD2 instance with a block size and digest size of 128 bits.
  */
-public class Md2Hash : Hash() {
+public class Md2Hash : Hash(128, 128) {
 
-    private var mo = 0
     private var cl: Byte = 0
-    private val cb = ByteArray(16)
-    private val mb = ByteArray(16)
-    private val xb = ByteArray(48)
+    private val cb = ccb.copyInto(ByteArray(16))
+    private val xb = cxb.copyInto(ByteArray(48))
 
-    init {
-        reset()
-    }
-
-    public override fun input(buffer: ByteArray, offset: Int, length: Int): Unit {
-        mo = forEachSegment(
-            mb, mo,
-            buffer, offset, length,
-            {
-                updateChecksum()
-                transformBlock(mb)
-            }
-        )
-    }
-
-    public override fun digest(output: ByteArray, offset: Int): ByteArray {
-
-        //
-        // APPEND PADDING
-        //
-
-        val paddingValue = (16 - mo).toByte()
-
-        for (i in mo..15)
-            mb[i] = paddingValue
-
-        updateChecksum()
-        transformBlock(mb)
-
-        //
-        // APPEND CHECKSUM
-        //
-
-        transformBlock(cb)
-
-        //
-        // SET OUTPUT
-        //
-
-        xb.copyInto(output, offset, 0, 16)
-        reset()
-
-        return output
-    }
-
-    public override fun reset(): Unit {
-        mo = 0
-        cl = 0
-        ccb.copyInto(cb)
-        cmb.copyInto(mb)
-        cxb.copyInto(xb)
-    }
-
-    private fun updateChecksum() {
-
-        cb[0] = s[(mb[0] xor cl).toInt() and 255] xor cb[0]
-        for (i in 1..15)
-            cb[i] = s[(mb[i] xor cb[i - 1]).toInt() and 255] xor cb[i]
-
-        cl = cb[15]
-    }
-
-    private fun transformBlock(lmb: ByteArray) {
+    protected override fun transformBlock(block: ByteArray): Unit {
 
         for (j in 0..15) {
-            xb[16 + j] = lmb[j]
+            xb[16 + j] = block[j]
             xb[32 + j] = xb[16 + j] xor xb[j]
         }
 
@@ -113,16 +48,42 @@ public class Md2Hash : Hash() {
             }
             t = (t + j) % 256
         }
+
+        cb[0] = s[(block[0] xor cl).toInt() and 255] xor cb[0]
+
+        for (i in 1..15)
+            cb[i] = s[(block[i] xor cb[i - 1]).toInt() and 255] xor cb[i]
+
+        cl = cb[15]
     }
 
-    public override val length: Int = 16
+    protected override fun transformFinal(
+        output: ByteArray,
+        offset: Int,
+        remaining: ByteArray,
+        remainingSize: Int
+    ): Unit {
 
-    public override val size: Int = 128
+        val paddingValue = (16 - remainingSize).toByte()
+
+        for (i in remainingSize..15)
+            remaining[i] = paddingValue
+
+        transformBlock(remaining)
+        transformBlock(cb)
+
+        xb.copyInto(output, offset, 0, 16)
+    }
+
+    protected override fun resetState(): Unit {
+        cl = 0
+        ccb.copyInto(cb)
+        cxb.copyInto(xb)
+    }
 
     private companion object {
 
         private val ccb = ByteArray(16)
-        private val cmb = ByteArray(16)
         private val cxb = ByteArray(48)
         private val s = byteArrayOf(
             41, 46, 67, -55, -94, -40, 124, 1, 61, 54, 84, -95, -20, -16, 6, 19, 98, -89, 5,

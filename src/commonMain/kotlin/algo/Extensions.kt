@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 William Swartzendruber
+ * Copyright 2020 William Swartzendruber
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software
  * and associated documentation files (the "Software"), to deal in the Software without
@@ -18,6 +18,8 @@
  */
 
 package org.cryptokt
+
+import kotlin.math.ceil
 
 internal inline fun forEachSegment(
     destination: ByteArray,
@@ -108,6 +110,8 @@ internal fun Int.copyIntoLe(buffer: ByteArray, offset: Int) {
 internal infix fun Int.rl(count: Int) = (this shl count) or (this ushr (32 - count))
 
 internal infix fun Int.rr(count: Int) = (this ushr count) or (this shl (32 - count))
+
+internal fun Int.wholeBytes() = ceil(this.toDouble() / 8.0).toInt()
 
 //
 // Long

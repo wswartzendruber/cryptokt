@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 William Swartzendruber
+ * Copyright 2020 William Swartzendruber
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software
  * and associated documentation files (the "Software"), to deal in the Software without
@@ -28,7 +28,9 @@ import org.cryptokt.algo.Md4Hash
 import org.cryptokt.algo.Md5Hash
 import org.cryptokt.algo.Sha1Hash
 import org.cryptokt.algo.Sha256Hash
+import org.cryptokt.algo.Sha256DigestSize
 import org.cryptokt.algo.Sha512Hash
+import org.cryptokt.algo.Sha512DigestSize
 
 class HashTests {
 
@@ -79,7 +81,7 @@ class HashTests {
     @Test
     fun `SHA2-256 accuracy`() {
 
-        val sha256 = Sha256Hash()
+        val sha256 = Sha256Hash(Sha256DigestSize._256)
 
         for (hashValue in sha2256HashValues) {
             sha256.input(hashValue.key.toAsciiByteArray())
@@ -90,7 +92,7 @@ class HashTests {
     @Test
     fun `SHA2-224 accuracy`() {
 
-        val sha256 = Sha256Hash(224)
+        val sha256 = Sha256Hash(Sha256DigestSize._224)
 
         for (hashValue in sha2224HashValues) {
             sha256.input(hashValue.key.toAsciiByteArray())
@@ -101,7 +103,7 @@ class HashTests {
     @Test
     fun `SHA2-512 accuracy`() {
 
-        val sha512 = Sha512Hash()
+        val sha512 = Sha512Hash(Sha512DigestSize._512)
 
         for (hashValue in sha2512HashValues) {
             sha512.input(hashValue.key.toAsciiByteArray())
@@ -112,7 +114,7 @@ class HashTests {
     @Test
     fun `SHA2-384 accuracy`() {
 
-        val sha2384 = Sha512Hash(384)
+        val sha2384 = Sha512Hash(Sha512DigestSize._384)
 
         for (hashValue in sha2384HashValues) {
             sha2384.input(hashValue.key.toAsciiByteArray())
@@ -123,7 +125,7 @@ class HashTests {
     @Test
     fun `SHA2-512-224 accuracy`() {
 
-        val sha2512224 = Sha512Hash(224)
+        val sha2512224 = Sha512Hash(Sha512DigestSize._224)
 
         for (hashValue in sha2512224HashValues) {
             sha2512224.input(hashValue.key.toAsciiByteArray())
@@ -134,7 +136,7 @@ class HashTests {
     @Test
     fun `SHA2-512-256 accuracy`() {
 
-        val sha2512256 = Sha512Hash(256)
+        val sha2512256 = Sha512Hash(Sha512DigestSize._256)
 
         for (hashValue in sha2512256HashValues) {
             sha2512256.input(hashValue.key.toAsciiByteArray())

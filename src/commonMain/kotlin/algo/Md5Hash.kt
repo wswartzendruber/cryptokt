@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 William Swartzendruber
+ * Copyright 2020 William Swartzendruber
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software
  * and associated documentation files (the "Software"), to deal in the Software without
@@ -20,91 +20,29 @@
 package org.cryptokt.algo
 
 import org.cryptokt.copyIntoLe
-import org.cryptokt.forEachSegment
 import org.cryptokt.leIntAt
 import org.cryptokt.rl
 
 /**
- * The third in the MD series by Ronald Rivest. It has a digest size of 128 bits. It has been
- * considered broken since 2013.
+ * The third in the MD series by Ronald Rivest. It has been considered broken since 2013.
+ *
+ * @constructor Initializes a new MD5 instance with a block size of 512 bits and a digest size
+ *     of 128 bits.
  */
-public class Md5Hash : Hash() {
+public class Md5Hash : Hash(512, 128) {
 
-    private var mo = 0
     private var ms = 0L
-    private val mb = ByteArray(64)
-    private val r = IntArray(4)
-    private val w = IntArray(16)
+    private val r = cr.copyInto(IntArray(4))
+    private val w = cw.copyInto(IntArray(16))
 
-    init {
-        reset()
-    }
-
-    public override fun input(buffer: ByteArray, offset: Int, length: Int): Unit {
-        mo = forEachSegment(
-            mb, mo,
-            buffer, offset, length,
-            {
-                transformBlock()
-            }
-        )
-        ms += (length * 8).toLong()
-    }
-
-    public override fun digest(output: ByteArray, offset: Int): ByteArray {
-
-        //
-        // APPEND PADDING
-        //
-
-        if (mo > 55) {
-            padding.copyInto(mb, mo, 0, 64 - mo)
-            transformBlock()
-            padding.copyInto(mb, 0, 8, 64)
-        } else {
-            padding.copyInto(mb, mo, 0, 56 - mo)
-        }
-
-        //
-        // APPEND LENGTH
-        //
-
-        ms.copyIntoLe(mb, 56)
-
-        //
-        // TRANSFORM PADDING + LENGTH
-        //
-
-        transformBlock()
-
-        //
-        // SET OUTPUT
-        //
-
-        for (i in 0..3)
-            r[i].copyIntoLe(output, 4 * i)
-
-        reset()
-
-        return output
-    }
-
-    public override fun reset(): Unit {
-        mo = 0
-        ms = 0L
-        cmb.copyInto(mb)
-        cr.copyInto(r)
-        cw.copyInto(w)
-    }
-
-    private fun transformBlock() {
+    protected override fun transformBlock(block: ByteArray): Unit {
 
         //
         // READ BLOCK
         //
 
         for (i in 0..15)
-            w[i] = mb.leIntAt(4 * i)
+            w[i] = block.leIntAt(4 * i)
 
         val aa = r[0]
         val bb = r[1]
@@ -199,15 +137,43 @@ public class Md5Hash : Hash() {
         r[1] += bb
         r[2] += cc
         r[3] += dd
+
+        ms += 512L
     }
 
-    public override val length: Int = 16
+    protected override fun transformFinal(
+        output: ByteArray,
+        offset: Int,
+        remaining: ByteArray,
+        remainingSize: Int
+    ): Unit {
 
-    public override val size: Int = 128
+        val lms = ms + remainingSize.toLong() * 8L
+
+        if (remainingSize > 55) {
+            padding.copyInto(remaining, remainingSize, 0, 64 - remainingSize)
+            transformBlock(remaining)
+            padding.copyInto(remaining, 0, 8, 64)
+        } else {
+            padding.copyInto(remaining, remainingSize, 0, 56 - remainingSize)
+        }
+
+        lms.copyIntoLe(remaining, 56)
+
+        transformBlock(remaining)
+
+        for (i in 0..3)
+            r[i].copyIntoLe(output, 4 * i)
+    }
+
+    protected override fun resetState(): Unit {
+        ms = 0L
+        cr.copyInto(r)
+        cw.copyInto(w)
+    }
 
     private companion object {
 
-        private val cmb = ByteArray(64)
         private val cr = intArrayOf(1732584193, -271733879, -1732584194, 271733878)
         private val cw = IntArray(16)
         private val padding = byteArrayOf(
