@@ -34,15 +34,6 @@ repositories {
 }
 
 kotlin {
-    js() {
-        configure(listOf(compilations["main"], compilations["test"])) {
-            tasks.getByName(compileKotlinTaskName) {
-                kotlinOptions {
-                      moduleKind = "umd"
-                }
-            }
-        }
-    }
     jvm()
 }
 
@@ -51,9 +42,6 @@ dependencies {
     commonMainImplementation(kotlin("stdlib-common"))
     commonTestImplementation(kotlin("test-common"))
     commonTestImplementation(kotlin("test-annotations-common"))
-
-    "jsMainImplementation"(kotlin("stdlib-js"))
-    "jvmTestImplementation"(kotlin("test-js"))
 
     "jvmMainImplementation"(kotlin("stdlib-jdk8"))
     "jvmTestImplementation"(kotlin("test-junit"))
