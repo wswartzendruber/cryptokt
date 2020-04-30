@@ -17,8 +17,38 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-rootProject.name = "cryptokt"
+import org.jetbrains.dokka.gradle.DokkaTask
 
-include(
-    "cryptokt-algo"
-)
+val group: String by project
+val version: String by project
+
+plugins {
+    kotlin("multiplatform")
+    id("org.jetbrains.dokka").version("0.10.1")
+    id("maven-publish")
+}
+
+repositories {
+    jcenter()
+}
+
+kotlin {
+    jvm()
+}
+
+dependencies {
+    // COMMON
+    commonMainImplementation(kotlin("stdlib-common"))
+    commonTestImplementation(kotlin("test-common"))
+    commonTestImplementation(kotlin("test-annotations-common"))
+    // JVM
+    "jvmMainImplementation"(kotlin("stdlib-jdk8"))
+    "jvmTestImplementation"(kotlin("test-junit"))
+}
+
+tasks {
+    val dokka by getting(DokkaTask::class) {
+        outputFormat = "html"
+        outputDirectory = "$buildDir/dokka"
+    }
+}
