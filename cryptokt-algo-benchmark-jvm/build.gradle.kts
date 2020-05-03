@@ -17,9 +17,24 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-rootProject.name = "cryptokt"
+val group: String by project
+val version: String by project
 
-include(
-    "cryptokt-algo",
-    "cryptokt-algo-benchmark-jvm"
-)
+plugins {
+    kotlin("jvm")
+    application
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    implementation(project(":cryptokt-algo"))
+    implementation(kotlin("stdlib-jdk8"))
+    implementation("org.bouncycastle:bcprov-jdk15on:1.65")
+}
+
+application {
+    mainClassName = "org.cryptokt.algo.benchmark.jvm.ApplicationKt"
+}
