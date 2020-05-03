@@ -17,9 +17,6 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-val group: String by project
-val version: String by project
-
 plugins {
     kotlin("jvm")
     application
