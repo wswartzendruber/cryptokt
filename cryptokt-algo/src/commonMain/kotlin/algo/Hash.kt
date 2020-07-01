@@ -22,8 +22,8 @@ import org.cryptokt.wholeBytes
  * @property[digestSize] The size in bits of the digest.
  */
 public abstract class Hash(
-    val blockSize: Int,
-    val digestSize: Int
+    public val blockSize: Int,
+    public val digestSize: Int
 ) {
 
     private val blockSizeBytes = blockSize.wholeBytes()
