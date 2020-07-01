@@ -29,73 +29,73 @@ public class Md4Hash : Hash(512, 128) {
         for (i in 0..15)
             w[i] = block.leIntAt(4 * i)
 
-        val aa = r[0]
-        val bb = r[1]
-        val cc = r[2]
-        val dd = r[3]
+        var aa = r[0]
+        var bb = r[1]
+        var cc = r[2]
+        var dd = r[3]
 
         //
         // ROUND 1
         //
 
-        r[0] = r1(r[0], r[1], r[2], r[3], w[0], 3)
-        r[3] = r1(r[3], r[0], r[1], r[2], w[1], 7)
-        r[2] = r1(r[2], r[3], r[0], r[1], w[2], 11)
-        r[1] = r1(r[1], r[2], r[3], r[0], w[3], 19)
-        r[0] = r1(r[0], r[1], r[2], r[3], w[4], 3)
-        r[3] = r1(r[3], r[0], r[1], r[2], w[5], 7)
-        r[2] = r1(r[2], r[3], r[0], r[1], w[6], 11)
-        r[1] = r1(r[1], r[2], r[3], r[0], w[7], 19)
-        r[0] = r1(r[0], r[1], r[2], r[3], w[8], 3)
-        r[3] = r1(r[3], r[0], r[1], r[2], w[9], 7)
-        r[2] = r1(r[2], r[3], r[0], r[1], w[10], 11)
-        r[1] = r1(r[1], r[2], r[3], r[0], w[11], 19)
-        r[0] = r1(r[0], r[1], r[2], r[3], w[12], 3)
-        r[3] = r1(r[3], r[0], r[1], r[2], w[13], 7)
-        r[2] = r1(r[2], r[3], r[0], r[1], w[14], 11)
-        r[1] = r1(r[1], r[2], r[3], r[0], w[15], 19)
+        aa = r1(aa, bb, cc, dd, w[0], 3)
+        dd = r1(dd, aa, bb, cc, w[1], 7)
+        cc = r1(cc, dd, aa, bb, w[2], 11)
+        bb = r1(bb, cc, dd, aa, w[3], 19)
+        aa = r1(aa, bb, cc, dd, w[4], 3)
+        dd = r1(dd, aa, bb, cc, w[5], 7)
+        cc = r1(cc, dd, aa, bb, w[6], 11)
+        bb = r1(bb, cc, dd, aa, w[7], 19)
+        aa = r1(aa, bb, cc, dd, w[8], 3)
+        dd = r1(dd, aa, bb, cc, w[9], 7)
+        cc = r1(cc, dd, aa, bb, w[10], 11)
+        bb = r1(bb, cc, dd, aa, w[11], 19)
+        aa = r1(aa, bb, cc, dd, w[12], 3)
+        dd = r1(dd, aa, bb, cc, w[13], 7)
+        cc = r1(cc, dd, aa, bb, w[14], 11)
+        bb = r1(bb, cc, dd, aa, w[15], 19)
 
         //
         // ROUND 2
         //
 
-        r[0] = r2(r[0], r[1], r[2], r[3], w[0], 3)
-        r[3] = r2(r[3], r[0], r[1], r[2], w[4], 5)
-        r[2] = r2(r[2], r[3], r[0], r[1], w[8], 9)
-        r[1] = r2(r[1], r[2], r[3], r[0], w[12], 13)
-        r[0] = r2(r[0], r[1], r[2], r[3], w[1], 3)
-        r[3] = r2(r[3], r[0], r[1], r[2], w[5], 5)
-        r[2] = r2(r[2], r[3], r[0], r[1], w[9], 9)
-        r[1] = r2(r[1], r[2], r[3], r[0], w[13], 13)
-        r[0] = r2(r[0], r[1], r[2], r[3], w[2], 3)
-        r[3] = r2(r[3], r[0], r[1], r[2], w[6], 5)
-        r[2] = r2(r[2], r[3], r[0], r[1], w[10], 9)
-        r[1] = r2(r[1], r[2], r[3], r[0], w[14], 13)
-        r[0] = r2(r[0], r[1], r[2], r[3], w[3], 3)
-        r[3] = r2(r[3], r[0], r[1], r[2], w[7], 5)
-        r[2] = r2(r[2], r[3], r[0], r[1], w[11], 9)
-        r[1] = r2(r[1], r[2], r[3], r[0], w[15], 13)
+        aa = r2(aa, bb, cc, dd, w[0], 3)
+        dd = r2(dd, aa, bb, cc, w[4], 5)
+        cc = r2(cc, dd, aa, bb, w[8], 9)
+        bb = r2(bb, cc, dd, aa, w[12], 13)
+        aa = r2(aa, bb, cc, dd, w[1], 3)
+        dd = r2(dd, aa, bb, cc, w[5], 5)
+        cc = r2(cc, dd, aa, bb, w[9], 9)
+        bb = r2(bb, cc, dd, aa, w[13], 13)
+        aa = r2(aa, bb, cc, dd, w[2], 3)
+        dd = r2(dd, aa, bb, cc, w[6], 5)
+        cc = r2(cc, dd, aa, bb, w[10], 9)
+        bb = r2(bb, cc, dd, aa, w[14], 13)
+        aa = r2(aa, bb, cc, dd, w[3], 3)
+        dd = r2(dd, aa, bb, cc, w[7], 5)
+        cc = r2(cc, dd, aa, bb, w[11], 9)
+        bb = r2(bb, cc, dd, aa, w[15], 13)
 
         //
         // ROUND 3
         //
 
-        r[0] = r3(r[0], r[1], r[2], r[3], w[0], 3)
-        r[3] = r3(r[3], r[0], r[1], r[2], w[8], 9)
-        r[2] = r3(r[2], r[3], r[0], r[1], w[4], 11)
-        r[1] = r3(r[1], r[2], r[3], r[0], w[12], 15)
-        r[0] = r3(r[0], r[1], r[2], r[3], w[2], 3)
-        r[3] = r3(r[3], r[0], r[1], r[2], w[10], 9)
-        r[2] = r3(r[2], r[3], r[0], r[1], w[6], 11)
-        r[1] = r3(r[1], r[2], r[3], r[0], w[14], 15)
-        r[0] = r3(r[0], r[1], r[2], r[3], w[1], 3)
-        r[3] = r3(r[3], r[0], r[1], r[2], w[9], 9)
-        r[2] = r3(r[2], r[3], r[0], r[1], w[5], 11)
-        r[1] = r3(r[1], r[2], r[3], r[0], w[13], 15)
-        r[0] = r3(r[0], r[1], r[2], r[3], w[3], 3)
-        r[3] = r3(r[3], r[0], r[1], r[2], w[11], 9)
-        r[2] = r3(r[2], r[3], r[0], r[1], w[7], 11)
-        r[1] = r3(r[1], r[2], r[3], r[0], w[15], 15)
+        aa = r3(aa, bb, cc, dd, w[0], 3)
+        dd = r3(dd, aa, bb, cc, w[8], 9)
+        cc = r3(cc, dd, aa, bb, w[4], 11)
+        bb = r3(bb, cc, dd, aa, w[12], 15)
+        aa = r3(aa, bb, cc, dd, w[2], 3)
+        dd = r3(dd, aa, bb, cc, w[10], 9)
+        cc = r3(cc, dd, aa, bb, w[6], 11)
+        bb = r3(bb, cc, dd, aa, w[14], 15)
+        aa = r3(aa, bb, cc, dd, w[1], 3)
+        dd = r3(dd, aa, bb, cc, w[9], 9)
+        cc = r3(cc, dd, aa, bb, w[5], 11)
+        bb = r3(bb, cc, dd, aa, w[13], 15)
+        aa = r3(aa, bb, cc, dd, w[3], 3)
+        dd = r3(dd, aa, bb, cc, w[11], 9)
+        cc = r3(cc, dd, aa, bb, w[7], 11)
+        bb = r3(bb, cc, dd, aa, w[15], 15)
 
         r[0] += aa
         r[1] += bb
