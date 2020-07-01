@@ -36,13 +36,13 @@ fun main(args: Array<String>) {
     println("CryptoKt Algorithm Benchmarks for JVM")
     println()
 
-    // println("MD2, 1 MB")
-    // println("- Bouncy Castle: ${time { MD2Digest().transformBuffer(megabyte) }}")
-    // println("- CryptoKt     : ${time { Md2Hash().transformBuffer(megabyte) }}")
+    println("MD2, 1 MB")
+    println("- Bouncy Castle: ${time { MD2Digest().transformBuffer(megabyte) }}")
+    println("- CryptoKt     : ${time { Md2Hash().transformBuffer(megabyte) }}")
 
-    // println("MD2, 1 GB")
-    // println("- Bouncy Castle: ${time { MD2Digest().transformBuffer(gigabyte) }}")
-    // println("- CryptoKt     : ${time { Md2Hash().transformBuffer(gigabyte) }}")
+    println("MD2, 1 GB")
+    println("- Bouncy Castle: ${time { MD2Digest().transformBuffer(gigabyte) }}")
+    println("- CryptoKt     : ${time { Md2Hash().transformBuffer(gigabyte) }}")
 
     println("MD4, 1 MB")
     println("- Bouncy Castle: ${time { MD4Digest().transformBuffer(megabyte) }}")
