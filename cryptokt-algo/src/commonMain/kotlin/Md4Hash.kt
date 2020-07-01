@@ -8,10 +8,6 @@
 
 package org.cryptokt.algo
 
-import org.cryptokt.copyIntoLe
-import org.cryptokt.leIntAt
-import org.cryptokt.rl
-
 /**
  * The second in the MD series by Ronald Rivest. It has been considered broken since 1995.
  *

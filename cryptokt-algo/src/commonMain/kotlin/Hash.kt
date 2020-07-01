@@ -8,9 +8,6 @@
 
 package org.cryptokt.algo
 
-import org.cryptokt.forEachSegment
-import org.cryptokt.wholeBytes
-
 /**
  * Represents a hash algorithm which takes input of arbitrary length and produces a digest of
  * fixed length.

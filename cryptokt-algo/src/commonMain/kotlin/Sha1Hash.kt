@@ -8,10 +8,6 @@
 
 package org.cryptokt.algo
 
-import org.cryptokt.beIntAt
-import org.cryptokt.copyIntoBe
-import org.cryptokt.rl
-
 /**
  * The first formally published version of the U.S. Secure Hash Algorithm. It has had
  * diminishing levels of security since 2010 and was fully broken in 2019.

@@ -8,10 +8,6 @@
 
 package org.cryptokt.algo
 
-import org.cryptokt.copyIntoLe
-import org.cryptokt.leIntAt
-import org.cryptokt.rl
-
 /**
  * The second formally published version of RIPE's message digest algorithm. This implementation
  * handles RIPEMD-160.

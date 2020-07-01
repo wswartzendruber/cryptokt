@@ -6,7 +6,7 @@
  * https://mozilla.org/MPL/2.0/.
  */
 
-package org.cryptokt
+package org.cryptokt.algo
 
 import kotlin.math.ceil
 

@@ -8,10 +8,6 @@
 
 package org.cryptokt.algo
 
-import org.cryptokt.beIntAt
-import org.cryptokt.copyIntoBe
-import org.cryptokt.rr
-
 /**
  * Represents the possible digest sizes for SHA2-256.
  *
