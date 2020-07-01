@@ -16,7 +16,6 @@ import org.cryptokt.algo.Md2Hash
 import org.cryptokt.algo.Md4Hash
 import org.cryptokt.algo.Md5Hash
 import org.cryptokt.algo.Ripemd160Hash
-import org.cryptokt.algo.Ripemd160DigestSize
 import org.cryptokt.algo.Sha1Hash
 import org.cryptokt.algo.Sha256Hash
 import org.cryptokt.algo.Sha256DigestSize
@@ -138,7 +137,7 @@ class HashTests {
     @Test
     fun `RIPEMD-160 accuracy`() {
 
-        val ripemd160 = Ripemd160Hash(Ripemd160DigestSize._160)
+        val ripemd160 = Ripemd160Hash()
 
         for (hashValue in ripemd160HashValues) {
             ripemd160.input(hashValue.key.toAsciiByteArray())

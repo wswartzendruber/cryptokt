@@ -13,27 +13,13 @@ import org.cryptokt.leIntAt
 import org.cryptokt.rl
 
 /**
- * Represents the possible digest sizes for RIPEMD-160.
- *
- * @property[value] The digest size in bits.
- */
-public enum class Ripemd160DigestSize(val value: Int) {
-    /** RIPEMD-160 */
-    _160(160),
-    /** RIPEMD-128 */
-    _128(128)
-}
-
-/**
  * The second formally published version of RIPE's message digest algorithm. This implementation
- * handles RIPEMD-160 and RIPEMD-128.
+ * handles RIPEMD-160.
  *
- * @constructor Initializes a new RIPEMD-160 instance with a block size of 512 bits and a
- *     configurable digest size.
+ * @constructor Initializes a new RIPEMD-160 instance with a block size of 512 bits and a digest
+ *     size of 160 bits.
  */
-public class Ripemd160Hash(
-    private val size: Ripemd160DigestSize = Ripemd160DigestSize._160
-) : Hash(512, size.value) {
+public class Ripemd160Hash : Hash(512, 160) {
 
     private var ms = 0L
     private val r = cr.copyInto(IntArray(5))
