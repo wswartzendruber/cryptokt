@@ -16,7 +16,7 @@ internal inline fun forEachSegment(
     source: ByteArray,
     sourceOffset: Int,
     length: Int,
-    block: () -> Unit
+    block: () -> Unit,
 ): Int {
 
     val ls = source

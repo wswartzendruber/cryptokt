@@ -20,7 +20,7 @@ package org.cryptokt.algo
  */
 public abstract class Hash(
     public val blockSize: Int,
-    public val digestSize: Int
+    public val digestSize: Int,
 ) {
 
     private val blockSizeBytes = blockSize.wholeBytes()
@@ -36,7 +36,7 @@ public abstract class Hash(
     public fun input(
         buffer: ByteArray,
         offset: Int = 0,
-        length: Int = buffer.size
+        length: Int = buffer.size,
     ): Unit {
         mo = forEachSegment(
             mb, mo,
@@ -55,7 +55,7 @@ public abstract class Hash(
      */
     public fun digest(
         output: ByteArray = ByteArray(digestSizeBytes),
-        offset: Int = 0
+        offset: Int = 0,
     ): ByteArray {
 
         if (digestSizeBytes + offset > output.size)
@@ -95,7 +95,7 @@ public abstract class Hash(
         output: ByteArray,
         offset: Int = 0,
         remaining: ByteArray,
-        remainingSize: Int
+        remainingSize: Int,
     ): Unit
 
     /**

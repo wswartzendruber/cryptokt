@@ -50,7 +50,7 @@ public class Md2Hash : Hash(128, 128) {
         output: ByteArray,
         offset: Int,
         remaining: ByteArray,
-        remainingSize: Int
+        remainingSize: Int,
     ): Unit {
 
         val paddingValue = (16 - remainingSize).toByte()

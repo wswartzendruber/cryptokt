@@ -93,7 +93,7 @@ public class Sha256Hash(
         output: ByteArray,
         offset: Int,
         remaining: ByteArray,
-        remainingSize: Int
+        remainingSize: Int,
     ): Unit {
 
         val lms = ms + remainingSize.toLong() * 8L

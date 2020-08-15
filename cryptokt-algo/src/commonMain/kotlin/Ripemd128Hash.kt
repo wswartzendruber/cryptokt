@@ -188,7 +188,7 @@ public class Ripemd128Hash : Hash(512, 128) {
         output: ByteArray,
         offset: Int,
         remaining: ByteArray,
-        remainingSize: Int
+        remainingSize: Int,
     ): Unit {
 
         val lms = ms + remainingSize.toLong() * 8L

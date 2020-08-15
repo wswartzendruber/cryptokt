@@ -14,7 +14,6 @@ repositories {
 
 dependencies {
     implementation(project(":cryptokt-algo"))
-    implementation(kotlin("stdlib-jdk8"))
     implementation("org.bouncycastle:bcprov-jdk15on:1.65")
 }
 

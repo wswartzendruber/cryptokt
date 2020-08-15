@@ -10,7 +10,7 @@ val version: String by project
 
 plugins {
     kotlin("multiplatform")
-    id("org.jetbrains.dokka").version("0.10.1")
+    id("org.jetbrains.dokka").version("1.4.0-rc")
     id("maven-publish")
 }
 
@@ -24,17 +24,23 @@ kotlin {
 
 dependencies {
     // COMMON
-    commonMainImplementation(kotlin("stdlib-common"))
     commonTestImplementation(kotlin("test-common"))
     commonTestImplementation(kotlin("test-annotations-common"))
     // JVM
-    "jvmMainImplementation"(kotlin("stdlib-jdk8"))
     "jvmTestImplementation"(kotlin("test-junit"))
 }
 
 tasks {
-    val dokka by getting(DokkaTask::class) {
-        outputFormat = "html"
-        outputDirectory = "$buildDir/dokka"
+    dokkaHtml {
+        dokkaSourceSets {
+            register("commonMain") {
+                displayName = "Common"
+                platform = "common"
+            }
+            register("jvmMain") {
+                displayName = "JVM"
+                platform = "jvm"
+            }
+        }
     }
 }
