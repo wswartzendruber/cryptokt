@@ -13,7 +13,7 @@ package org.cryptokt.algo
  *
  * @property[value] The digest size in bits.
  */
-public enum class Sha512DigestSize(val value: Int) {
+public enum class Sha512DigestSize(public val value: Int) {
     /** SHA2-512/224 */
     _224(224),
     /** SHA2-512/256 */
