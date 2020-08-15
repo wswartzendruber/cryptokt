@@ -27,7 +27,7 @@ import org.cryptokt.algo.Sha1Hash
 import org.cryptokt.algo.Sha256Hash
 import org.cryptokt.algo.Sha512Hash
 
-fun main(args: Array<String>) {
+fun main() {
 
     val megabyte = Random.nextBytes(ByteArray(1024 * 1024))
     val gigabyte = Random.nextBytes(ByteArray(1024 * 1024 * 1024))
