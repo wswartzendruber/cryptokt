@@ -17,7 +17,7 @@ public enum class Sha256DigestSize(val value: Int) {
     /** SHA2-224 */
     _224(224),
     /** SHA2-256 */
-    _256(256)
+    _256(256),
 }
 
 /**
@@ -130,7 +130,7 @@ public class Sha256Hash(
             Sha256DigestSize._256 to intArrayOf(
                 1779033703, -1150833019, 1013904242, -1521486534, 1359893119, -1694144372,
                 528734635, 1541459225
-            )
+            ),
         )
         private val cw = IntArray(64)
         private val padding = byteArrayOf(
