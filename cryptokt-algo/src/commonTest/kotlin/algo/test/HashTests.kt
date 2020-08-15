@@ -165,7 +165,7 @@ class HashTests {
             "message digest" to "ab4f496bfb2a530b219ff33031fe06b0",
             "abcdefghijklmnopqrstuvwxyz" to "4e8ddff3650292ab5a4108c3aa47940b",
             "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789" to "da33def2a42df13975352846c30338cd",
-            "12345678901234567890123456789012345678901234567890123456789012345678901234567890" to "d5976f79d83d3a0dc9806c3c66f3efd8"
+            "12345678901234567890123456789012345678901234567890123456789012345678901234567890" to "d5976f79d83d3a0dc9806c3c66f3efd8",
         )
 
         val md4HashValues = mapOf(
@@ -175,7 +175,7 @@ class HashTests {
             "message digest" to "d9130a8164549fe818874806e1c7014b",
             "abcdefghijklmnopqrstuvwxyz" to "d79e1c308aa5bbcdeea8ed63df412da9",
             "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789" to "043f8582f241db351ce627e153e7f0e4",
-            "12345678901234567890123456789012345678901234567890123456789012345678901234567890" to "e33b4ddc9c38f2199c3e7b164fcc0536"
+            "12345678901234567890123456789012345678901234567890123456789012345678901234567890" to "e33b4ddc9c38f2199c3e7b164fcc0536",
         )
 
         val md5HashValues = mapOf(
@@ -185,7 +185,7 @@ class HashTests {
             "message digest" to "f96b697d7cb7938d525a2f31aaf161d0",
             "abcdefghijklmnopqrstuvwxyz" to "c3fcd3d76192e4007dfb496cca67e13b",
             "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789" to "d174ab98d277d9f5a5611c2c9f419d9f",
-            "12345678901234567890123456789012345678901234567890123456789012345678901234567890" to "57edf4a22be3c955ac49da2e2107b67a"
+            "12345678901234567890123456789012345678901234567890123456789012345678901234567890" to "57edf4a22be3c955ac49da2e2107b67a",
         )
 
         val sha1HashValues = mapOf(
@@ -195,7 +195,7 @@ class HashTests {
             "message digest" to "c12252ceda8be8994d5fa0290a47231c1d16aae3",
             "abcdefghijklmnopqrstuvwxyz" to "32d10c7b8cf96570ca04ce37f2a19d84240d3a89",
             "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789" to "761c457bf73b14d27e9e9265c46f4b4dda11f940",
-            "12345678901234567890123456789012345678901234567890123456789012345678901234567890" to "50abf5706a150990a08b2c5ea40fa0e585554732"
+            "12345678901234567890123456789012345678901234567890123456789012345678901234567890" to "50abf5706a150990a08b2c5ea40fa0e585554732",
         )
 
         val sha2256HashValues = mapOf(
@@ -205,11 +205,11 @@ class HashTests {
             "message digest" to "f7846f55cf23e14eebeab5b4e1550cad5b509e3348fbc4efa3a1413d393cb650",
             "abcdefghijklmnopqrstuvwxyz" to "71c480df93d6ae2f1efad1447c66c9525e316218cf51fc8d9ed832f2daf18b73",
             "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789" to "db4bfcbd4da0cd85a60c3c37d3fbd8805c77f15fc6b1fdfe614ee0a7c8fdb4c0",
-            "12345678901234567890123456789012345678901234567890123456789012345678901234567890" to "f371bc4a311f2b009eef952dd83ca80e2b60026c8e935592d0f9c308453c813e"
+            "12345678901234567890123456789012345678901234567890123456789012345678901234567890" to "f371bc4a311f2b009eef952dd83ca80e2b60026c8e935592d0f9c308453c813e",
         )
 
         val sha2224HashValues = mapOf(
-            "" to "d14a028c2a3a2bc9476102bb288234c415a2b01f828ea62ac5b3e42f"
+            "" to "d14a028c2a3a2bc9476102bb288234c415a2b01f828ea62ac5b3e42f",
         )
 
         val sha2512HashValues = mapOf(
@@ -220,19 +220,19 @@ class HashTests {
             "abcdefghijklmnopqrstuvwxyz" to "4dbff86cc2ca1bae1e16468a05cb9881c97f1753bce3619034898faa1aabe429955a1bf8ec483d7421fe3c1646613a59ed5441fb0f321389f77f48a879c7b1f1",
             "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789" to "1e07be23c26a86ea37ea810c8ec7809352515a970e9253c26f536cfc7a9996c45c8370583e0a78fa4a90041d71a4ceab7423f19c71b9d5a3e01249f0bebd5894",
             "12345678901234567890123456789012345678901234567890123456789012345678901234567890" to "72ec1ef1124a45b047e8b7c75a932195135bb61de24ec0d1914042246e0aec3a2354e093d76f3048b456764346900cb130d2a4fd5dd16abb5e30bcb850dee843",
-            "123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890" to "0d9a7df5b6a6ad20da519effda888a7344b6c0c7adcc8e2d504b4af27aaaacd4e7111c713f71769539629463cb58c86136c521b0414a3c0edf7dc6349c6edaf3"
+            "123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890" to "0d9a7df5b6a6ad20da519effda888a7344b6c0c7adcc8e2d504b4af27aaaacd4e7111c713f71769539629463cb58c86136c521b0414a3c0edf7dc6349c6edaf3",
         )
 
         val sha2384HashValues = mapOf(
-            "" to "38b060a751ac96384cd9327eb1b1e36a21fdb71114be07434c0cc7bf63f6e1da274edebfe76f65fbd51ad2f14898b95b"
+            "" to "38b060a751ac96384cd9327eb1b1e36a21fdb71114be07434c0cc7bf63f6e1da274edebfe76f65fbd51ad2f14898b95b",
         )
 
         val sha2512224HashValues = mapOf(
-            "" to "6ed0dd02806fa89e25de060c19d3ac86cabb87d6a0ddd05c333b84f4"
+            "" to "6ed0dd02806fa89e25de060c19d3ac86cabb87d6a0ddd05c333b84f4",
         )
 
         val sha2512256HashValues = mapOf(
-            "" to "c672b8d1ef56ed28ab87c3622c5114069bdd3ad7b8f9737498d0c01ecef0967a"
+            "" to "c672b8d1ef56ed28ab87c3622c5114069bdd3ad7b8f9737498d0c01ecef0967a",
         )
 
         val ripemd128HashValues = mapOf(
@@ -244,7 +244,7 @@ class HashTests {
             "abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq" to "a1aa0689d0fafa2ddc22e88b49133a06",
             "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789" to "d1e959eb179c911faea4624c60c5c702",
             "1234567890".repeat(8) to "3f45ef194732c2dbb2c4a2c769795fa3",
-            "a".repeat(1000000) to "4a7f5723f954eba1216c9d8f6320431f"
+            "a".repeat(1000000) to "4a7f5723f954eba1216c9d8f6320431f",
         )
 
         val ripemd160HashValues = mapOf(
@@ -256,7 +256,7 @@ class HashTests {
             "abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq" to "12a053384a9c0c88e405a06c27dcf49ada62eb2b",
             "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789" to "b0e20b6e3116640286ed3a87a5713079b21f5189",
             "1234567890".repeat(8) to "9b752e45573d4b39f4dbd3323cab82bf63326bfb",
-            "a".repeat(1000000) to "52783243c1697bdbe16d37f97f68f08325dc1528"
+            "a".repeat(1000000) to "52783243c1697bdbe16d37f97f68f08325dc1528",
         )
     }
 }
