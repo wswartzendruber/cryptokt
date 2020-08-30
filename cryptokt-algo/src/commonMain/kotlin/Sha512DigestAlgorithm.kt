@@ -31,9 +31,9 @@ public enum class Sha512DigestSize(public val value: Int) {
  * @constructor Initializes a new SHA2-512 instance with a block size of 1,024 bits and a
  *     configurable digest size.
  */
-public class Sha512Hash(
+public class Sha512DigestAlgorithm(
     private val size: Sha512DigestSize = Sha512DigestSize._512
-) : Hash(1024, size.value) {
+) : DigestAlgorithm(1024, size.value) {
 
     private var ms = 0L
     private val r = cr[size]!!.copyInto(LongArray(8))

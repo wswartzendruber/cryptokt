@@ -18,7 +18,7 @@ package org.cryptokt.algo
  * @property[blockSize] The size in bits of each complete input block.
  * @property[digestSize] The size in bits of the digest.
  */
-public abstract class Hash(
+public abstract class DigestAlgorithm(
     public val blockSize: Int,
     public val digestSize: Int,
 ) {

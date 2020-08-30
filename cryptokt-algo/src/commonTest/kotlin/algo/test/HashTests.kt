@@ -9,15 +9,15 @@ import kotlin.random.Random
 import kotlin.test.assertTrue
 import kotlin.test.Test
 
-import org.cryptokt.algo.Md2Hash
-import org.cryptokt.algo.Md4Hash
-import org.cryptokt.algo.Md5Hash
-import org.cryptokt.algo.Ripemd128Hash
-import org.cryptokt.algo.Ripemd160Hash
-import org.cryptokt.algo.Sha1Hash
-import org.cryptokt.algo.Sha256Hash
+import org.cryptokt.algo.Md2DigestAlgorithm
+import org.cryptokt.algo.Md4DigestAlgorithm
+import org.cryptokt.algo.Md5DigestAlgorithm
+import org.cryptokt.algo.Ripemd128DigestAlgorithm
+import org.cryptokt.algo.Ripemd160DigestAlgorithm
+import org.cryptokt.algo.Sha1DigestAlgorithm
+import org.cryptokt.algo.Sha256DigestAlgorithm
 import org.cryptokt.algo.Sha256DigestSize
-import org.cryptokt.algo.Sha512Hash
+import org.cryptokt.algo.Sha512DigestAlgorithm
 import org.cryptokt.algo.Sha512DigestSize
 
 class HashTests {
@@ -25,7 +25,7 @@ class HashTests {
     @Test
     fun `MD2 accuracy`() {
 
-        val md2 = Md2Hash()
+        val md2 = Md2DigestAlgorithm()
 
         for (hashValue in md2HashValues) {
             md2.input(hashValue.key.toAsciiByteArray())
@@ -36,7 +36,7 @@ class HashTests {
     @Test
     fun `MD4 accurancy`() {
 
-        val md4 = Md4Hash()
+        val md4 = Md4DigestAlgorithm()
 
         for (hashValue in md4HashValues) {
             md4.input(hashValue.key.toAsciiByteArray())
@@ -47,7 +47,7 @@ class HashTests {
     @Test
     fun `MD5 accuracy`() {
 
-        val md5 = Md5Hash()
+        val md5 = Md5DigestAlgorithm()
 
         for (hashValue in md5HashValues) {
             md5.input(hashValue.key.toAsciiByteArray())
@@ -58,7 +58,7 @@ class HashTests {
     @Test
     fun `SHA1 accuracy`() {
 
-        val sha1 = Sha1Hash()
+        val sha1 = Sha1DigestAlgorithm()
 
         for (hashValue in sha1HashValues) {
             sha1.input(hashValue.key.toAsciiByteArray())
@@ -69,7 +69,7 @@ class HashTests {
     @Test
     fun `SHA2-256 accuracy`() {
 
-        val sha256 = Sha256Hash(Sha256DigestSize._256)
+        val sha256 = Sha256DigestAlgorithm(Sha256DigestSize._256)
 
         for (hashValue in sha2256HashValues) {
             sha256.input(hashValue.key.toAsciiByteArray())
@@ -80,7 +80,7 @@ class HashTests {
     @Test
     fun `SHA2-224 accuracy`() {
 
-        val sha256 = Sha256Hash(Sha256DigestSize._224)
+        val sha256 = Sha256DigestAlgorithm(Sha256DigestSize._224)
 
         for (hashValue in sha2224HashValues) {
             sha256.input(hashValue.key.toAsciiByteArray())
@@ -91,7 +91,7 @@ class HashTests {
     @Test
     fun `SHA2-512 accuracy`() {
 
-        val sha512 = Sha512Hash(Sha512DigestSize._512)
+        val sha512 = Sha512DigestAlgorithm(Sha512DigestSize._512)
 
         for (hashValue in sha2512HashValues) {
             sha512.input(hashValue.key.toAsciiByteArray())
@@ -102,7 +102,7 @@ class HashTests {
     @Test
     fun `SHA2-384 accuracy`() {
 
-        val sha2384 = Sha512Hash(Sha512DigestSize._384)
+        val sha2384 = Sha512DigestAlgorithm(Sha512DigestSize._384)
 
         for (hashValue in sha2384HashValues) {
             sha2384.input(hashValue.key.toAsciiByteArray())
@@ -113,7 +113,7 @@ class HashTests {
     @Test
     fun `SHA2-512-224 accuracy`() {
 
-        val sha2512224 = Sha512Hash(Sha512DigestSize._224)
+        val sha2512224 = Sha512DigestAlgorithm(Sha512DigestSize._224)
 
         for (hashValue in sha2512224HashValues) {
             sha2512224.input(hashValue.key.toAsciiByteArray())
@@ -124,7 +124,7 @@ class HashTests {
     @Test
     fun `SHA2-512-256 accuracy`() {
 
-        val sha2512256 = Sha512Hash(Sha512DigestSize._256)
+        val sha2512256 = Sha512DigestAlgorithm(Sha512DigestSize._256)
 
         for (hashValue in sha2512256HashValues) {
             sha2512256.input(hashValue.key.toAsciiByteArray())
@@ -135,7 +135,7 @@ class HashTests {
     @Test
     fun `RIPEMD-128 accuracy`() {
 
-        val ripemd128 = Ripemd128Hash()
+        val ripemd128 = Ripemd128DigestAlgorithm()
 
         for (hashValue in ripemd128HashValues) {
             ripemd128.input(hashValue.key.toAsciiByteArray())
@@ -146,7 +146,7 @@ class HashTests {
     @Test
     fun `RIPEMD-160 accuracy`() {
 
-        val ripemd160 = Ripemd160Hash()
+        val ripemd160 = Ripemd160DigestAlgorithm()
 
         for (hashValue in ripemd160HashValues) {
             ripemd160.input(hashValue.key.toAsciiByteArray())

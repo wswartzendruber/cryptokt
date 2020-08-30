@@ -27,9 +27,9 @@ public enum class Sha256DigestSize(public val value: Int) {
  * @constructor Initializes a new SHA2-256 instance with a block size of 512 bits and a
  *     configurable digest size.
  */
-public class Sha256Hash(
+public class Sha256DigestAlgorithm(
     private val size: Sha256DigestSize = Sha256DigestSize._256
-) : Hash(512, size.value) {
+) : DigestAlgorithm(512, size.value) {
 
     private var ms = 0L
     private val r = cr[size]!!.copyInto(IntArray(8))

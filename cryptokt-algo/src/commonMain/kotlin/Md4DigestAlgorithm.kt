@@ -14,7 +14,7 @@ package org.cryptokt.algo
  * @constructor Initializes a new MD4 instance with a block size of 512 bits and a digest size
  *     of 128 bits.
  */
-public class Md4Hash : Hash(512, 128) {
+public class Md4DigestAlgorithm : DigestAlgorithm(512, 128) {
 
     private var ms = 0L
     private val r = cr.copyInto(IntArray(4))

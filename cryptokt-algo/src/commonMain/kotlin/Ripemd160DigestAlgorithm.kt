@@ -15,7 +15,7 @@ package org.cryptokt.algo
  * @constructor Initializes a new RIPEMD-160 instance with a block size of 512 bits and a digest
  *     size of 160 bits.
  */
-public class Ripemd160Hash : Hash(512, 160) {
+public class Ripemd160DigestAlgorithm : DigestAlgorithm(512, 160) {
 
     private var ms = 0L
     private val r = cr.copyInto(IntArray(5))
