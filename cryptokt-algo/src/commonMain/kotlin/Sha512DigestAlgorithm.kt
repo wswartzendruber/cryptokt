@@ -48,10 +48,10 @@ public class Sha512DigestAlgorithm(
 
     protected override fun transformBlock(block: ByteArray): Unit {
 
-        for (t in 0..15)
+        for (t in 0 until 16)
             w[t] = block.beLongAt(8 * t)
 
-        for (t in 16..79)
+        for (t in 16 until 80)
             w[t] = ((w[t - 2] rr 19) xor (w[t - 2] rr 61) xor (w[t - 2] ushr 6)) +
                 w[t - 7] +
                 ((w[t - 15] rr 1) xor (w[t - 15] rr 8) xor (w[t - 15] ushr 7)) +
@@ -68,7 +68,7 @@ public class Sha512DigestAlgorithm(
         var g = r[6]
         var h = r[7]
 
-        for (t in 0..79) {
+        for (t in 0 until 80) {
             t1 = h + ((e rr 14) xor (e rr 18) xor (e rr 41)) +
                 ((e and f) xor (e.inv() and g)) + k[t] + w[t]
             t2 = ((a rr 28) xor (a rr 34) xor (a rr 39)) +
@@ -117,7 +117,7 @@ public class Sha512DigestAlgorithm(
 
         transformBlock(remaining)
 
-        for (i in 0..(rc - 1))
+        for (i in 0 until rc)
             r[i].copyIntoBe(output, 8 * i)
 
         if (digestSize == 224)

@@ -23,15 +23,15 @@ public class Md2DigestAlgorithm : DigestAlgorithm(128, 128) {
 
     protected override fun transformBlock(block: ByteArray): Unit {
 
-        for (j in 0..15) {
+        for (j in 0 until 16) {
             xb[16 + j] = block[j]
             xb[32 + j] = xb[16 + j] xor xb[j]
         }
 
         var t = 0
 
-        for (j in 0..17) {
-            for (k in 0..47) {
+        for (j in 0 until 18) {
+            for (k in 0 until 48) {
                 xb[k] = xb[k] xor s[t]
                 t = xb[k].toInt().and(255)
             }
@@ -40,7 +40,7 @@ public class Md2DigestAlgorithm : DigestAlgorithm(128, 128) {
 
         cb[0] = s[(block[0] xor cl).toInt() and 255] xor cb[0]
 
-        for (i in 1..15)
+        for (i in 1 until 16)
             cb[i] = s[(block[i] xor cb[i - 1]).toInt() and 255] xor cb[i]
 
         cl = cb[15]
@@ -55,7 +55,7 @@ public class Md2DigestAlgorithm : DigestAlgorithm(128, 128) {
 
         val paddingValue = (16 - remainingSize).toByte()
 
-        for (i in remainingSize..15)
+        for (i in remainingSize until 16)
             remaining[i] = paddingValue
 
         transformBlock(remaining)

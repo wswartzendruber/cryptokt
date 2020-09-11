@@ -23,10 +23,10 @@ public class Sha1DigestAlgorithm : DigestAlgorithm(512, 160) {
 
     protected override fun transformBlock(block: ByteArray): Unit {
 
-        for (t in 0..15)
+        for (t in 0 until 16)
             w[t] = block.beIntAt(4 * t)
 
-        for (t in 16..79)
+        for (t in 16 until 80)
             w[t] = (w[t - 3] xor w[t - 8] xor w[t - 14] xor w[t - 16]) rl 1
 
         var t1: Int
@@ -36,7 +36,7 @@ public class Sha1DigestAlgorithm : DigestAlgorithm(512, 160) {
         var d = r[3]
         var e = r[4]
 
-        for (t in 0..19) {
+        for (t in 0 until 20) {
             t1 = (a rl 5) + ((b and c) or (b.inv() and d)) + e + w[t] + K1
             e = d
             d = c
@@ -45,7 +45,7 @@ public class Sha1DigestAlgorithm : DigestAlgorithm(512, 160) {
             a = t1
         }
 
-        for (t in 20..39) {
+        for (t in 20 until 40) {
             t1 = (a rl 5) + (b xor c xor d) + e + w[t] + K2
             e = d
             d = c
@@ -54,7 +54,7 @@ public class Sha1DigestAlgorithm : DigestAlgorithm(512, 160) {
             a = t1
         }
 
-        for (t in 40..59) {
+        for (t in 40 until 60) {
             t1 = (a rl 5) + ((b and c) or (b and d) or (c and d)) + e + w[t] + K3
             e = d
             d = c
@@ -63,7 +63,7 @@ public class Sha1DigestAlgorithm : DigestAlgorithm(512, 160) {
             a = t1
         }
 
-        for (t in 60..79) {
+        for (t in 60 until 80) {
             t1 = (a rl 5) + (b xor c xor d) + e + w[t] + K4
             e = d
             d = c
@@ -102,7 +102,7 @@ public class Sha1DigestAlgorithm : DigestAlgorithm(512, 160) {
 
         transformBlock(remaining)
 
-        for (i in 0..4)
+        for (i in 0 until 5)
             r[i].copyIntoBe(output, 4 * i)
     }
 

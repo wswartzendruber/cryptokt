@@ -26,7 +26,7 @@ public class Md4DigestAlgorithm : DigestAlgorithm(512, 128) {
         // READ BLOCK
         //
 
-        for (i in 0..15)
+        for (i in 0 until 16)
             w[i] = block.leIntAt(4 * i)
 
         var aa = r[0]
@@ -126,7 +126,7 @@ public class Md4DigestAlgorithm : DigestAlgorithm(512, 128) {
 
         transformBlock(remaining)
 
-        for (i in 0..3)
+        for (i in 0 until 4)
             r[i].copyIntoLe(output, 4 * i)
     }
 

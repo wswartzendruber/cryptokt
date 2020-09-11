@@ -27,7 +27,7 @@ public class Ripemd160DigestAlgorithm : DigestAlgorithm(512, 160) {
         // READ BLOCK
         //
 
-        for (i in 0..15)
+        for (i in 0 until 16)
             w[i] = block.leIntAt(4 * i)
 
         var aa = r[0]
@@ -402,7 +402,7 @@ public class Ripemd160DigestAlgorithm : DigestAlgorithm(512, 160) {
 
         transformBlock(remaining)
 
-        for (i in 0..4)
+        for (i in 0 until 5)
             r[i].copyIntoLe(output, 4 * i)
     }
 

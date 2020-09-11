@@ -36,16 +36,16 @@ public class Sha256DigestAlgorithm(
     private val w = cw.copyInto(IntArray(64))
     private val rc =
         when (size) {
-            Sha256DigestSize._224 -> 6
-            Sha256DigestSize._256 -> 7
+            Sha256DigestSize._224 -> 7
+            Sha256DigestSize._256 -> 8
         }
 
     protected override fun transformBlock(block: ByteArray): Unit {
 
-        for (t in 0..15)
+        for (t in 0 until 16)
             w[t] = block.beIntAt(4 * t)
 
-        for (t in 16..63)
+        for (t in 16 until 64)
             w[t] = ((w[t - 2] rr 17) xor (w[t - 2] rr 19) xor (w[t - 2] ushr 10)) +
                 w[t - 7] +
                 ((w[t - 15] rr 7) xor (w[t - 15] rr 18) xor (w[t - 15] ushr 3)) +
@@ -62,7 +62,7 @@ public class Sha256DigestAlgorithm(
         var g = r[6]
         var h = r[7]
 
-        for (t in 0..63) {
+        for (t in 0 until 64) {
             t1 = h + ((e rr 6) xor (e rr 11) xor (e rr 25)) +
                 ((e and f) xor (e.inv() and g)) + k[t] + w[t]
             t2 = ((a rr 2) xor (a rr 13) xor (a rr 22)) +
@@ -110,7 +110,7 @@ public class Sha256DigestAlgorithm(
 
         transformBlock(remaining)
 
-        for (i in 0..rc)
+        for (i in 0 until rc)
             r[i].copyIntoBe(output, 4 * i)
     }
 
