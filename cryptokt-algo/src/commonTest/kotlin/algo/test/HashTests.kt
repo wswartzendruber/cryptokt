@@ -23,7 +23,7 @@ import org.cryptokt.algo.Sha512DigestSize
 class HashTests {
 
     @Test
-    fun `MD2 accuracy`() {
+    fun MD2_accuracy() {
 
         val md2 = Md2DigestAlgorithm()
 
@@ -34,7 +34,7 @@ class HashTests {
     }
 
     @Test
-    fun `MD4 accurancy`() {
+    fun MD4_accuracy() {
 
         val md4 = Md4DigestAlgorithm()
 
@@ -45,7 +45,7 @@ class HashTests {
     }
 
     @Test
-    fun `MD5 accuracy`() {
+    fun MD5_accuracy() {
 
         val md5 = Md5DigestAlgorithm()
 
@@ -56,7 +56,7 @@ class HashTests {
     }
 
     @Test
-    fun `SHA1 accuracy`() {
+    fun SHA1_accuracy() {
 
         val sha1 = Sha1DigestAlgorithm()
 
@@ -67,7 +67,7 @@ class HashTests {
     }
 
     @Test
-    fun `SHA2-256 accuracy`() {
+    fun SHA2_256_accuracy() {
 
         val sha256 = Sha256DigestAlgorithm(Sha256DigestSize._256)
 
@@ -78,7 +78,7 @@ class HashTests {
     }
 
     @Test
-    fun `SHA2-224 accuracy`() {
+    fun SHA2_224_accuracy() {
 
         val sha256 = Sha256DigestAlgorithm(Sha256DigestSize._224)
 
@@ -89,7 +89,7 @@ class HashTests {
     }
 
     @Test
-    fun `SHA2-512 accuracy`() {
+    fun SHA2_512_accuracy() {
 
         val sha512 = Sha512DigestAlgorithm(Sha512DigestSize._512)
 
@@ -100,7 +100,7 @@ class HashTests {
     }
 
     @Test
-    fun `SHA2-384 accuracy`() {
+    fun SHA2_384_accuracy() {
 
         val sha2384 = Sha512DigestAlgorithm(Sha512DigestSize._384)
 
@@ -111,7 +111,7 @@ class HashTests {
     }
 
     @Test
-    fun `SHA2-512-224 accuracy`() {
+    fun SHA2_512_224_accuracy() {
 
         val sha2512224 = Sha512DigestAlgorithm(Sha512DigestSize._224)
 
@@ -122,7 +122,7 @@ class HashTests {
     }
 
     @Test
-    fun `SHA2-512-256 accuracy`() {
+    fun SHA2_512_256_accuracy() {
 
         val sha2512256 = Sha512DigestAlgorithm(Sha512DigestSize._256)
 
@@ -133,7 +133,7 @@ class HashTests {
     }
 
     @Test
-    fun `RIPEMD-128 accuracy`() {
+    fun RIPEMD_128_accuracy() {
 
         val ripemd128 = Ripemd128DigestAlgorithm()
 
@@ -144,7 +144,7 @@ class HashTests {
     }
 
     @Test
-    fun `RIPEMD-160 accuracy`() {
+    fun RIPEMD_160_accuracy() {
 
         val ripemd160 = Ripemd160DigestAlgorithm()
 

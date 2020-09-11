@@ -20,7 +20,17 @@ repositories {
 
 kotlin {
     explicitApi()
-    jvm()
+    jvm { }
+    js {
+        browser {
+            testTask {
+                useKarma {
+                    useFirefox()
+                }
+            }
+        }
+        nodejs { }
+    }
 }
 
 dependencies {
@@ -29,6 +39,8 @@ dependencies {
     commonTestImplementation(kotlin("test-annotations-common"))
     // JVM
     "jvmTestImplementation"(kotlin("test-junit"))
+    // JS
+    "jsTestImplementation"(kotlin("test-js"))
 }
 
 tasks {
@@ -37,10 +49,6 @@ tasks {
             register("commonMain") {
                 displayName = "Common"
                 platform = "common"
-            }
-            register("jvmMain") {
-                displayName = "JVM"
-                platform = "jvm"
             }
         }
     }
