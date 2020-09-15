@@ -6,14 +6,14 @@
 package org.cryptokt.algo.test
 
 internal actual fun String.toAsciiByteArray() =
-    this.let { input ->
-        js("new TextEncoder().encode(input)")
+    this.let {
+        js("new TextEncoder().encode(it)")
     }
 
 internal actual fun ByteArray.toHexString() =
-    this.let { input ->
+    this.let {
         js("""
-            Array.from(input, function(byte) {
+            Array.from(it, function(byte) {
                 return ("0" + (byte & 0xFF).toString(16)).slice(-2);
             }).join("")
         """)
