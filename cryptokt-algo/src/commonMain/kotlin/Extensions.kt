@@ -25,7 +25,6 @@ internal inline fun forEachSegment(
     block: () -> Unit,
 ): Int {
 
-    val ls = source
     var ldo = destinationOffset
     var lso = sourceOffset
     var ll = length
@@ -34,7 +33,7 @@ internal inline fun forEachSegment(
 
         val size = minOf(ll, destination.size - ldo)
 
-        ls.copyInto(destination, ldo, lso, lso + size)
+        source.copyInto(destination, ldo, lso, lso + size)
         lso += size
         ldo += size
         ll -= size
