@@ -15,18 +15,6 @@
 package org.cryptokt.algo
 
 /**
- * Represents the possible digest sizes for SHA2-256.
- *
- * @property[value] The digest size in bits.
- */
-public enum class Sha256DigestSize(public val value: Int) {
-    /** SHA2-224 */
-    _224(224),
-    /** SHA2-256 */
-    _256(256),
-}
-
-/**
  * The second formally published version of the U.S. Secure Hash Algorithm. This implementation
  * handles SHA2-224 and SHA2-256.
  *
@@ -35,16 +23,11 @@ public enum class Sha256DigestSize(public val value: Int) {
  */
 public class Sha256DigestAlgorithm(
     private val size: Sha256DigestSize = Sha256DigestSize._256
-) : DigestAlgorithm(512, size.value) {
+) : DigestAlgorithm(512, size.digestSize) {
 
     private var ms = 0L
-    private val r = cr[size]!!.copyInto(IntArray(8))
+    private val r = size.cr.copyInto(IntArray(8))
     private val w = cw.copyInto(IntArray(64))
-    private val rc =
-        when (size) {
-            Sha256DigestSize._224 -> 7
-            Sha256DigestSize._256 -> 8
-        }
 
     protected override fun transformBlock(block: ByteArray): Unit {
 
@@ -116,28 +99,18 @@ public class Sha256DigestAlgorithm(
 
         transformBlock(remaining)
 
-        for (i in 0 until rc)
+        for (i in 0 until size.rc)
             r[i].copyIntoBe(output, 4 * i)
     }
 
     protected override fun resetState(): Unit {
         ms = 0L
-        cr[size]!!.copyInto(r)
+        size.cr.copyInto(r)
         cw.copyInto(w)
     }
 
     private companion object {
 
-        private val cr = mapOf(
-            Sha256DigestSize._224 to intArrayOf(
-                -1056596264, 914150663, 812702999, -150054599, -4191439, 1750603025, 1694076839,
-                -1090891868
-            ),
-            Sha256DigestSize._256 to intArrayOf(
-                1779033703, -1150833019, 1013904242, -1521486534, 1359893119, -1694144372,
-                528734635, 1541459225
-            ),
-        )
         private val cw = IntArray(64)
         private val padding = byteArrayOf(
             -128, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,

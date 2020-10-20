@@ -15,22 +15,6 @@
 package org.cryptokt.algo
 
 /**
- * Represents the possible digest sizes for SHA2-512.
- *
- * @property[value] The digest size in bits.
- */
-public enum class Sha512DigestSize(public val value: Int) {
-    /** SHA2-512/224 */
-    _224(224),
-    /** SHA2-512/256 */
-    _256(256),
-    /** SHA2-384 */
-    _384(384),
-    /** SHA2-512 */
-    _512(512),
-}
-
-/**
  * The second formally published version of the U.S. Secure Hash Algorithm. This implementation
  * handles SHA2-384, SHA2-512, SHA2-512/224, and SHA2-512/256.
  *
@@ -39,18 +23,11 @@ public enum class Sha512DigestSize(public val value: Int) {
  */
 public class Sha512DigestAlgorithm(
     private val size: Sha512DigestSize = Sha512DigestSize._512
-) : DigestAlgorithm(1024, size.value) {
+) : DigestAlgorithm(1024, size.digestSize) {
 
     private var ms = 0L
-    private val r = cr[size]!!.copyInto(LongArray(8))
+    private val r = size.cr.copyInto(LongArray(8))
     private val w = cw.copyInto(LongArray(80))
-    private val rc =
-        when (size) {
-            Sha512DigestSize._224 -> 3
-            Sha512DigestSize._256 -> 3
-            Sha512DigestSize._384 -> 5
-            Sha512DigestSize._512 -> 7
-        }
 
     protected override fun transformBlock(block: ByteArray): Unit {
 
@@ -123,45 +100,23 @@ public class Sha512DigestAlgorithm(
 
         transformBlock(remaining)
 
-        for (i in 0 until rc)
+        for (i in 0 until size.rc)
             r[i].copyIntoBe(output, 8 * i)
 
         if (digestSize == 224)
-            r[rc].ushr(32).toInt().copyIntoBe(output, 8 * rc)
+            r[size.rc].ushr(32).toInt().copyIntoBe(output, 8 * size.rc)
         else
-            r[rc].copyIntoBe(output, 8 * rc)
+            r[size.rc].copyIntoBe(output, 8 * size.rc)
     }
 
     protected override fun resetState(): Unit {
         ms = 0L
-        cr[size]!!.copyInto(r)
+        size.cr.copyInto(r)
         cw.copyInto(w)
     }
 
     private companion object {
 
-        private val cr = mapOf(
-            Sha512DigestSize._224 to longArrayOf(
-                -8341449602262348382, 8350123849800275158, 2160240930085379202,
-                7466358040605728719, 1111592415079452072, 8638871050018654530,
-                4583966954114332360, 1230299281376055969
-            ),
-            Sha512DigestSize._256 to longArrayOf(
-                2463787394917988140, -6965556091613846334, 2563595384472711505,
-                -7622211418569250115, -7626776825740460061, -4729309413028513390,
-                3098927326965381290, 1060366662362279074
-            ),
-            Sha512DigestSize._384 to longArrayOf(
-                -3766243637369397544, 7105036623409894663, -7973340178411365097,
-                1526699215303891257, 7436329637833083697, -8163818279084223215,
-                -2662702644619276377, 5167115440072839076
-            ),
-            Sha512DigestSize._512 to longArrayOf(
-                7640891576956012808, -4942790177534073029, 4354685564936845355,
-                -6534734903238641935, 5840696475078001361, -7276294671716946913,
-                2270897969802886507, 6620516959819538809
-            ),
-        )
         private val cw = LongArray(80)
         private val padding = byteArrayOf(
             -128, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
