@@ -3,14 +3,14 @@
  * https://creativecommons.org/publicdomain/zero/1.0/
  */
 
-import org.jetbrains.dokka.gradle.DokkaTask
+import org.jetbrains.dokka.Platform
 
 val group: String by project
 val version: String by project
 
 plugins {
     kotlin("multiplatform")
-    id("org.jetbrains.dokka").version("1.4.0-rc")
+    id("org.jetbrains.dokka")
     id("maven-publish")
 }
 
@@ -24,9 +24,7 @@ kotlin {
     js {
         browser {
             testTask {
-                useKarma {
-                    useFirefox()
-                }
+                enabled = false
             }
         }
         nodejs { }
@@ -34,7 +32,7 @@ kotlin {
 }
 
 dependencies {
-    // COMMON
+    // Common
     commonTestImplementation(kotlin("test-common"))
     commonTestImplementation(kotlin("test-annotations-common"))
     // JVM
@@ -46,9 +44,9 @@ dependencies {
 tasks {
     dokkaHtml {
         dokkaSourceSets {
-            register("commonMain") {
-                displayName = "Common"
-                platform = "common"
+            named("commonMain") {
+                displayName.set("Common")
+                platform.set(Platform.common)
             }
         }
     }
