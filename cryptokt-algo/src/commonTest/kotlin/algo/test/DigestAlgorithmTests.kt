@@ -9,6 +9,7 @@ import kotlin.random.Random
 import kotlin.test.assertTrue
 import kotlin.test.Test
 
+import org.cryptokt.algo.DigestAlgorithm
 import org.cryptokt.algo.Md2DigestAlgorithm
 import org.cryptokt.algo.Md4DigestAlgorithm
 import org.cryptokt.algo.Md5DigestAlgorithm
@@ -20,145 +21,95 @@ import org.cryptokt.algo.Sha256DigestSize
 import org.cryptokt.algo.Sha512DigestAlgorithm
 import org.cryptokt.algo.Sha512DigestSize
 
-class HashTests {
+class DigestAlgorithmTests {
 
     @Test
     fun MD2_accuracy() {
-
-        val md2 = Md2DigestAlgorithm()
-
-        for (hashValue in md2HashValues) {
-            md2.input(hashValue.key.toAsciiByteArray())
-            assertTrue(md2.digest().toHexString() == hashValue.value)
-        }
+        testDigestAlgorithmAccuracy(
+            Md2DigestAlgorithm(), md2Digests
+        )
     }
 
     @Test
     fun MD4_accuracy() {
-
-        val md4 = Md4DigestAlgorithm()
-
-        for (hashValue in md4HashValues) {
-            md4.input(hashValue.key.toAsciiByteArray())
-            assertTrue(md4.digest().toHexString() == hashValue.value)
-        }
+        testDigestAlgorithmAccuracy(
+            Md4DigestAlgorithm(), md4Digests
+        )
     }
 
     @Test
     fun MD5_accuracy() {
-
-        val md5 = Md5DigestAlgorithm()
-
-        for (hashValue in md5HashValues) {
-            md5.input(hashValue.key.toAsciiByteArray())
-            assertTrue(md5.digest().toHexString() == hashValue.value)
-        }
+        testDigestAlgorithmAccuracy(
+            Md5DigestAlgorithm(), md5Digests
+        )
     }
 
     @Test
     fun SHA1_accuracy() {
-
-        val sha1 = Sha1DigestAlgorithm()
-
-        for (hashValue in sha1HashValues) {
-            sha1.input(hashValue.key.toAsciiByteArray())
-            assertTrue(sha1.digest().toHexString() == hashValue.value)
-        }
+        testDigestAlgorithmAccuracy(
+            Sha1DigestAlgorithm(), sha1Digests
+        )
     }
 
     @Test
     fun SHA2_256_accuracy() {
-
-        val sha256 = Sha256DigestAlgorithm(Sha256DigestSize._256)
-
-        for (hashValue in sha2256HashValues) {
-            sha256.input(hashValue.key.toAsciiByteArray())
-            assertTrue(sha256.digest().toHexString() == hashValue.value)
-        }
+        testDigestAlgorithmAccuracy(
+            Sha256DigestAlgorithm(), sha2256Digests
+        )
     }
 
     @Test
     fun SHA2_224_accuracy() {
-
-        val sha256 = Sha256DigestAlgorithm(Sha256DigestSize._224)
-
-        for (hashValue in sha2224HashValues) {
-            sha256.input(hashValue.key.toAsciiByteArray())
-            assertTrue(sha256.digest().toHexString() == hashValue.value)
-        }
+        testDigestAlgorithmAccuracy(
+            Sha256DigestAlgorithm(Sha256DigestSize._224), sha2224Digests
+        )
     }
 
     @Test
     fun SHA2_512_accuracy() {
-
-        val sha512 = Sha512DigestAlgorithm(Sha512DigestSize._512)
-
-        for (hashValue in sha2512HashValues) {
-            sha512.input(hashValue.key.toAsciiByteArray())
-            assertTrue(sha512.digest().toHexString() == hashValue.value)
-        }
+        testDigestAlgorithmAccuracy(
+            Sha512DigestAlgorithm(), sha2512Digests
+        )
     }
 
     @Test
     fun SHA2_384_accuracy() {
-
-        val sha2384 = Sha512DigestAlgorithm(Sha512DigestSize._384)
-
-        for (hashValue in sha2384HashValues) {
-            sha2384.input(hashValue.key.toAsciiByteArray())
-            assertTrue(sha2384.digest().toHexString() == hashValue.value)
-        }
+        testDigestAlgorithmAccuracy(
+            Sha512DigestAlgorithm(Sha512DigestSize._384), sha2384Digests
+        )
     }
 
     @Test
     fun SHA2_512_224_accuracy() {
-
-        val sha2512224 = Sha512DigestAlgorithm(Sha512DigestSize._224)
-
-        for (hashValue in sha2512224HashValues) {
-            sha2512224.input(hashValue.key.toAsciiByteArray())
-            assertTrue(sha2512224.digest().toHexString() == hashValue.value)
-        }
+        testDigestAlgorithmAccuracy(
+            Sha512DigestAlgorithm(Sha512DigestSize._224), sha2512224Digests
+        )
     }
 
     @Test
     fun SHA2_512_256_accuracy() {
-
-        val sha2512256 = Sha512DigestAlgorithm(Sha512DigestSize._256)
-
-        for (hashValue in sha2512256HashValues) {
-            sha2512256.input(hashValue.key.toAsciiByteArray())
-            assertTrue(sha2512256.digest().toHexString() == hashValue.value)
-        }
+        testDigestAlgorithmAccuracy(
+            Sha512DigestAlgorithm(Sha512DigestSize._256), sha2512256Digests
+        )
     }
 
     @Test
     fun RIPEMD_128_accuracy() {
-
-        val ripemd128 = Ripemd128DigestAlgorithm()
-
-        for (hashValue in ripemd128HashValues) {
-            ripemd128.input(hashValue.key.toAsciiByteArray())
-            assertTrue(ripemd128.digest().toHexString() == hashValue.value)
-        }
+        testDigestAlgorithmAccuracy(
+            Ripemd128DigestAlgorithm(), ripemd128Digests
+        )
     }
 
     @Test
     fun RIPEMD_160_accuracy() {
-
-        val ripemd160 = Ripemd160DigestAlgorithm()
-
-        for (hashValue in ripemd160HashValues) {
-            ripemd160.input(hashValue.key.toAsciiByteArray())
-            assertTrue(ripemd160.digest().toHexString() == hashValue.value)
-        }
+        testDigestAlgorithmAccuracy(
+            Ripemd160DigestAlgorithm(), ripemd160Digests
+        )
     }
 
     companion object {
 
-        val randomData = Random.nextBytes(ByteArray(1024))
-
-        val md2HashValues = mapOf(
+        val md2Digests = mapOf(
             "" to "8350e5a3e24c153df2275c9f80692773",
             "a" to "32ec01ec4a6dac72c0ab96fb34c0b5d1",
             "abc" to "da853b0d3f88d99b30283a69e6ded6bb",
@@ -168,7 +119,7 @@ class HashTests {
             "12345678901234567890123456789012345678901234567890123456789012345678901234567890" to "d5976f79d83d3a0dc9806c3c66f3efd8",
         )
 
-        val md4HashValues = mapOf(
+        val md4Digests = mapOf(
             "" to "31d6cfe0d16ae931b73c59d7e0c089c0",
             "a" to "bde52cb31de33e46245e05fbdbd6fb24",
             "abc" to "a448017aaf21d8525fc10ae87aa6729d",
@@ -178,7 +129,7 @@ class HashTests {
             "12345678901234567890123456789012345678901234567890123456789012345678901234567890" to "e33b4ddc9c38f2199c3e7b164fcc0536",
         )
 
-        val md5HashValues = mapOf(
+        val md5Digests = mapOf(
             "" to "d41d8cd98f00b204e9800998ecf8427e",
             "a" to "0cc175b9c0f1b6a831c399e269772661",
             "abc" to "900150983cd24fb0d6963f7d28e17f72",
@@ -188,7 +139,7 @@ class HashTests {
             "12345678901234567890123456789012345678901234567890123456789012345678901234567890" to "57edf4a22be3c955ac49da2e2107b67a",
         )
 
-        val sha1HashValues = mapOf(
+        val sha1Digests = mapOf(
             "" to "da39a3ee5e6b4b0d3255bfef95601890afd80709",
             "a" to "86f7e437faa5a7fce15d1ddcb9eaeaea377667b8",
             "abc" to "a9993e364706816aba3e25717850c26c9cd0d89d",
@@ -198,7 +149,7 @@ class HashTests {
             "12345678901234567890123456789012345678901234567890123456789012345678901234567890" to "50abf5706a150990a08b2c5ea40fa0e585554732",
         )
 
-        val sha2256HashValues = mapOf(
+        val sha2256Digests = mapOf(
             "" to "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
             "a" to "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb",
             "abc" to "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad",
@@ -208,11 +159,11 @@ class HashTests {
             "12345678901234567890123456789012345678901234567890123456789012345678901234567890" to "f371bc4a311f2b009eef952dd83ca80e2b60026c8e935592d0f9c308453c813e",
         )
 
-        val sha2224HashValues = mapOf(
+        val sha2224Digests = mapOf(
             "" to "d14a028c2a3a2bc9476102bb288234c415a2b01f828ea62ac5b3e42f",
         )
 
-        val sha2512HashValues = mapOf(
+        val sha2512Digests = mapOf(
             "" to "cf83e1357eefb8bdf1542850d66d8007d620e4050b5715dc83f4a921d36ce9ce47d0d13c5d85f2b0ff8318d2877eec2f63b931bd47417a81a538327af927da3e",
             "a" to "1f40fc92da241694750979ee6cf582f2d5d7d28e18335de05abc54d0560e0f5302860c652bf08d560252aa5e74210546f369fbbbce8c12cfc7957b2652fe9a75",
             "abc" to "ddaf35a193617abacc417349ae20413112e6fa4e89a97ea20a9eeee64b55d39a2192992a274fc1a836ba3c23a3feebbd454d4423643ce80e2a9ac94fa54ca49f",
@@ -223,19 +174,19 @@ class HashTests {
             "123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890" to "0d9a7df5b6a6ad20da519effda888a7344b6c0c7adcc8e2d504b4af27aaaacd4e7111c713f71769539629463cb58c86136c521b0414a3c0edf7dc6349c6edaf3",
         )
 
-        val sha2384HashValues = mapOf(
+        val sha2384Digests = mapOf(
             "" to "38b060a751ac96384cd9327eb1b1e36a21fdb71114be07434c0cc7bf63f6e1da274edebfe76f65fbd51ad2f14898b95b",
         )
 
-        val sha2512224HashValues = mapOf(
+        val sha2512224Digests = mapOf(
             "" to "6ed0dd02806fa89e25de060c19d3ac86cabb87d6a0ddd05c333b84f4",
         )
 
-        val sha2512256HashValues = mapOf(
+        val sha2512256Digests = mapOf(
             "" to "c672b8d1ef56ed28ab87c3622c5114069bdd3ad7b8f9737498d0c01ecef0967a",
         )
 
-        val ripemd128HashValues = mapOf(
+        val ripemd128Digests = mapOf(
             "" to "cdf26213a150dc3ecb610f18f6b38b46",
             "a" to "86be7afa339d0fc7cfc785e72f578d33",
             "abc" to "c14a12199c66e4ba84636b0f69144c77",
@@ -247,7 +198,7 @@ class HashTests {
             "a".repeat(1000000) to "4a7f5723f954eba1216c9d8f6320431f",
         )
 
-        val ripemd160HashValues = mapOf(
+        val ripemd160Digests = mapOf(
             "" to "9c1185a5c5e9fc54612808977ee8f548b2258d31",
             "a" to "0bdc9d2d256b3ee9daae347be6f4dc835a467ffe",
             "abc" to "8eb208f7e05d987a9b044a8e98c6b087f15a0bfc",
@@ -258,5 +209,14 @@ class HashTests {
             "1234567890".repeat(8) to "9b752e45573d4b39f4dbd3323cab82bf63326bfb",
             "a".repeat(1000000) to "52783243c1697bdbe16d37f97f68f08325dc1528",
         )
+
+        fun testDigestAlgorithmAccuracy(
+            da: DigestAlgorithm, digests: Map<String, String>
+        ) {
+            for (digest in digests) {
+                da.input(digest.key.toAsciiByteArray())
+                assertTrue(da.digest().toHexString() == digest.value)
+            }
+        }
     }
 }
