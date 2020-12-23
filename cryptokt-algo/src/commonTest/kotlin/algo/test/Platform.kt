@@ -5,6 +5,8 @@
 
 package org.cryptokt.algo.test
 
-internal expect fun String.toAsciiByteArray(): ByteArray
+internal expect fun String.toByteArrayFromAscii(): ByteArray
+
+internal expect fun String.toByteArrayFromHex(): ByteArray
 
 internal expect fun ByteArray.toHexString(): String

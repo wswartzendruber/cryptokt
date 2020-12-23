@@ -5,10 +5,16 @@
 
 package org.cryptokt.algo.test
 
-internal actual fun String.toAsciiByteArray() =
+private val hex = require("crypto-js/enc-hex")
+
+private external fun require(module: String): dynamic
+
+internal actual fun String.toByteArrayFromAscii() =
     this.let {
         js("new TextEncoder().encode(it)")
     }
+
+internal actual fun String.toByteArrayFromHex() = hex.parse(this)
 
 internal actual fun ByteArray.toHexString() =
     this.let {

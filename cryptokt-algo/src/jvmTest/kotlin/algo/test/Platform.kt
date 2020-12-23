@@ -7,9 +7,12 @@ package org.cryptokt.algo.test
 
 import java.nio.charset.Charset
 
+import org.apache.commons.codec.binary.Hex
+
 private val charset = Charset.forName("US-ASCII")
 
-internal actual fun String.toAsciiByteArray() = this.toByteArray(charset)
+internal actual fun String.toByteArrayFromAscii() = this.toByteArray(charset)
 
-internal actual fun ByteArray.toHexString() =
-    this.joinToString("") { String.format("%02x", it) }
+internal actual fun String.toByteArrayFromHex() = Hex.decodeHex(this)
+
+internal actual fun ByteArray.toHexString() = Hex.encodeHexString(this)

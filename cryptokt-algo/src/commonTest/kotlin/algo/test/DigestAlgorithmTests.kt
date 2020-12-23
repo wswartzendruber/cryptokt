@@ -31,6 +31,13 @@ class DigestAlgorithmTests {
     }
 
     @Test
+    fun MD2_offsets() {
+        testDigestAlgorithmOffsets(
+            Md2DigestAlgorithm(), "8350e5a3e24c153df2275c9f80692773".toByteArrayFromHex()
+        )
+    }
+
+    @Test
     fun MD4_accuracy() {
         testDigestAlgorithmAccuracy(
             Md4DigestAlgorithm(), md4Digests
@@ -210,14 +217,37 @@ class DigestAlgorithmTests {
             "a".repeat(1000000) to "52783243c1697bdbe16d37f97f68f08325dc1528",
         )
 
-        fun testDigestAlgorithmAccuracy(
-            da: DigestAlgorithm,
-            digests: Map<String, String>,
-        ) {
+        fun testDigestAlgorithmAccuracy(da: DigestAlgorithm, digests: Map<String, String>) {
             for (digest in digests) {
-                da.input(digest.key.toAsciiByteArray())
+                da.input(digest.key.toByteArrayFromAscii())
                 assertTrue(da.digest().toHexString() == digest.value)
             }
         }
+
+        fun testDigestAlgorithmOffsets(da: DigestAlgorithm, emptyDigest: ByteArray) {
+
+            for (offset in 0 until buffer.size - da.digestLength) {
+
+                println("offset = $offset")
+
+                zeroedBuffer.copyInto(buffer)
+                da.input(emptyBuffer)
+                da.digest(buffer, offset)
+
+                for (i in 0 until offset)
+                    assertTrue(buffer[i] == 0.toByte())
+
+                for (i in 0 until da.digestLength)
+                    //assertTrue(buffer[offset + i] == emptyDigest[i])
+                    println("expected: ${emptyDigest[i]}, found: ${buffer[offset + i]}")
+
+                for (i in offset + da.digestLength until buffer.size)
+                    assertTrue(buffer[i] == 0.toByte())
+            }
+        }
+
+        val emptyBuffer = ByteArray(0)
+        val zeroedBuffer = ByteArray(128)
+        val buffer = ByteArray(128)
     }
 }
