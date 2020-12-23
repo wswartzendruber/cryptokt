@@ -100,7 +100,7 @@ public class Sha256DigestAlgorithm(
         transformBlock(remaining)
 
         for (i in 0 until size.rc)
-            r[i].copyIntoBe(output, 4 * i)
+            r[i].copyIntoBe(output, offset + 4 * i)
     }
 
     protected override fun resetState(): Unit {

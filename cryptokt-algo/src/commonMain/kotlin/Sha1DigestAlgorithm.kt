@@ -109,7 +109,7 @@ public class Sha1DigestAlgorithm : DigestAlgorithm(512, 160) {
         transformBlock(remaining)
 
         for (i in 0 until 5)
-            r[i].copyIntoBe(output, 4 * i)
+            r[i].copyIntoBe(output, offset + 4 * i)
     }
 
     protected override fun resetState(): Unit {

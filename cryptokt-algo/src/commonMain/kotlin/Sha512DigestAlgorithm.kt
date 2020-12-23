@@ -101,12 +101,12 @@ public class Sha512DigestAlgorithm(
         transformBlock(remaining)
 
         for (i in 0 until size.rc)
-            r[i].copyIntoBe(output, 8 * i)
+            r[i].copyIntoBe(output, offset + 8 * i)
 
         if (digestSize == 224)
-            r[size.rc].ushr(32).toInt().copyIntoBe(output, 8 * size.rc)
+            r[size.rc].ushr(32).toInt().copyIntoBe(output, offset + 8 * size.rc)
         else
-            r[size.rc].copyIntoBe(output, 8 * size.rc)
+            r[size.rc].copyIntoBe(output, offset + 8 * size.rc)
     }
 
     protected override fun resetState(): Unit {

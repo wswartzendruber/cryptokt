@@ -133,7 +133,7 @@ public class Md4DigestAlgorithm : DigestAlgorithm(512, 128) {
         transformBlock(remaining)
 
         for (i in 0 until 4)
-            r[i].copyIntoLe(output, 4 * i)
+            r[i].copyIntoLe(output, offset + 4 * i)
     }
 
     protected override fun resetState(): Unit {

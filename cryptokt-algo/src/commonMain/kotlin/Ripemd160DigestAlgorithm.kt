@@ -409,7 +409,7 @@ public class Ripemd160DigestAlgorithm : DigestAlgorithm(512, 160) {
         transformBlock(remaining)
 
         for (i in 0 until 5)
-            r[i].copyIntoLe(output, 4 * i)
+            r[i].copyIntoLe(output, offset + 4 * i)
     }
 
     protected override fun resetState(): Unit {
