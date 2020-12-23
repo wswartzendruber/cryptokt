@@ -211,7 +211,8 @@ class DigestAlgorithmTests {
         )
 
         fun testDigestAlgorithmAccuracy(
-            da: DigestAlgorithm, digests: Map<String, String>
+            da: DigestAlgorithm,
+            digests: Map<String, String>,
         ) {
             for (digest in digests) {
                 da.input(digest.key.toAsciiByteArray())

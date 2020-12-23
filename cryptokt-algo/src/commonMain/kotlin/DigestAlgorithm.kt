@@ -29,11 +29,15 @@ public abstract class DigestAlgorithm(
     public val digestSize: Int,
 ) {
 
-    private val blockSizeBytes = blockSize.wholeBytes()
-    private val digestSizeBytes = digestSize.wholeBytes()
-    private var mo = 0
-    private val mb = ByteArray(blockSizeBytes)
-    private val cmb = ByteArray(blockSizeBytes)
+    /**
+     * The size in whole bytes of each complete input block.
+     */
+    public val blockLength: Int = blockSize.wholeBytes()
+
+    /**
+     * The size in whole bytes of the digest.
+     */
+    public val digestLength: Int = digestSize.wholeBytes()
 
     /**
      * Inputs the specified [buffer] segment, starting at the zero-based [offset], up to and
@@ -60,11 +64,11 @@ public abstract class DigestAlgorithm(
      * was initialized with.
      */
     public fun digest(
-        output: ByteArray = ByteArray(digestSizeBytes),
+        output: ByteArray = ByteArray(digestLength),
         offset: Int = 0,
     ): ByteArray {
 
-        if (digestSizeBytes + offset > output.size)
+        if (digestLength + offset > output.size)
             throw IllegalArgumentException("Output buffer too small for the given offset.")
 
         transformFinal(output, offset, mb, mo)
@@ -81,6 +85,10 @@ public abstract class DigestAlgorithm(
         cmb.copyInto(mb)
         resetState()
     }
+
+    private var mo = 0
+    private val mb = ByteArray(blockLength)
+    private val cmb = ByteArray(blockLength)
 
     /**
      * Invoked in order to input a single [block] of input data. The size of the [block] will
