@@ -217,6 +217,10 @@ class DigestAlgorithmTests {
             "a".repeat(1000000) to "52783243c1697bdbe16d37f97f68f08325dc1528",
         )
 
+        val emptyBuffer = ByteArray(0)
+        val zeroedBuffer = ByteArray(128)
+        val buffer = ByteArray(128)
+
         fun testDigestAlgorithmAccuracy(da: DigestAlgorithm, digests: Map<String, String>) {
             for (digest in digests) {
                 da.input(digest.key.toByteArrayFromAscii())
@@ -228,8 +232,6 @@ class DigestAlgorithmTests {
 
             for (offset in 0 until buffer.size - da.digestLength) {
 
-                println("offset = $offset")
-
                 zeroedBuffer.copyInto(buffer)
                 da.input(emptyBuffer)
                 da.digest(buffer, offset)
@@ -238,16 +240,11 @@ class DigestAlgorithmTests {
                     assertTrue(buffer[i] == 0.toByte())
 
                 for (i in 0 until da.digestLength)
-                    //assertTrue(buffer[offset + i] == emptyDigest[i])
-                    println("expected: ${emptyDigest[i]}, found: ${buffer[offset + i]}")
+                    assertTrue(buffer[offset + i] == emptyDigest[i])
 
                 for (i in offset + da.digestLength until buffer.size)
                     assertTrue(buffer[i] == 0.toByte())
             }
         }
-
-        val emptyBuffer = ByteArray(0)
-        val zeroedBuffer = ByteArray(128)
-        val buffer = ByteArray(128)
     }
 }

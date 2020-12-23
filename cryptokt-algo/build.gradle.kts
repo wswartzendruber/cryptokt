@@ -40,7 +40,6 @@ dependencies {
     "jvmTestImplementation"("commons-codec:commons-codec:1.15")
     // JS
     "jsTestImplementation"(kotlin("test-js"))
-    "jsTestImplementation"(npm("crypto-js", "4.0.0"))
 }
 
 tasks {

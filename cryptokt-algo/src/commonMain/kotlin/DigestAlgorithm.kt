@@ -39,6 +39,10 @@ public abstract class DigestAlgorithm(
      */
     public val digestLength: Int = digestSize.wholeBytes()
 
+    private var mo = 0
+    private val mb = ByteArray(blockLength)
+    private val cmb = ByteArray(blockLength)
+
     /**
      * Inputs the specified [buffer] segment, starting at the zero-based [offset], up to and
      * including [length] bytes from there.
@@ -85,10 +89,6 @@ public abstract class DigestAlgorithm(
         cmb.copyInto(mb)
         resetState()
     }
-
-    private var mo = 0
-    private val mb = ByteArray(blockLength)
-    private val cmb = ByteArray(blockLength)
 
     /**
      * Invoked in order to input a single [block] of input data. The size of the [block] will
