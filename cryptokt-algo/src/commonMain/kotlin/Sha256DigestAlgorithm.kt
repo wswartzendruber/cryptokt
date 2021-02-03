@@ -35,10 +35,8 @@ public class Sha256DigestAlgorithm(
             w[t] = block.beIntAt(4 * t)
 
         for (t in 16 until 64)
-            w[t] = ((w[t - 2] rr 17) xor (w[t - 2] rr 19) xor (w[t - 2] ushr 10)) +
-                w[t - 7] +
-                ((w[t - 15] rr 7) xor (w[t - 15] rr 18) xor (w[t - 15] ushr 3)) +
-                w[t - 16]
+            w[t] = f(w[t - 2] rr 17, w[t - 2] rr 19, w[t - 2] ushr 10) + w[t - 7] +
+                f(w[t - 15] rr 7, w[t - 15] rr 18, w[t - 15] ushr 3) + w[t - 16]
 
         var t1: Int
         var t2: Int
@@ -52,10 +50,8 @@ public class Sha256DigestAlgorithm(
         var h = r[7]
 
         for (t in 0 until 64) {
-            t1 = h + ((e rr 6) xor (e rr 11) xor (e rr 25)) +
-                ((e and f) xor (e.inv() and g)) + k[t] + w[t]
-            t2 = ((a rr 2) xor (a rr 13) xor (a rr 22)) +
-                ((a and b) xor (a and c) xor (b and c))
+            t1 = h + f(e rr 6, e rr 11, e rr 25) + (e and f xor (e.inv() and g)) + k[t] + w[t]
+            t2 = f(a rr 2, a rr 13, a rr 22) + f(a and b, a and c, b and c)
             h = g
             g = f
             f = e
@@ -129,5 +125,7 @@ public class Sha256DigestAlgorithm(
             1322822218, 1537002063, 1747873779, 1955562222, 2024104815, -2067236844,
             -1933114872, -1866530822, -1538233109, -1090935817, -965641998
         )
+
+        private fun f(x: Int, y: Int, z: Int) = x xor y xor z
     }
 }

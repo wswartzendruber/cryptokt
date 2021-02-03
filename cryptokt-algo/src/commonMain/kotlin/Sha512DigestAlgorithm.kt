@@ -35,10 +35,8 @@ public class Sha512DigestAlgorithm(
             w[t] = block.beLongAt(8 * t)
 
         for (t in 16 until 80)
-            w[t] = ((w[t - 2] rr 19) xor (w[t - 2] rr 61) xor (w[t - 2] ushr 6)) +
-                w[t - 7] +
-                ((w[t - 15] rr 1) xor (w[t - 15] rr 8) xor (w[t - 15] ushr 7)) +
-                w[t - 16]
+            w[t] = f(w[t - 2] rr 19, w[t - 2] rr 61, w[t - 2] ushr 6) + w[t - 7] +
+                f(w[t - 15] rr 1, w[t - 15] rr 8, w[t - 15] ushr 7) + w[t - 16]
 
         var t1: Long
         var t2: Long
@@ -52,10 +50,8 @@ public class Sha512DigestAlgorithm(
         var h = r[7]
 
         for (t in 0 until 80) {
-            t1 = h + ((e rr 14) xor (e rr 18) xor (e rr 41)) +
-                ((e and f) xor (e.inv() and g)) + k[t] + w[t]
-            t2 = ((a rr 28) xor (a rr 34) xor (a rr 39)) +
-                ((a and b) xor (a and c) xor (b and c))
+            t1 = h + f(e rr 14, e rr 18, e rr 41) + (e and f xor (e.inv() and g)) + k[t] + w[t]
+            t2 = f(a rr 28, a rr 34, a rr 39) + f(a and b, a and c, b and c)
             h = g
             g = f
             f = e
@@ -154,5 +150,7 @@ public class Sha512DigestAlgorithm(
             4836135668995329356, 5532061633213252278, 6448918945643986474,
             6902733635092675308, 7801388544844847127
         )
+
+        private fun f(x: Long, y: Long, z: Long) = x xor y xor z
     }
 }
