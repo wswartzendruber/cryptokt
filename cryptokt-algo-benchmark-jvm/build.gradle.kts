@@ -8,10 +8,6 @@ plugins {
     application
 }
 
-repositories {
-    jcenter()
-}
-
 dependencies {
     implementation(project(":cryptokt-algo"))
     implementation("org.bouncycastle:bcprov-jdk15on:1.65")

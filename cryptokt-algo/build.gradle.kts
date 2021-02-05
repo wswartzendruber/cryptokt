@@ -14,10 +14,6 @@ plugins {
     id("maven-publish")
 }
 
-repositories {
-    jcenter()
-}
-
 kotlin {
     explicitApi()
     jvm { }
