@@ -22,17 +22,34 @@ package org.cryptokt.algo
 
 import kotlin.experimental.or
 
-public class Keccak() {
+/**
+ * The Keccak[c] function, implemented here as an extendable [DigestAlgorithm] class. This
+ * serves as the basis for the SHA-3 suite of hash algorithms and also the SHAKE128 and SHAKE256
+ * extendable output functions. Those classes should be used directly where possible.
+ */
+public class KeccakDigestAlgorithm(digestSize: Int) : DigestAlgorithm(1600, digestSize) {
 
-    public val a: LongArray = LongArray(25) // TODO: private
-    private val b = LongArray(25)
-    private val c = LongArray(5)
-    private val d = LongArray(5)
+    private val a = LongArray(25)
+    private val at = LongArray(25)
+    private val t1 = LongArray(5)
+    private val t2 = LongArray(5)
+    private val buffer = ByteArray(200)
 
-    /**
-     * Reads from the provided [source] into the internal state of the Keccak function.
-     */
-    public fun inputByteArray(source: ByteArray) {
+    protected override fun transformBlock(block: ByteArray): Unit {
+    }
+
+    protected override fun transformFinal(
+        output: ByteArray,
+        offset: Int,
+        remaining: ByteArray,
+        remainingSize: Int,
+    ): Unit {
+    }
+
+    protected override fun resetState(): Unit {
+    }
+
+    private fun inputByteArray(source: ByteArray) {
         for (i in 0 until 25) {
             a[i] = 0
             for (j in 0 until 8)
@@ -40,11 +57,7 @@ public class Keccak() {
         }
     }
 
-    /**
-     * Writes the internal state of the Keccak function into the provided [destination] at the
-     * specific [offset].
-     */
-    public fun outputByteArray(
+    private fun outputByteArray(
         destination: ByteArray = ByteArray(200),
         offset: Int = 0,
     ): ByteArray {
@@ -57,17 +70,30 @@ public class Keccak() {
         return destination
     }
 
+    private fun sponge(length: Int) {
+    }
+
+    private fun permutate() {
+        for (r in 0 until 24) {
+            theta()
+            rho()
+            pi()
+            chi()
+            iota(r)
+        }
+    }
+
     private fun theta() {
         for (x in 0 until 5) {
-            c[x] = a[index(x, 0)]
+            t1[x] = a[index(x, 0)]
             for (y in 1 until 5)
-                c[x] = c[x] xor a[index(x, y)]
+                t1[x] = t1[x] xor a[index(x, y)]
         }
         for (x in 0 until 5)
-            d[x] = (c[index(x + 1)] rol 1) xor c[index(x - 1)]
+            t2[x] = (t1[index(x + 1)] rol 1) xor t1[index(x - 1)]
         for (x in 0 until 5) {
             for (y in 0 until 5)
-                a[index(x, y)] = a[index(x, y)] xor d[x]
+                a[index(x, y)] = a[index(x, y)] xor t2[x]
         }
     }
 
@@ -79,12 +105,12 @@ public class Keccak() {
     }
 
     private fun pi() {
-        a.copyInto(b)
+        a.copyInto(at)
         for (x in 0 until 5) {
             for (y in 0 until 5) {
                 val xt = (0 * x + 1 * y) % 5
                 val yt = (2 * x + 3 * y) % 5
-                a[index(xt, yt)] = b[index(x, y)]
+                a[index(xt, yt)] = at[index(x, y)]
             }
         }
     }
@@ -92,9 +118,9 @@ public class Keccak() {
     private fun chi() {
         for (y in 0 until 5) {
             for (x in 0 until 5)
-                c[x] = a[index(x, y)] xor (a[index(x + 1, y)].inv() and a[index(x + 2, y)])
+                t1[x] = a[index(x, y)] xor (a[index(x + 1, y)].inv() and a[index(x + 2, y)])
             for (x in 0 until 5)
-                a[index(x, y)] = c[x]
+                a[index(x, y)] = t1[x]
         }
     }
 

@@ -9,7 +9,7 @@ import kotlin.random.Random
 import kotlin.test.assertTrue
 import kotlin.test.Test
 
-import org.cryptokt.algo.Keccak
+import org.cryptokt.algo.KeccakDigestAlgorithm
 
 class KeccakTests {
 }
