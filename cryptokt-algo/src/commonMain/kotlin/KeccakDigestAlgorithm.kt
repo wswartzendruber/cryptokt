@@ -33,9 +33,15 @@ public class KeccakDigestAlgorithm(digestSize: Int) : DigestAlgorithm(1600, dige
     private val at = LongArray(25)
     private val t1 = LongArray(5)
     private val t2 = LongArray(5)
-    private val buffer = ByteArray(200)
+    private val s = ByteArray(200)
+    private val st = ByteArray(200)
+    private val c = digestSize * 2
+    private val d = digestSize
+    private val r = 1600 - c
 
     protected override fun transformBlock(block: ByteArray): Unit {
+        block.copyInto(s)
+        sponge()
     }
 
     protected override fun transformFinal(
@@ -49,37 +55,33 @@ public class KeccakDigestAlgorithm(digestSize: Int) : DigestAlgorithm(1600, dige
     protected override fun resetState(): Unit {
     }
 
-    private fun inputByteArray(source: ByteArray) {
-        for (i in 0 until 25) {
-            a[i] = 0
-            for (j in 0 until 8)
-                a[i] = a[i] or (source[i * 8 + j].toLong() and 255 shl (8 * j))
-        }
-    }
-
-    private fun outputByteArray(
-        destination: ByteArray = ByteArray(200),
-        offset: Int = 0,
-    ): ByteArray {
-
-        for (i in 0 until 25) {
-            for (j in 0 until 8)
-                destination[i * 8 + j + offset] = ((a[i] ushr (8 * j)) and 255).toByte()
-        }
-
-        return destination
-    }
-
-    private fun sponge(length: Int) {
+    private fun sponge() {
     }
 
     private fun permutate() {
+        bytesToLanes()
         for (r in 0 until 24) {
             theta()
             rho()
             pi()
             chi()
             iota(r)
+        }
+        lanesToBytes()
+    }
+
+    private fun bytesToLanes() {
+        for (i in 0 until 25) {
+            a[i] = 0
+            for (j in 0 until 8)
+                a[i] = a[i] or (s[i * 8 + j].toLong() and 255 shl (8 * j))
+        }
+    }
+
+    private fun lanesToBytes() {
+        for (i in 0 until 25) {
+            for (j in 0 until 8)
+                s[i * 8 + j] = ((a[i] ushr (8 * j)) and 255).toByte()
         }
     }
 
