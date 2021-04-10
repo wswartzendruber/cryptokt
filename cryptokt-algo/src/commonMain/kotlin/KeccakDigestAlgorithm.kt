@@ -21,27 +21,32 @@
 package org.cryptokt.algo
 
 import kotlin.experimental.or
+import kotlin.experimental.xor
 
 /**
  * The Keccak[c] function, implemented here as an extendable [DigestAlgorithm] class. This
  * serves as the basis for the SHA-3 suite of hash algorithms and also the SHAKE128 and SHAKE256
  * extendable output functions. Those classes should be used directly where possible.
  */
-public class KeccakDigestAlgorithm(digestSize: Int) : DigestAlgorithm(1600, digestSize) {
+public class KeccakDigestAlgorithm(
+    capacity: KeccakCapacity,
+    digestSize: Int,
+) : DigestAlgorithm(capacity.rate, digestSize) {
 
     private val a = LongArray(25)
     private val at = LongArray(25)
     private val t1 = LongArray(5)
     private val t2 = LongArray(5)
+    private val p = ByteArray(200)
     private val s = ByteArray(200)
-    private val st = ByteArray(200)
-    private val c = digestSize * 2
-    private val d = digestSize
-    private val r = 1600 - c
+    private val c = capacity.capacity
+    private val r = capacity.rate
 
     protected override fun transformBlock(block: ByteArray): Unit {
-        block.copyInto(s)
-        sponge()
+        block.copyInto(p)
+        for (i in 0 until 200)
+            s[i] = s[i] xor p[i]
+        permutate()
     }
 
     protected override fun transformFinal(
@@ -53,6 +58,12 @@ public class KeccakDigestAlgorithm(digestSize: Int) : DigestAlgorithm(1600, dige
     }
 
     protected override fun resetState(): Unit {
+        cl.copyInto(a)
+        cl.copyInto(at)
+        cl.copyInto(t1, endIndex = 5)
+        cl.copyInto(t2, endIndex = 5)
+        cb.copyInto(p)
+        cb.copyInto(s)
     }
 
     private fun sponge() {
@@ -135,8 +146,9 @@ public class KeccakDigestAlgorithm(digestSize: Int) : DigestAlgorithm(1600, dige
         private const val B = 1600
         private const val W = 64
         private const val L = 6
-        private const val R = 24
 
+        private val cb = ByteArray(200)
+        private val cl = LongArray(25)
         private val rhoOffsets = intArrayOf(
             0, 1, 62, 28, 27, 36, 44, 6, 55, 20, 3, 10, 43,
             25, 39, 41, 45, 15, 21, 8, 18, 2, 61, 56, 14,
