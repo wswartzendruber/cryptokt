@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 William Swartzendruber
+ * Copyright 2021 William Swartzendruber
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file
  * except in compliance with the License. You may obtain a copy of the License at
@@ -15,31 +15,14 @@
 package org.cryptokt.algo
 
 /**
- * Represents the possible digest sizes for SHA2-256.
+ * Represents the possible digest sizes for SHA3.
  *
  * @property[digestSize] The digest size in bytes.
  */
-public enum class Sha256DigestSize(
+public enum class Sha3DigestSize(
     public val digestSize: Int,
-    internal val rc: Int,
-    internal val cr: IntArray,
+    internal val capacity: KeccakCapacity,
 ) {
-    /** SHA2-224 */
-    _224(
-        28,
-        7,
-        intArrayOf(
-            -1056596264, 914150663, 812702999, -150054599,
-            -4191439, 1750603025, 1694076839, -1090891868,
-        ),
-    ),
-    /** SHA2-256 */
-    _256(
-        32,
-        8,
-        intArrayOf(
-            1779033703, -1150833019, 1013904242, -1521486534,
-            1359893119, -1694144372, 528734635, 1541459225,
-        ),
-    ),
+    /** SHA3-224 */
+    _224(28, KeccakCapacity._448),
 }

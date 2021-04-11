@@ -20,7 +20,7 @@ package org.cryptokt.algo
  * @constructor Initializes a new MD5 instance with a block size of 512 bits and a digest size
  *     of 128 bits.
  */
-public class Md5DigestAlgorithm : DigestAlgorithm(512, 128) {
+public class Md5DigestAlgorithm : DigestAlgorithm(64, 16) {
 
     private var ms = 0L
     private val r = cr.copyInto(IntArray(4))

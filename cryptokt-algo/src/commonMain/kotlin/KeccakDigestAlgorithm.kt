@@ -10,12 +10,6 @@
  * License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
  * either express or implied. See the License for the specific language governing permissions
  * and limitations under the License.
- *
- * This is essentially a Kotlin port of the public domain C++ KeccakTools available at
- *
- *     https://github.com/KeccakTeam/KeccakTools
- *
- * This implementation seeks to be correct only inasmuch as that one is.
  */
 
 package org.cryptokt.algo
@@ -24,11 +18,11 @@ import kotlin.experimental.or
 import kotlin.experimental.xor
 
 /**
- * The Keccak[c] function, implemented here as an extendable [DigestAlgorithm] class. This
- * serves as the basis for the SHA-3 suite of hash algorithms and also the SHAKE128 and SHAKE256
- * extendable output functions. Those classes should be used directly where possible.
+ * The Keccak[c] function, implemented here as an abstract [DigestAlgorithm] class. This serves
+ * as the basis for the SHA-3 suite of hash algorithms and also the SHAKE128 and SHAKE256
+ * extendable output functions.
  */
-public class KeccakDigestAlgorithm(
+public abstract class KeccakDigestAlgorithm(
     capacity: KeccakCapacity,
     digestSize: Int,
 ) : DigestAlgorithm(capacity.rate, digestSize) {
@@ -49,14 +43,6 @@ public class KeccakDigestAlgorithm(
         permutate()
     }
 
-    protected override fun transformFinal(
-        output: ByteArray,
-        offset: Int,
-        remaining: ByteArray,
-        remainingSize: Int,
-    ): Unit {
-    }
-
     protected override fun resetState(): Unit {
         cl.copyInto(a)
         cl.copyInto(at)
@@ -64,9 +50,6 @@ public class KeccakDigestAlgorithm(
         cl.copyInto(t2, endIndex = 5)
         cb.copyInto(p)
         cb.copyInto(s)
-    }
-
-    private fun sponge() {
     }
 
     private fun permutate() {

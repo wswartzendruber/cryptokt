@@ -21,7 +21,7 @@ import kotlin.experimental.xor
  *
  * @constructor Initializes a new MD2 instance with a block size and digest size of 128 bits.
  */
-public class Md2DigestAlgorithm : DigestAlgorithm(128, 128) {
+public class Md2DigestAlgorithm : DigestAlgorithm(16, 16) {
 
     private var cl: Byte = 0
     private val cb = ccb.copyInto(ByteArray(16))

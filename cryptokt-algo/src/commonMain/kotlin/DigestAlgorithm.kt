@@ -18,30 +18,20 @@ package org.cryptokt.algo
  * Represents a hash algorithm which takes input of arbitrary length and produces a digest of
  * fixed length.
  *
- * @param[blockSize] The size in bits of each complete input block.
- * @param[digestSize] The size in bits of the digest.
+ * @param[blockSize] The size in bytes of each complete input block.
+ * @param[digestSize] The size in bytes of the digest.
  *
- * @property[blockSize] The size in bits of each complete input block.
- * @property[digestSize] The size in bits of the digest.
+ * @property[blockSize] The size in bytes of each complete input block.
+ * @property[digestSize] The size in bytes of the digest.
  */
 public abstract class DigestAlgorithm(
     public val blockSize: Int,
     public val digestSize: Int,
 ) {
 
-    /**
-     * The size in whole bytes of each complete input block.
-     */
-    public val blockLength: Int = blockSize.wholeBytes()
-
-    /**
-     * The size in whole bytes of the digest.
-     */
-    public val digestLength: Int = digestSize.wholeBytes()
-
     private var mo = 0
-    private val mb = ByteArray(blockLength)
-    private val cmb = ByteArray(blockLength)
+    private val mb = ByteArray(blockSize)
+    private val cmb = ByteArray(blockSize)
 
     /**
      * Inputs the specified [buffer] segment, starting at the zero-based [offset], up to and
@@ -68,11 +58,11 @@ public abstract class DigestAlgorithm(
      * was initialized with.
      */
     public fun digest(
-        output: ByteArray = ByteArray(digestLength),
+        output: ByteArray = ByteArray(digestSize),
         offset: Int = 0,
     ): ByteArray {
 
-        if (digestLength + offset > output.size)
+        if (digestSize + offset > output.size)
             throw IllegalArgumentException("Output buffer too small for the given offset.")
 
         transformFinal(output, offset, mb, mo)

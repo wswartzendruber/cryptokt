@@ -21,7 +21,7 @@ package org.cryptokt.algo
  * @constructor Initializes a new SHA1 instance with a block size of 512 bits and a digest size
  *     of 160 bits.
  */
-public class Sha1DigestAlgorithm : DigestAlgorithm(512, 160) {
+public class Sha1DigestAlgorithm : DigestAlgorithm(64, 20) {
 
     private var ms = 0L
     private val r = cr.copyInto(IntArray(5))

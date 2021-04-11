@@ -23,7 +23,7 @@ package org.cryptokt.algo
  */
 public class Sha512DigestAlgorithm(
     private val size: Sha512DigestSize = Sha512DigestSize._512
-) : DigestAlgorithm(1024, size.digestSize) {
+) : DigestAlgorithm(128, size.digestSize) {
 
     private var ms = 0L
     private val r = size.cr.copyInto(LongArray(8))
@@ -99,7 +99,7 @@ public class Sha512DigestAlgorithm(
         for (i in 0 until size.rc)
             r[i].copyIntoBe(output, offset + 8 * i)
 
-        if (digestSize == 224)
+        if (digestSize == 28)
             r[size.rc].ushr(32).toInt().copyIntoBe(output, offset + 8 * size.rc)
         else
             r[size.rc].copyIntoBe(output, offset + 8 * size.rc)

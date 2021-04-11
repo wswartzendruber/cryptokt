@@ -105,8 +105,6 @@ internal infix fun Int.rl(count: Int) = (this shl count) or (this ushr (32 - cou
 
 internal infix fun Int.rr(count: Int) = (this ushr count) or (this shl (32 - count))
 
-internal fun Int.wholeBytes() = ceil(this.toDouble() / 8.0).toInt()
-
 //
 // Long
 //

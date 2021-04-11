@@ -18,6 +18,8 @@ import org.cryptokt.algo.Ripemd160DigestAlgorithm
 import org.cryptokt.algo.Sha1DigestAlgorithm
 import org.cryptokt.algo.Sha256DigestAlgorithm
 import org.cryptokt.algo.Sha256DigestSize
+import org.cryptokt.algo.Sha3DigestAlgorithm
+import org.cryptokt.algo.Sha3DigestSize
 import org.cryptokt.algo.Sha512DigestAlgorithm
 import org.cryptokt.algo.Sha512DigestSize
 
@@ -191,6 +193,20 @@ class DigestAlgorithmTests {
         )
     }
 
+    // @Test
+    // fun SHA3_224_accuracy() {
+    //     testDigestAlgorithmAccuracy(
+    //         Sha3DigestAlgorithm(Sha3DigestSize._224), sha3224Digests
+    //     )
+    // }
+
+    // @Test
+    // fun SHA3_224_offsets() {
+    //     testDigestAlgorithmOffsets(
+    //         Sha3DigestAlgorithm(Sha3DigestSize._224), "6b4e03423667dbb73b6e15454f0eb1abd4597f9a1b078e3f5b5a6bc7".toByteArrayFromHex()
+    //     )
+    // }
+
     companion object {
 
         val md2Digests = mapOf(
@@ -294,6 +310,10 @@ class DigestAlgorithmTests {
             "a".repeat(1000000) to "52783243c1697bdbe16d37f97f68f08325dc1528",
         )
 
+        val sha3224Digests = mapOf(
+            "" to "6b4e03423667dbb73b6e15454f0eb1abd4597f9a1b078e3f5b5a6bc7",
+        )
+
         val emptyBuffer = ByteArray(0)
         val zeroedBuffer = ByteArray(128)
         val buffer = ByteArray(128)
@@ -307,7 +327,7 @@ class DigestAlgorithmTests {
 
         fun testDigestAlgorithmOffsets(da: DigestAlgorithm, emptyDigest: ByteArray) {
 
-            for (offset in 0 until buffer.size - da.digestLength) {
+            for (offset in 0 until buffer.size - da.digestSize) {
 
                 zeroedBuffer.copyInto(buffer)
                 da.input(emptyBuffer)
@@ -316,10 +336,10 @@ class DigestAlgorithmTests {
                 for (i in 0 until offset)
                     assertTrue(buffer[i] == 0.toByte())
 
-                for (i in 0 until da.digestLength)
+                for (i in 0 until da.digestSize)
                     assertTrue(buffer[offset + i] == emptyDigest[i])
 
-                for (i in offset + da.digestLength until buffer.size)
+                for (i in offset + da.digestSize until buffer.size)
                     assertTrue(buffer[i] == 0.toByte())
             }
         }

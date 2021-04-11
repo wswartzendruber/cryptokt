@@ -28,5 +28,5 @@ public enum class KeccakCapacity(
     internal val rate: Int,
 ) {
     /** Keccak[448] */
-    _448(448, 1152),
+    _448(56, 144),
 }

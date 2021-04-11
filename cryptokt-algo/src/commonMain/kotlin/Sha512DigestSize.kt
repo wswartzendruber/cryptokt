@@ -17,7 +17,7 @@ package org.cryptokt.algo
 /**
  * Represents the possible digest sizes for SHA2-512.
  *
- * @property[digestSize] The digest size in bits.
+ * @property[digestSize] The digest size in bytes.
  */
 public enum class Sha512DigestSize(
     public val digestSize: Int,
@@ -26,7 +26,7 @@ public enum class Sha512DigestSize(
 ) {
     /** SHA2-512/224 */
     _224(
-        224,
+        28,
         3,
         longArrayOf(
             -8341449602262348382, 8350123849800275158,
@@ -37,7 +37,7 @@ public enum class Sha512DigestSize(
     ),
     /** SHA2-512/256 */
     _256(
-        256,
+        32,
         3,
         longArrayOf(
             2463787394917988140, -6965556091613846334,
@@ -48,7 +48,7 @@ public enum class Sha512DigestSize(
     ),
     /** SHA2-384 */
     _384(
-        384,
+        48,
         5,
         longArrayOf(
             -3766243637369397544, 7105036623409894663,
@@ -59,7 +59,7 @@ public enum class Sha512DigestSize(
     ),
     /** SHA2-512 */
     _512(
-        512,
+        64,
         7,
         longArrayOf(
             7640891576956012808, -4942790177534073029,

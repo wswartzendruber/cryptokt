@@ -23,7 +23,7 @@ package org.cryptokt.algo
  */
 public class Sha256DigestAlgorithm(
     private val size: Sha256DigestSize = Sha256DigestSize._256
-) : DigestAlgorithm(512, size.digestSize) {
+) : DigestAlgorithm(64, size.digestSize) {
 
     private var ms = 0L
     private val r = size.cr.copyInto(IntArray(8))
