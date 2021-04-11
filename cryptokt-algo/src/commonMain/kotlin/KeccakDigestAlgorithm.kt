@@ -23,9 +23,9 @@ import kotlin.experimental.xor
  * extendable output functions.
  */
 public abstract class KeccakDigestAlgorithm(
-    capacity: KeccakCapacity,
+    capacity: Int,
     digestSize: Int,
-) : DigestAlgorithm(capacity.rate, digestSize) {
+) : DigestAlgorithm(200 - capacity, digestSize) {
 
     private val a = LongArray(25)
     private val at = LongArray(25)

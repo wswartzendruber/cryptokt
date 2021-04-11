@@ -21,8 +21,14 @@ package org.cryptokt.algo
  */
 public enum class Sha3DigestSize(
     public val digestSize: Int,
-    internal val capacity: KeccakCapacity,
+    internal val capacity: Int,
 ) {
     /** SHA3-224 */
-    _224(28, KeccakCapacity._448),
+    _224(28, 56),
+    /** SHA3-256 */
+    _256(32, 64),
+    /** SHA3-384 */
+    _384(48, 96),
+    /** SHA3-512 */
+    _512(64, 128),
 }

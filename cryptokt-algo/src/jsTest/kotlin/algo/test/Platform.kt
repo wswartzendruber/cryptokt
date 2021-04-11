@@ -5,17 +5,17 @@
 
 package org.cryptokt.algo.test
 
-internal actual fun String.toByteArrayFromAscii() =
+internal actual fun String.toByteArrayFromAscii(): ByteArray =
     this.let {
         js("new TextEncoder().encode(it)")
     }
 
-internal actual fun String.toByteArrayFromHex() =
+internal actual fun String.toByteArrayFromHex(): ByteArray =
     this.let {
         js("Int8Array.from(Buffer.from(it, 'hex'))")
     }
 
-internal actual fun ByteArray.toHexString() =
+internal actual fun ByteArray.toHexString(): String =
     this.let {
         js("""
             Array.from(it, function(byte) {

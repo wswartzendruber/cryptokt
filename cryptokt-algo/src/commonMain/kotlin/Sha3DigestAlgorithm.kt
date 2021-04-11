@@ -18,7 +18,7 @@ import kotlin.math.min
 
 public class Sha3DigestAlgorithm(
     private val size: Sha3DigestSize = Sha3DigestSize._224
-) : KeccakDigestAlgorithm(size.capacity, 28) {
+) : KeccakDigestAlgorithm(size.capacity, size.digestSize) {
 
     protected override fun transformFinal(
         output: ByteArray,
@@ -47,7 +47,7 @@ public class Sha3DigestAlgorithm(
         transformBlock(remaining)
 
         var index = 0
-        var increment = 0
+        var increment: Int
 
         while (index < digestSize) {
             increment = min(blockSize, digestSize - index)
