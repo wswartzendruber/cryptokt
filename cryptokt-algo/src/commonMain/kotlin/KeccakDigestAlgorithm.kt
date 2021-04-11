@@ -33,8 +33,11 @@ public abstract class KeccakDigestAlgorithm(
     private val t2 = LongArray(5)
     private val p = ByteArray(200)
     private val s = ByteArray(200)
-    private val c = capacity.capacity
-    private val r = capacity.rate
+
+    /**
+     * Represents the internal Keccak state as an array of 200 bytes.
+     */
+    protected val state: ByteArray = s
 
     protected override fun transformBlock(block: ByteArray): Unit {
         block.copyInto(p)
@@ -52,7 +55,10 @@ public abstract class KeccakDigestAlgorithm(
         cb.copyInto(s)
     }
 
-    private fun permutate() {
+    /**
+     * Performs the permutation function on the state.
+     */
+    protected fun permutate(): Unit {
         bytesToLanes()
         for (r in 0 until 24) {
             theta()
@@ -125,10 +131,6 @@ public abstract class KeccakDigestAlgorithm(
     }
 
     private companion object {
-
-        private const val B = 1600
-        private const val W = 64
-        private const val L = 6
 
         private val cb = ByteArray(200)
         private val cl = LongArray(25)

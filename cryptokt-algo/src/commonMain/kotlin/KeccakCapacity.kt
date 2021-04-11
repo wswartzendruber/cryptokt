@@ -10,12 +10,6 @@
  * License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
  * either express or implied. See the License for the specific language governing permissions
  * and limitations under the License.
- *
- * This is essentially a Kotlin port of the public domain C++ KeccakTools available at
- *
- *     https://github.com/KeccakTeam/KeccakTools
- *
- * This implementation seeks to be correct only inasmuch as that one is.
  */
 
 package org.cryptokt.algo

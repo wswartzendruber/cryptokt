@@ -14,6 +14,8 @@
 
 package org.cryptokt.algo
 
+import kotlin.math.min
+
 public class Sha3DigestAlgorithm(
     private val size: Sha3DigestSize = Sha3DigestSize._224
 ) : KeccakDigestAlgorithm(size.capacity, 28) {
@@ -25,19 +27,34 @@ public class Sha3DigestAlgorithm(
         remainingSize: Int,
     ): Unit {
 
-        // if (remainingSize > 55) {
-        //     padding.copyInto(remaining, remainingSize, 0, 64 - remainingSize)
-        //     transformBlock(remaining)
-        //     padding.copyInto(remaining, 0, 8, 64)
-        // } else {
-        //     padding.copyInto(remaining, remainingSize, 0, 56 - remainingSize)
-        // }
+        val left = blockSize - remainingSize
 
-        // lms.copyIntoBe(remaining, 56)
+        when {
+            left == 1 -> {
+                remaining[blockSize - 1] = 97
+            }
+            left >= 2 -> {
+                remaining[remainingSize] = 96
+                for (i in (remainingSize + 1) until (blockSize - 1))
+                    remaining[i] = 0
+                remaining[blockSize - 1] = 1
+            }
+            else -> {
+                throw IllegalStateException("Remaining input block is in an invalid state.")
+            }
+        }
 
-        // transformBlock(remaining)
+        transformBlock(remaining)
 
-        // for (i in 0 until 5)
-        //     r[i].copyIntoBe(output, offset + 4 * i)
+        var index = 0
+        var increment = 0
+
+        while (index < digestSize) {
+            increment = min(blockSize, digestSize - index)
+            state.copyInto(output, index + offset, 0, increment)
+            index += increment
+            if (index < digestSize)
+                permutate()
+        }
     }
 }
