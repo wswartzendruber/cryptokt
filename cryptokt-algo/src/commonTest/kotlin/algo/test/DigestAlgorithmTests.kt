@@ -195,6 +195,7 @@ class DigestAlgorithmTests {
 
     @Test
     fun SHA3_224_accuracy() {
+        println(Sha3DigestAlgorithm(Sha3DigestSize._224).digest().toHexString())
         testDigestAlgorithmAccuracy(
             Sha3DigestAlgorithm(Sha3DigestSize._224), sha3224Digests
         )

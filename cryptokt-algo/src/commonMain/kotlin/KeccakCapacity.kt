@@ -18,9 +18,8 @@ package org.cryptokt.algo
  * Represents the possible capacities for the Keccak[c] algorithm.
  */
 public enum class KeccakCapacity(
-    internal val capacity: Int,
     internal val rate: Int,
 ) {
     /** Keccak[448] */
-    _448(56, 144),
+    _448(144),
 }

@@ -31,13 +31,13 @@ public class Sha3DigestAlgorithm(
 
         when {
             left == 1 -> {
-                remaining[blockSize - 1] = 97
+                remaining[blockSize - 1] = -122
             }
             left >= 2 -> {
-                remaining[remainingSize] = 96
+                remaining[remainingSize] = 6
                 for (i in (remainingSize + 1) until (blockSize - 1))
                     remaining[i] = 0
-                remaining[blockSize - 1] = 1
+                remaining[blockSize - 1] = -128
             }
             else -> {
                 throw IllegalStateException("Remaining input block is in an invalid state.")
