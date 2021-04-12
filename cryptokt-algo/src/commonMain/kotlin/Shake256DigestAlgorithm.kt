@@ -15,13 +15,10 @@
 package org.cryptokt.algo
 
 /**
- * The third formally published version of the U.S. Secure Hash Algorithm. This implementation
- * handles SHA3-224, SHA3-256, SHA3-384, and SHA3-512.
+ * The SHAKE256 extendable output function.
  *
- * @property[size] The enumerated size of the instance.
- *
- * @constructor Initializes a new SHA-3 instance according to the specified digest [size].
+ * @constructor Initializes a new SHAKE256 instance according to the specified [digestSize].
  */
-public class Sha3DigestAlgorithm(
-    public val size: Sha3DigestSize
-) : KeccakDigestAlgorithm(size.capacity, size.digestSize, -122, 6, -128)
+public class Shake256DigestAlgorithm(
+    digestSize: Int,
+) : KeccakDigestAlgorithm(64, digestSize, -97, 31, -128)

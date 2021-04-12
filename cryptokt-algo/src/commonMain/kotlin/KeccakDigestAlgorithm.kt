@@ -16,15 +16,29 @@ package org.cryptokt.algo
 
 import kotlin.experimental.or
 import kotlin.experimental.xor
+import kotlin.math.min
 
 /**
  * The Keccak[c] function, implemented here as an abstract [DigestAlgorithm] class. This serves
  * as the basis for the SHA-3 suite of hash algorithms and also the SHAKE128 and SHAKE256
  * extendable output functions.
+ *
+ * @param[capacity] The capacity in bytes of the Keccak sponge function. See FIPS-202 Section 4
+ *     for more information.
+ * @param[digestSize] The size in bytes of the digest.
+ * @param[paddingSingle] The byte value to use should a single padding byte be needed. See
+ *     FIPS-202 Appendix B.2 for more information.
+ * @param[paddingStart] The starting byte value to use should multiple padding bytes be needed.
+ *     See FIPS-202 Appendix B.2 for more information.
+ * @param[paddingEnd] The ending byte value to use should multiple padding bytes be needed. See
+ *     FIPS-202 Appendix B.2 for more information.
  */
 public abstract class KeccakDigestAlgorithm(
     capacity: Int,
     digestSize: Int,
+    private val paddingSingle: Byte,
+    private val paddingStart: Byte,
+    private val paddingEnd: Byte,
 ) : DigestAlgorithm(200 - capacity, digestSize) {
 
     private val a = LongArray(25)
@@ -34,16 +48,49 @@ public abstract class KeccakDigestAlgorithm(
     private val p = ByteArray(200)
     private val s = ByteArray(200)
 
-    /**
-     * Represents the internal Keccak state as an array of 200 bytes.
-     */
-    protected val state: ByteArray = s
-
     protected override fun transformBlock(block: ByteArray): Unit {
         block.copyInto(p)
         for (i in 0 until 200)
             s[i] = s[i] xor p[i]
         permutate()
+    }
+
+    protected override fun transformFinal(
+        output: ByteArray,
+        offset: Int,
+        remaining: ByteArray,
+        remainingSize: Int,
+    ): Unit {
+
+        val left = blockSize - remainingSize
+
+        when {
+            left == 1 -> {
+                remaining[blockSize - 1] = paddingSingle
+            }
+            left >= 2 -> {
+                remaining[remainingSize] = paddingStart
+                for (i in (remainingSize + 1) until (blockSize - 1))
+                    remaining[i] = 0
+                remaining[blockSize - 1] = paddingEnd
+            }
+            else -> {
+                throw IllegalStateException("Remaining input block is in an invalid state.")
+            }
+        }
+
+        transformBlock(remaining)
+
+        var index = 0
+        var increment: Int
+
+        while (index < digestSize) {
+            increment = min(blockSize, digestSize - index)
+            s.copyInto(output, index + offset, 0, increment)
+            index += increment
+            if (index < digestSize)
+                permutate()
+        }
     }
 
     protected override fun resetState(): Unit {
@@ -55,10 +102,7 @@ public abstract class KeccakDigestAlgorithm(
         cb.copyInto(s)
     }
 
-    /**
-     * Performs the permutation function on the state.
-     */
-    protected fun permutate(): Unit {
+    private fun permutate() {
         bytesToLanes()
         for (r in 0 until 24) {
             theta()
