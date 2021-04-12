@@ -21,7 +21,7 @@ import kotlin.math.min
 /**
  * The Keccak[c] function, implemented here as an abstract [DigestAlgorithm] class. This serves
  * as the basis for the SHA-3 suite of hash algorithms and also the SHAKE128 and SHAKE256
- * extendable output functions.
+ * extendable output functions. The block and digest sizes vary.
  *
  * @param[capacity] The capacity in bytes of the Keccak sponge function. See FIPS-202 Section 4
  *     for more information.

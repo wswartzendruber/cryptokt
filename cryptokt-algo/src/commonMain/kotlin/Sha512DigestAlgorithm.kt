@@ -16,10 +16,10 @@ package org.cryptokt.algo
 
 /**
  * The second formally published version of the U.S. Secure Hash Algorithm. This implementation
- * handles SHA2-384, SHA2-512, SHA2-512/224, and SHA2-512/256.
+ * handles SHA2-384, SHA2-512, SHA2-512/224, and SHA2-512/256. The block size is 128 bytes and
+ * the digest size varies.
  *
- * @constructor Initializes a new SHA2-512 instance with a block size of 1,024 bits and a
- *     configurable digest size.
+ * @constructor Initializes a new SHA2-512 instance with the specified digest [size].
  */
 public class Sha512DigestAlgorithm(
     private val size: Sha512DigestSize = Sha512DigestSize._512

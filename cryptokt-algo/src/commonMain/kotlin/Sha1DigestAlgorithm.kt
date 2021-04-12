@@ -16,10 +16,8 @@ package org.cryptokt.algo
 
 /**
  * The first formally published version of the U.S. Secure Hash Algorithm. It has had
- * diminishing levels of security since 2010 and was fully broken in 2019.
- *
- * @constructor Initializes a new SHA1 instance with a block size of 512 bits and a digest size
- *     of 160 bits.
+ * diminishing levels of security since 2010 and was fully broken in 2019. The block size is 64
+ * bytes and the digest size is 20 bytes.
  */
 public class Sha1DigestAlgorithm : DigestAlgorithm(64, 20) {
 

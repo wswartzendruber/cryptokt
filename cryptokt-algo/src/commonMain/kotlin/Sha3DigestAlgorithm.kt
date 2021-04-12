@@ -16,7 +16,7 @@ package org.cryptokt.algo
 
 /**
  * The third formally published version of the U.S. Secure Hash Algorithm. This implementation
- * handles SHA3-224, SHA3-256, SHA3-384, and SHA3-512.
+ * handles SHA3-224, SHA3-256, SHA3-384, and SHA3-512. The block and digest sizes vary.
  *
  * @property[size] The enumerated size of the instance.
  *

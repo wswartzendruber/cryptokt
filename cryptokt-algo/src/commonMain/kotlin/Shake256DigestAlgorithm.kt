@@ -15,9 +15,10 @@
 package org.cryptokt.algo
 
 /**
- * The SHAKE256 extendable output function.
+ * The SHAKE256 extendable output function. The block size is 64 bytes and the digest size is
+ * configurable.
  *
- * @constructor Initializes a new SHAKE256 instance according to the specified [digestSize].
+ * @constructor Initializes a new SHAKE256 instance with the specified [digestSize].
  */
 public class Shake256DigestAlgorithm(
     digestSize: Int,

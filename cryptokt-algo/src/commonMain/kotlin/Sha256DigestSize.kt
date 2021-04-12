@@ -16,15 +16,13 @@ package org.cryptokt.algo
 
 /**
  * Represents the possible digest sizes for SHA2-256.
- *
- * @property[digestSize] The digest size in bytes.
  */
 public enum class Sha256DigestSize(
-    public val digestSize: Int,
+    internal val digestSize: Int,
     internal val rc: Int,
     internal val cr: IntArray,
 ) {
-    /** SHA2-224 */
+    /** SHA2-224. The digest size is 28 bytes. */
     _224(
         28,
         7,
@@ -33,7 +31,7 @@ public enum class Sha256DigestSize(
             -4191439, 1750603025, 1694076839, -1090891868,
         ),
     ),
-    /** SHA2-256 */
+    /** SHA2-256. The digest size is 32 bytes. */
     _256(
         32,
         8,

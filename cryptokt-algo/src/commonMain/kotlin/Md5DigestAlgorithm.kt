@@ -15,10 +15,8 @@
 package org.cryptokt.algo
 
 /**
- * The third in the MD series by Ronald Rivest. It has been considered broken since 2013.
- *
- * @constructor Initializes a new MD5 instance with a block size of 512 bits and a digest size
- *     of 128 bits.
+ * The third in the MD series by Ronald Rivest. It has been considered broken since 2013.  The
+ * block size is 64 bytes and the digest size is 16 bytes.
  */
 public class Md5DigestAlgorithm : DigestAlgorithm(64, 16) {
 

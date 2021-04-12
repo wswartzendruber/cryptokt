@@ -15,10 +15,8 @@
 package org.cryptokt.algo
 
 /**
- * The second in the MD series by Ronald Rivest. It has been considered broken since 1995.
- *
- * @constructor Initializes a new MD4 instance with a block size of 512 bits and a digest size
- *     of 128 bits.
+ * The second in the MD series by Ronald Rivest. It has been considered broken since 1995. The
+ * block size is 64 bytes and the digest size is 16 bytes.
  */
 public class Md4DigestAlgorithm : DigestAlgorithm(64, 16) {
 

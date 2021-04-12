@@ -16,10 +16,7 @@ package org.cryptokt.algo
 
 /**
  * The second formally published version of RIPE's message digest algorithm. This implementation
- * handles RIPEMD-160.
- *
- * @constructor Initializes a new RIPEMD-160 instance with a block size of 512 bits and a digest
- *     size of 160 bits.
+ * handles RIPEMD-160. The block size is 64 bytes and the digest size is 20 bytes.
  */
 public class Ripemd160DigestAlgorithm : DigestAlgorithm(64, 20) {
 

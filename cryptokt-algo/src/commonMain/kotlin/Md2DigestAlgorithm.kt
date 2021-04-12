@@ -17,9 +17,8 @@ package org.cryptokt.algo
 import kotlin.experimental.xor
 
 /**
- * The first in the MD series by Ronald Rivest. It has been considered broken since 2004.
- *
- * @constructor Initializes a new MD2 instance with a block size and digest size of 128 bits.
+ * The first in the MD series by Ronald Rivest. It has been considered broken since 2004. The
+ * block size is 16 bytes and the digest size is 16 bytes.
  */
 public class Md2DigestAlgorithm : DigestAlgorithm(16, 16) {
 
