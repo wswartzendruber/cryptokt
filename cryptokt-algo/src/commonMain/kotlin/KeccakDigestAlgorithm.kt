@@ -130,44 +130,148 @@ public abstract class KeccakDigestAlgorithm(
     }
 
     private fun theta() {
-        for (x in 0 until 5) {
-            t1[x] = a[index(x, 0)]
-            for (y in 1 until 5)
-                t1[x] = t1[x] xor a[index(x, y)]
-        }
-        for (x in 0 until 5)
-            t2[x] = (t1[index(x + 1)] rol 1) xor t1[index(x - 1)]
-        for (x in 0 until 5) {
-            for (y in 0 until 5)
-                a[index(x, y)] = a[index(x, y)] xor t2[x]
-        }
+        t1[0] = a[0]
+        t1[0] = t1[0] xor a[5]
+        t1[0] = t1[0] xor a[10]
+        t1[0] = t1[0] xor a[15]
+        t1[0] = t1[0] xor a[20]
+        t1[1] = a[1]
+        t1[1] = t1[1] xor a[6]
+        t1[1] = t1[1] xor a[11]
+        t1[1] = t1[1] xor a[16]
+        t1[1] = t1[1] xor a[21]
+        t1[2] = a[2]
+        t1[2] = t1[2] xor a[7]
+        t1[2] = t1[2] xor a[12]
+        t1[2] = t1[2] xor a[17]
+        t1[2] = t1[2] xor a[22]
+        t1[3] = a[3]
+        t1[3] = t1[3] xor a[8]
+        t1[3] = t1[3] xor a[13]
+        t1[3] = t1[3] xor a[18]
+        t1[3] = t1[3] xor a[23]
+        t1[4] = a[4]
+        t1[4] = t1[4] xor a[9]
+        t1[4] = t1[4] xor a[14]
+        t1[4] = t1[4] xor a[19]
+        t1[4] = t1[4] xor a[24]
+        t2[0] = (t1[1] rl 1) xor t1[4]
+        t2[1] = (t1[2] rl 1) xor t1[0]
+        t2[2] = (t1[3] rl 1) xor t1[1]
+        t2[3] = (t1[4] rl 1) xor t1[2]
+        t2[4] = (t1[0] rl 1) xor t1[3]
+        a[0] = a[0] xor t2[0]
+        a[5] = a[5] xor t2[0]
+        a[10] = a[10] xor t2[0]
+        a[15] = a[15] xor t2[0]
+        a[20] = a[20] xor t2[0]
+        a[1] = a[1] xor t2[1]
+        a[6] = a[6] xor t2[1]
+        a[11] = a[11] xor t2[1]
+        a[16] = a[16] xor t2[1]
+        a[21] = a[21] xor t2[1]
+        a[2] = a[2] xor t2[2]
+        a[7] = a[7] xor t2[2]
+        a[12] = a[12] xor t2[2]
+        a[17] = a[17] xor t2[2]
+        a[22] = a[22] xor t2[2]
+        a[3] = a[3] xor t2[3]
+        a[8] = a[8] xor t2[3]
+        a[13] = a[13] xor t2[3]
+        a[18] = a[18] xor t2[3]
+        a[23] = a[23] xor t2[3]
+        a[4] = a[4] xor t2[4]
+        a[9] = a[9] xor t2[4]
+        a[14] = a[14] xor t2[4]
+        a[19] = a[19] xor t2[4]
+        a[24] = a[24] xor t2[4]
     }
 
     private fun rho() {
-        for (x in 0 until 5) {
-            for (y in 0 until 5)
-                a[index(x, y)] = a[index(x, y)] rl rhoOffsets[index(x, y)]
-        }
+        for (i in 0 until 25)
+            a[i] = a[i] rl rhoOffsets[i]
     }
 
     private fun pi() {
         a.copyInto(at)
-        for (x in 0 until 5) {
-            for (y in 0 until 5) {
-                val xt = (0 * x + 1 * y) % 5
-                val yt = (2 * x + 3 * y) % 5
-                a[index(xt, yt)] = at[index(x, y)]
-            }
-        }
+        a[0] = at[0]
+        a[16] = at[5]
+        a[7] = at[10]
+        a[23] = at[15]
+        a[14] = at[20]
+        a[10] = at[1]
+        a[1] = at[6]
+        a[17] = at[11]
+        a[8] = at[16]
+        a[24] = at[21]
+        a[20] = at[2]
+        a[11] = at[7]
+        a[2] = at[12]
+        a[18] = at[17]
+        a[9] = at[22]
+        a[5] = at[3]
+        a[21] = at[8]
+        a[12] = at[13]
+        a[3] = at[18]
+        a[19] = at[23]
+        a[15] = at[4]
+        a[6] = at[9]
+        a[22] = at[14]
+        a[13] = at[19]
+        a[4] = at[24]
     }
 
     private fun chi() {
-        for (y in 0 until 5) {
-            for (x in 0 until 5)
-                t1[x] = a[index(x, y)] xor (a[index(x + 1, y)].inv() and a[index(x + 2, y)])
-            for (x in 0 until 5)
-                a[index(x, y)] = t1[x]
-        }
+        t1[0] = a[0] xor (a[1].inv() and a[2])
+        t1[1] = a[1] xor (a[2].inv() and a[3])
+        t1[2] = a[2] xor (a[3].inv() and a[4])
+        t1[3] = a[3] xor (a[4].inv() and a[0])
+        t1[4] = a[4] xor (a[0].inv() and a[1])
+        a[0] = t1[0]
+        a[1] = t1[1]
+        a[2] = t1[2]
+        a[3] = t1[3]
+        a[4] = t1[4]
+        t1[0] = a[5] xor (a[6].inv() and a[7])
+        t1[1] = a[6] xor (a[7].inv() and a[8])
+        t1[2] = a[7] xor (a[8].inv() and a[9])
+        t1[3] = a[8] xor (a[9].inv() and a[5])
+        t1[4] = a[9] xor (a[5].inv() and a[6])
+        a[5] = t1[0]
+        a[6] = t1[1]
+        a[7] = t1[2]
+        a[8] = t1[3]
+        a[9] = t1[4]
+        t1[0] = a[10] xor (a[11].inv() and a[12])
+        t1[1] = a[11] xor (a[12].inv() and a[13])
+        t1[2] = a[12] xor (a[13].inv() and a[14])
+        t1[3] = a[13] xor (a[14].inv() and a[10])
+        t1[4] = a[14] xor (a[10].inv() and a[11])
+        a[10] = t1[0]
+        a[11] = t1[1]
+        a[12] = t1[2]
+        a[13] = t1[3]
+        a[14] = t1[4]
+        t1[0] = a[15] xor (a[16].inv() and a[17])
+        t1[1] = a[16] xor (a[17].inv() and a[18])
+        t1[2] = a[17] xor (a[18].inv() and a[19])
+        t1[3] = a[18] xor (a[19].inv() and a[15])
+        t1[4] = a[19] xor (a[15].inv() and a[16])
+        a[15] = t1[0]
+        a[16] = t1[1]
+        a[17] = t1[2]
+        a[18] = t1[3]
+        a[19] = t1[4]
+        t1[0] = a[20] xor (a[21].inv() and a[22])
+        t1[1] = a[21] xor (a[22].inv() and a[23])
+        t1[2] = a[22] xor (a[23].inv() and a[24])
+        t1[3] = a[23] xor (a[24].inv() and a[20])
+        t1[4] = a[24] xor (a[20].inv() and a[21])
+        a[20] = t1[0]
+        a[21] = t1[1]
+        a[22] = t1[2]
+        a[23] = t1[3]
+        a[24] = t1[4]
     }
 
     private fun iota(roundIndex: Int) {
@@ -236,43 +340,8 @@ public abstract class KeccakDigestAlgorithm(
             2147483786, -9223372034707292021, 2147516554, -9223372036854742912, 2147483784,
             -9223372036854742909, 2, 2147516545, 32771, 32897, -9223372034707259392, 32770, 138,
         )
-
-        private fun index(x: Int): Int {
-
-            var x2 = x
-
-            x2 %= 5
-            if (x2 < 0) x2 += 5
-
-            return x2
-        }
-
-        private fun index(x: Int, y: Int): Int {
-
-            var x2 = x
-            var y2 = y
-
-            x2 %= 5
-            if (x2 < 0) x2 += 5
-            y2 %= 5
-            if (y2 < 0) y2 += 5
-
-            return(x2 + (5*y2))
-        }
-
-        private infix fun Long.rol(offset: Int): Long {
-
-            var offset2 = offset
-            var this2 = this
-
-            offset2 %= 64
-            if (offset2 < 0) offset2 += 64
-
-            if (offset2 != 0) {
-                this2 = (this2 shl offset2) xor (this2 ushr (64 - offset2))
-            }
-
-            return this2
-        }
+        private val xyIndices = intArrayOf(
+            5, 10, 15, 20, 6, 11, 16, 21, 7, 12, 17, 22, 8, 13, 18, 23, 9, 14, 19, 24,
+        )
     }
 }
