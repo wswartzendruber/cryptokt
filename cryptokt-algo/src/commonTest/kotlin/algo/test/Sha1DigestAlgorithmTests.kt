@@ -9,7 +9,7 @@ import org.cryptokt.algo.Sha1DigestAlgorithm
 
 class Sha1DigestAlgorithmTests : DigestAlgorithmTests() {
 
-    override val digests = mapOf(
+    val digests = mapOf(
 
         "".toByteArrayFromAscii()
         to
@@ -41,5 +41,7 @@ class Sha1DigestAlgorithmTests : DigestAlgorithmTests() {
         "50abf5706a150990a08b2c5ea40fa0e585554732",
     )
 
-    override fun newDigestAlgorithm() = Sha1DigestAlgorithm()
+    override val configurations = mapOf(
+        DigestAlgorithmConfiguration({ Sha1DigestAlgorithm() }, "SHA-1") to digests,
+    )
 }

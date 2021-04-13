@@ -12,17 +12,22 @@ import org.cryptokt.algo.DigestAlgorithm
 
 abstract class DigestAlgorithmTests {
 
-    abstract val digests: Map<ByteArray, String>
-
-    abstract fun newDigestAlgorithm(): DigestAlgorithm
+    abstract val configurations: Map<DigestAlgorithmConfiguration, Map<ByteArray, String>>
 
     @Test
     fun accuracy() {
-        newDigestAlgorithm().let { da ->
-            for (digest in digests) {
-                da.input(digest.key)
-                assertTrue(da.digest().toHexString() == digest.value)
+        for ((dac, digests) in configurations) {
+            println("${dac.description}")
+            dac.daf().let { da ->
+                for (digest in digests) {
+                    println("> ${digest.key.toHexString()}")
+                    da.input(digest.key)
+                    assertTrue(da.digest().toHexString() == digest.value)
+                }
             }
+            println()
         }
     }
 }
+
+data class DigestAlgorithmConfiguration(val daf: () -> DigestAlgorithm, val description: String)

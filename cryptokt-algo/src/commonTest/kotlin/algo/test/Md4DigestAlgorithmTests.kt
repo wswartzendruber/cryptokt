@@ -9,7 +9,7 @@ import org.cryptokt.algo.Md4DigestAlgorithm
 
 class Md4DigestAlgorithmTests : DigestAlgorithmTests() {
 
-    override val digests = mapOf(
+    val digests = mapOf(
 
         "".toByteArrayFromAscii()
         to
@@ -42,5 +42,7 @@ class Md4DigestAlgorithmTests : DigestAlgorithmTests() {
         "e33b4ddc9c38f2199c3e7b164fcc0536",
     )
 
-    override fun newDigestAlgorithm() = Md4DigestAlgorithm()
+    override val configurations = mapOf(
+        DigestAlgorithmConfiguration({ Md4DigestAlgorithm() }, "MD4") to digests,
+    )
 }
