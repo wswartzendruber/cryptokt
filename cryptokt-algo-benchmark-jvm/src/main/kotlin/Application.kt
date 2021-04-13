@@ -15,6 +15,7 @@ import org.bouncycastle.crypto.digests.MD5Digest
 import org.bouncycastle.crypto.digests.RIPEMD128Digest
 import org.bouncycastle.crypto.digests.RIPEMD160Digest
 import org.bouncycastle.crypto.digests.SHA1Digest
+import org.bouncycastle.crypto.digests.SHA3Digest
 import org.bouncycastle.crypto.digests.SHA256Digest
 import org.bouncycastle.crypto.digests.SHA512Digest
 import org.cryptokt.algo.DigestAlgorithm
@@ -25,6 +26,8 @@ import org.cryptokt.algo.Ripemd128DigestAlgorithm
 import org.cryptokt.algo.Ripemd160DigestAlgorithm
 import org.cryptokt.algo.Sha1DigestAlgorithm
 import org.cryptokt.algo.Sha256DigestAlgorithm
+import org.cryptokt.algo.Sha3DigestAlgorithm
+import org.cryptokt.algo.Sha3DigestSize
 import org.cryptokt.algo.Sha512DigestAlgorithm
 
 fun main() {
@@ -35,13 +38,13 @@ fun main() {
     println("CryptoKt Algorithm Benchmarks for JVM")
     println()
 
-    println("MD2, 1 MB")
-    println("- Bouncy Castle: ${time { MD2Digest().transformBuffer(megabyte) }}")
-    println("- CryptoKt     : ${time { Md2DigestAlgorithm().transformBuffer(megabyte) }}")
+    // println("MD2, 1 MB")
+    // println("- Bouncy Castle: ${time { MD2Digest().transformBuffer(megabyte) }}")
+    // println("- CryptoKt     : ${time { Md2DigestAlgorithm().transformBuffer(megabyte) }}")
 
-    println("MD2, 1 GB")
-    println("- Bouncy Castle: ${time { MD2Digest().transformBuffer(gigabyte) }}")
-    println("- CryptoKt     : ${time { Md2DigestAlgorithm().transformBuffer(gigabyte) }}")
+    // println("MD2, 1 GB")
+    // println("- Bouncy Castle: ${time { MD2Digest().transformBuffer(gigabyte) }}")
+    // println("- CryptoKt     : ${time { Md2DigestAlgorithm().transformBuffer(gigabyte) }}")
 
     println("MD4, 1 MB")
     println("- Bouncy Castle: ${time { MD4Digest().transformBuffer(megabyte) }}")
@@ -82,6 +85,14 @@ fun main() {
     println("SHA512, 1 GB")
     println("- Bouncy Castle: ${time { SHA512Digest().transformBuffer(gigabyte) }}")
     println("- CryptoKt     : ${time { Sha512DigestAlgorithm().transformBuffer(gigabyte) }}")
+
+    println("SHA3-512, 1 MB")
+    println("- Bouncy Castle: ${time { SHA3Digest(512).transformBuffer(megabyte) }}")
+    println("- CryptoKt     : ${time { Sha3DigestAlgorithm(Sha3DigestSize._512).transformBuffer(megabyte) }}")
+
+    println("SHA3-512, 1 GB")
+    println("- Bouncy Castle: ${time { SHA3Digest(512).transformBuffer(gigabyte) }}")
+    println("- CryptoKt     : ${time { Sha3DigestAlgorithm(Sha3DigestSize._512).transformBuffer(gigabyte) }}")
 
     println("RIPEMD-128, 1 MB")
     println("- Bouncy Castle: ${time { RIPEMD128Digest().transformBuffer(megabyte) }}")
