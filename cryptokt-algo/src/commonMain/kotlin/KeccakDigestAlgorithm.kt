@@ -46,14 +46,18 @@ public abstract class KeccakDigestAlgorithm(
     private val p = ByteArray(200)
 
     protected override fun transformBlock(block: ByteArray): Unit {
+
         block.copyInto(p)
+
         for (i in 0 until 25) {
             t[i] = 0
             for (j in 0 until 8)
                 t[i] = t[i] or (p[i * 8 + j].toLong() and 255 shl (8 * j))
         }
+
         for (i in 0 until 25)
             a[i] = a[i] xor t[i]
+
         permutate()
     }
 
@@ -87,19 +91,19 @@ public abstract class KeccakDigestAlgorithm(
         var increment: Int
 
         while (index < digestSize) {
+
             increment = min(blockSize, digestSize - index)
-            lanesToBytes()
+
+            for (i in 0 until 25) {
+                for (j in 0 until 8)
+                    p[i * 8 + j] = ((a[i] ushr (8 * j)) and 255).toByte()
+            }
+
             p.copyInto(output, index + offset, 0, increment)
             index += increment
+
             if (index < digestSize)
                 permutate()
-        }
-    }
-
-    private fun lanesToBytes() {
-        for (i in 0 until 25) {
-            for (j in 0 until 8)
-                p[i * 8 + j] = ((a[i] ushr (8 * j)) and 255).toByte()
         }
     }
 
