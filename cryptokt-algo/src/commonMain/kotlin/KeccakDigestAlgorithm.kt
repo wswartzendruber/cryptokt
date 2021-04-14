@@ -42,13 +42,18 @@ public abstract class KeccakDigestAlgorithm(
 ) : DigestAlgorithm(200 - capacity, digestSize) {
 
     private val a = LongArray(25)
+    private val t = LongArray(25)
     private val p = ByteArray(200)
-    private val s = ByteArray(200)
 
     protected override fun transformBlock(block: ByteArray): Unit {
         block.copyInto(p)
-        for (i in 0 until 200)
-            s[i] = s[i] xor p[i]
+        for (i in 0 until 25) {
+            t[i] = 0
+            for (j in 0 until 8)
+                t[i] = t[i] or (p[i * 8 + j].toLong() and 255 shl (8 * j))
+        }
+        for (i in 0 until 25)
+            a[i] = a[i] xor t[i]
         permutate()
     }
 
@@ -83,22 +88,28 @@ public abstract class KeccakDigestAlgorithm(
 
         while (index < digestSize) {
             increment = min(blockSize, digestSize - index)
-            s.copyInto(output, index + offset, 0, increment)
+            lanesToBytes()
+            p.copyInto(output, index + offset, 0, increment)
             index += increment
             if (index < digestSize)
                 permutate()
         }
     }
 
+    private fun lanesToBytes() {
+        for (i in 0 until 25) {
+            for (j in 0 until 8)
+                p[i * 8 + j] = ((a[i] ushr (8 * j)) and 255).toByte()
+        }
+    }
+
     protected override fun resetState(): Unit {
         cl.copyInto(a)
+        cl.copyInto(t)
         cb.copyInto(p)
-        cb.copyInto(s)
     }
 
     private fun permutate() {
-
-        bytesToLanes()
 
         var t0 = a[0]
         var t1 = a[1]
@@ -375,23 +386,6 @@ public abstract class KeccakDigestAlgorithm(
         a[22] = t22
         a[23] = t23
         a[24] = t24
-
-        lanesToBytes()
-    }
-
-    private fun bytesToLanes() {
-        for (i in 0 until 25) {
-            a[i] = 0
-            for (j in 0 until 8)
-                a[i] = a[i] or (s[i * 8 + j].toLong() and 255 shl (8 * j))
-        }
-    }
-
-    private fun lanesToBytes() {
-        for (i in 0 until 25) {
-            for (j in 0 until 8)
-                s[i * 8 + j] = ((a[i] ushr (8 * j)) and 255).toByte()
-        }
     }
 
     private companion object {
