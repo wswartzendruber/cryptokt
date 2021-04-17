@@ -24,7 +24,8 @@ import kotlin.math.min
  * extendable output functions. The block and digest sizes vary.
  *
  * @param[capacity] The capacity in bytes of the Keccak sponge function. See FIPS-202 Section 4
- *     for more information.
+ *     for more information. This implementation has the limitation that 200 minus the capacity
+ *     must be an even multiple of eight.
  * @param[digestSize] The size in bytes of the digest.
  * @param[paddingSingle] The byte value to use should a single padding byte be needed. See
  *     FIPS-202 Appendix B.2 for more information.
@@ -42,21 +43,23 @@ public abstract class KeccakDigestAlgorithm(
 ) : DigestAlgorithm(200 - capacity, digestSize) {
 
     private val a = LongArray(25)
-    private val t = LongArray(25)
     private val p = ByteArray(200)
+    private val count = blockSize / 8
+
+    init {
+        require(blockSize % 8 == 0) { "200 - capacity must be an even multiple of eight." }
+    }
 
     protected override fun transformBlock(block: ByteArray): Unit {
 
-        block.copyInto(p)
+        var t: Long
 
-        for (i in 0 until 25) {
-            t[i] = 0
+        for (i in 0 until count) {
+            t = 0
             for (j in 0 until 8)
-                t[i] = t[i] or (p[i * 8 + j].toLong() and 255 shl (8 * j))
+                t = t or (block[i * 8 + j].toLong() and 255 shl (8 * j))
+            a[i] = a[i] xor t
         }
-
-        for (i in 0 until 25)
-            a[i] = a[i] xor t[i]
 
         permutate()
     }
@@ -109,7 +112,6 @@ public abstract class KeccakDigestAlgorithm(
 
     protected override fun resetState(): Unit {
         cl.copyInto(a)
-        cl.copyInto(t)
         cb.copyInto(p)
     }
 
