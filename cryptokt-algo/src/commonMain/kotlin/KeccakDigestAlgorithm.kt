@@ -51,16 +51,8 @@ public abstract class KeccakDigestAlgorithm(
     }
 
     protected override fun transformBlock(block: ByteArray): Unit {
-
-        var t: Long
-
-        for (i in 0 until count) {
-            t = 0
-            for (j in 0 until 8)
-                t = t or (block[i * 8 + j].toLong() and 255 shl (8 * j))
-            a[i] = a[i] xor t
-        }
-
+        for (i in 0 until count)
+            a[i] = a[i] xor block.leLongAt(8 * i)
         permutate()
     }
 
