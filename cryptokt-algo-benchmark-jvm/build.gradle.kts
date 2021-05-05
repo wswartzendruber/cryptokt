@@ -9,7 +9,6 @@ plugins {
 }
 
 dependencies {
-    implementation(platform(kotlin("bom")))
     implementation(project(":cryptokt-algo"))
     implementation("org.bouncycastle:bcprov-jdk15on:1.65")
 }

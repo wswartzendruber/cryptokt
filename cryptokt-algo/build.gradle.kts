@@ -30,13 +30,9 @@ kotlin {
 dependencies {
     // Common
     commonMainImplementation(platform(kotlin("bom")))
-    commonTestImplementation(kotlin("test-common"))
-    commonTestImplementation(kotlin("test-annotations-common"))
+    commonTestImplementation(kotlin("test"))
     // JVM
-    "jvmTestImplementation"(kotlin("test-junit"))
     "jvmTestImplementation"("commons-codec:commons-codec:1.15")
-    // JS
-    "jsTestImplementation"(kotlin("test-js"))
 }
 
 tasks {
