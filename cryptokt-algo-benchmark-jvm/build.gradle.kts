@@ -15,5 +15,5 @@ dependencies {
 }
 
 application {
-    mainClassName = "org.cryptokt.algo.benchmark.jvm.ApplicationKt"
+    mainClass.set("org.cryptokt.algo.benchmark.jvm.ApplicationKt")
 }

@@ -8,5 +8,5 @@ rootProject.name = "cryptokt"
 
 include(
     "cryptokt-algo",
-    "cryptokt-algo-benchmark-jvm"
+    "cryptokt-algo-benchmark-jvm",
 )
