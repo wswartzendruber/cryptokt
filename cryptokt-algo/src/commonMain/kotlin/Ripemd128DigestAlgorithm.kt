@@ -1,7 +1,16 @@
 /*
  * SPDX-FileCopyrightText: 2020 William Swartzendruber <wswartzendruber@gmail.com>
+ * SPDX-FileCopyrightText: 1996 Katholieke Universiteit Leuven <info@esat.kuleuven.be>
  *
  * SPDX-License-Identifier: Apache-2.0
+ *
+ * This implementation is derived from an original implementation found here:
+ *
+ *   <https://homes.esat.kuleuven.be/~bosselae/ripemd160/ps/AB-9601/rmd128.c>
+ *
+ * While this implementation is neither a "copy" nor a "substantial portion" of that original
+ * implementation, it is nonetheless derived from it. As such, Katholieke Universiteit Leuven
+ * is acknowledged here as a copyright holder.
  */
 
 package org.cryptokt.algo
