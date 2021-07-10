@@ -66,32 +66,32 @@ class Sha3DigestAlgorithmTests : DigestAlgorithmTests() {
 
     override val configurations = mapOf(
 
-            DigestAlgorithmConfiguration(
-                { Sha3DigestAlgorithm(Sha3DigestSize._224) },
-                "SHA3-224",
-            )
-            to
-            digests224,
-
-            DigestAlgorithmConfiguration(
-                { Sha3DigestAlgorithm(Sha3DigestSize._256) },
-                "SHA3-256",
-            )
-            to
-            digests256,
-
-            DigestAlgorithmConfiguration(
-                { Sha3DigestAlgorithm(Sha3DigestSize._384) },
-                "SHA3-384",
-            )
-            to
-            digests384,
-
-            DigestAlgorithmConfiguration(
-                { Sha3DigestAlgorithm(Sha3DigestSize._512) },
-                "SHA3-512",
-            )
-            to
-            digests512,
+        DigestAlgorithmConfiguration(
+            { Sha3DigestAlgorithm(Sha3DigestSize._224) },
+            "SHA3-224",
         )
+        to
+        digests224,
+
+        DigestAlgorithmConfiguration(
+            { Sha3DigestAlgorithm(Sha3DigestSize._256) },
+            "SHA3-256",
+        )
+        to
+        digests256,
+
+        DigestAlgorithmConfiguration(
+            { Sha3DigestAlgorithm(Sha3DigestSize._384) },
+            "SHA3-384",
+        )
+        to
+        digests384,
+
+        DigestAlgorithmConfiguration(
+            { Sha3DigestAlgorithm(Sha3DigestSize._512) },
+            "SHA3-512",
+        )
+        to
+        digests512,
+    )
 }

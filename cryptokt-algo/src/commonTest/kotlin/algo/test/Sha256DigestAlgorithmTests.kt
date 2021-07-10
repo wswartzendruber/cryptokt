@@ -52,18 +52,18 @@ class Sha256DigestAlgorithmTests : DigestAlgorithmTests() {
 
     override val configurations = mapOf(
 
-            DigestAlgorithmConfiguration(
-                { Sha256DigestAlgorithm(Sha256DigestSize._224) },
-                "SHA2-224",
-            )
-            to
-            digests224,
-
-            DigestAlgorithmConfiguration(
-                { Sha256DigestAlgorithm(Sha256DigestSize._256) },
-                "SHA2-256",
-            )
-            to
-            digests256,
+        DigestAlgorithmConfiguration(
+            { Sha256DigestAlgorithm(Sha256DigestSize._224) },
+            "SHA2-224",
         )
+        to
+        digests224,
+
+        DigestAlgorithmConfiguration(
+            { Sha256DigestAlgorithm(Sha256DigestSize._256) },
+            "SHA2-256",
+        )
+        to
+        digests256,
+    )
 }

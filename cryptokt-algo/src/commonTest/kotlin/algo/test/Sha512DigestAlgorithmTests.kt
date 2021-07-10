@@ -80,32 +80,32 @@ class Sha512DigestAlgorithmTests : DigestAlgorithmTests() {
 
     override val configurations = mapOf(
 
-            DigestAlgorithmConfiguration(
-                { Sha512DigestAlgorithm(Sha512DigestSize._224) },
-                "SHA2-512/224",
-            )
-            to
-            digests224,
-
-            DigestAlgorithmConfiguration(
-                { Sha512DigestAlgorithm(Sha512DigestSize._256) },
-                "SHA2-512/256",
-            )
-            to
-            digests256,
-
-            DigestAlgorithmConfiguration(
-                { Sha512DigestAlgorithm(Sha512DigestSize._384) },
-                "SHA2-384",
-            )
-            to
-            digests384,
-
-            DigestAlgorithmConfiguration(
-                { Sha512DigestAlgorithm(Sha512DigestSize._512) },
-                "SHA2-512",
-            )
-            to
-            digests512,
+        DigestAlgorithmConfiguration(
+            { Sha512DigestAlgorithm(Sha512DigestSize._224) },
+            "SHA2-512/224",
         )
+        to
+        digests224,
+
+        DigestAlgorithmConfiguration(
+            { Sha512DigestAlgorithm(Sha512DigestSize._256) },
+            "SHA2-512/256",
+        )
+        to
+        digests256,
+
+        DigestAlgorithmConfiguration(
+            { Sha512DigestAlgorithm(Sha512DigestSize._384) },
+            "SHA2-384",
+        )
+        to
+        digests384,
+
+        DigestAlgorithmConfiguration(
+            { Sha512DigestAlgorithm(Sha512DigestSize._512) },
+            "SHA2-512",
+        )
+        to
+        digests512,
+    )
 }

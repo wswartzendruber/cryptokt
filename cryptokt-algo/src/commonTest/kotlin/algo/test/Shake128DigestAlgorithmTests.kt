@@ -19,8 +19,8 @@ class Shake128DigestAlgorithmTests : DigestAlgorithmTests() {
 
     override val configurations = mapOf(
 
-            DigestAlgorithmConfiguration({ Shake128DigestAlgorithm(32) }, "SHAKE128-256")
-            to
-            digests256,
-        )
+        DigestAlgorithmConfiguration({ Shake128DigestAlgorithm(32) }, "SHAKE128-256")
+        to
+        digests256,
+    )
 }
