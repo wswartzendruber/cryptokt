@@ -22,7 +22,6 @@ public class Blake2bDigestAlgorithm(
     private val nn = digestSize.toLong()
     private var t0 = 0L
     private var t1 = 0L
-    private val b = ByteArray(digestSize)
     private val h = LongArray(8)
     private val m = LongArray(16)
     private val s = LongArray(16)
@@ -37,7 +36,7 @@ public class Blake2bDigestAlgorithm(
         if (key != null) {
             k = key.copyInto(ByteArray(blockSize))
             kk = key.size.toLong()
-            require(kk > 0 && kk < 65) { "key size must be between 0 and 64" }
+            require(kk > 1 && kk < 65) { "if provided, key size must be between 1 and 64" }
             transformBlock(k)
         } else {
             k = null
@@ -75,10 +74,13 @@ public class Blake2bDigestAlgorithm(
     }
 
     protected override fun resetState(): Unit {
-        iv.copyInto(h)
-        h[0] = h[0] xor 16842752 xor (kk shl 8) xor nn
         t0 = 0L
         t1 = 0L
+        iv.copyInto(h)
+        h[0] = h[0] xor 16842752 xor (kk shl 8) xor nn
+        cl.copyInto(m)
+        cl.copyInto(s)
+        cl.copyInto(v)
     }
 
     private fun compress(block: ByteArray, final: Boolean) {
@@ -127,6 +129,7 @@ public class Blake2bDigestAlgorithm(
         private const val R3 = 16
         private const val R4 = 63
 
+        private val cl = LongArray(16)
         private val iv = longArrayOf(
             7640891576956012808, -4942790177534073029, 4354685564936845355,
             -6534734903238641935, 5840696475078001361, -7276294671716946913,

@@ -23,7 +23,10 @@ abstract class DigestAlgorithmTests {
                 for (digest in digests) {
                     println("> ${digest.key.toHexString()}")
                     da.input(digest.key)
-                    assertTrue(da.digest().toHexString() == digest.value)
+                    da.digest().toHexString().let {
+                        println("> $it")
+                        assertTrue(it == digest.value)
+                    }
                 }
             }
             println()
